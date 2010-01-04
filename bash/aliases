@@ -1,0 +1,21 @@
+
+alias irc="screen -rdU irc"
+alias urg="mutt -R -f /home/stu/Mail/urgmatch"
+alias dim="mutt -f /home/stu/Mail/dimins"
+alias mim="mutt -f /home/stu/Mail/mfolder"
+alias grep="grep --color=auto"
+alias free="free -m"
+alias sls="screen -ls"
+alias srd="screen -rd"
+alias lynx="lynx -accept_all_cookies"
+
+# listing aliases # git://github.com/davidmiller/mydotfiles.git
+alias ls="ls --color=auto"
+alias ll='ls -hlrt'
+
+alias lx='ls -lXB'             # sort by extension
+alias lk='ls -lSr'             # sort by size
+alias lsa='ls -lah'            # list including .dotfiles
+alias lsf='ls -lh | grep "^-"'
+alias lsd='ls -lh | grep "^d"' # list only directories
+alias lsl='ls -lh | grep "^l"' # list only links

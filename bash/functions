@@ -1,0 +1,40 @@
+function fstr() # find a string in a set of files
+{
+  if [ $# -ne 2 ]; then
+    echo "Usage: fstr \"pattern\" [files] "
+    return;
+  fi
+  SMSO=$(tput smso)
+  RMSO=$(tput rmso)
+  find . -type f -name "*${2}" -print | xargs grep -sin "$1" | \
+  sed "s/$1/$SMSO$1$RMSO/gI"
+}
+
+
+function irslocate  { locate -d '/var/lib/mlocate/mlocate.ir-scripts.db' "$@"; }
+function irlocate   { locate -d '/var/lib/mlocate/mlocate.ir.db'         "$@"; }
+function irdaily    { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'   "$@"; }
+function alllocate  { locate -d '/var/lib/mlocate/mlocate.all.db'        "$@"; }
+function snaplocate { locate -d '/var/lib/mlocate/mlocate.snapshots.db'  "$@"; }
+function intlocate  { locate -d '/var/lib/mlocate/mlocate.ir.db'         "$@" | grep -E "\.int$|\.dsc$\.sh"; }
+
+function ff         { find . -name "*$@*" -print 2>/dev/null; }
+
+function psa        { ps aux $@; }
+function psu        { ps  ux $@; }
+
+function lpsa       { ps aux $@ | p; }
+function lpsu       { ps  ux $@ | p; }
+
+function pushvim    { for s in ${@}; do rsync -avPr --delete-after .vim .vimrc .screenrc .inputrc $s:; done; }
+
+function psgrep     { ps ax | grep $1 | fgrep -v "grep $1"; }
+function hgrep      { history | grep $1 | sed '$d'; }
+
+
+# Rename *.foo to *.bar
+function rename_ext {
+    for f in *.$1; do
+        mv $f ${f%$1}$2
+    done
+}
