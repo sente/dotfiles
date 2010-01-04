@@ -38,3 +38,5 @@ function rename_ext {
         mv $f ${f%$1}$2
     done
 }
+
+# vim:filetype=sh

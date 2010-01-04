@@ -19,3 +19,5 @@ alias lsa='ls -lah'            # list including .dotfiles
 alias lsf='ls -lh | grep "^-"'
 alias lsd='ls -lh | grep "^d"' # list only directories
 alias lsl='ls -lh | grep "^l"' # list only links
+
+# vim:filetype=sh

@@ -29,7 +29,7 @@ export OFF="\[\033[m\]"
 
 
 if [ -f ~/.bash/aliases ]; then
-		. ~/.bash/aliases
+	   . ~/.bash/aliases
 fi
 
 if [ -f ~/bash/functions ]; then
