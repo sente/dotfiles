@@ -1,15 +1,15 @@
 #!/bin/sh
 
+
 git-ls-files | while read file; do
    if [ ! -f $HOME/$file ]; then
-#      echo "------- $HOME/$file -- does not exist"
-   ls -lrt >/dev/null;
+      echo "------- $HOME/$file -- does not exist"
    else
-   #   cmp $HOME/$file $file
-   ls -lrt >/dev/null;
+      cmp $HOME/$file $file
    fi
 done
 
+echo -e "\n\n\n"
 
 function mydiff()
 {
@@ -19,7 +19,7 @@ function mydiff()
       COLORDIFF="while read line; do echo $line; done"
    fi 
       
-   echo "/usr/bin/diff --suppress-common-lines --side-by-side $@ $COLORDIFF"
+   echo "/usr/bin/diff --suppress-common-lines --side-by-side $@ | $COLORDIFF"
    /usr/bin/diff --suppress-common-lines --side-by-side $@ | $COLORDIFF
 }
 
