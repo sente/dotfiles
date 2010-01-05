@@ -5,3 +5,4 @@
 --type-add=di=.dsc
 --type-add=di=.dic
 --type-add=di=.das
+--type-add=di=.mrk
