@@ -7,26 +7,15 @@ if [[ -s ~/.motd ]] ; then
      cat ~/.motd
 fi
 
-shopt -s histappend
-shopt -s checkwinsize
-
 stty stop  undef
 stty start undef
 
+shopt -s histappend
+shopt -s checkwinsize
+
+
 # COLUMNS is nowa ccessable from within scripts
 export COLUMNS
-
-export IP=`echo $SSH_CLIENT | cut -f1 -d' '`
-export LANG=en_US.UTF-8
-export PATH=$PATH:~/bin
-export HISTCONTROL=ignoredups
-
-export BOLD="\[\033[1m\]"
-export RED="\[\033[1;31m\]"
-export GREEN="\[\e[32;1m\]"
-export BLUE="\[\e[34;1m\]"
-export OFF="\[\033[m\]"
-
 
 if [ -f ~/.bash/aliases ]; then
 	   . ~/.bash/aliases
@@ -46,6 +35,23 @@ fi
 
 eval $(dircolors -b ~/.dir_colors)
 
+
+export IP=`echo $SSH_CLIENT | cut -f1 -d' '`
+export LANG=en_US.UTF-8
+export PATH=$PATH:~/bin
+
+export BOLD="\[\033[1m\]"
+export RED="\[\033[1;31m\]"
+export GREEN="\[\e[32;1m\]"
+export BLUE="\[\e[34;1m\]"
+export OFF="\[\033[m\]"
+
+
+export HISTCONTROL=ignoredups:ignorespace
+export HISTFILESIZE=10000
+export HISTTIMEFORMAT='%F %R.%M%t'
+export HISTIGNORE="history *:"
+
 #http://blog.gnist.org/article.php?story=BashPromptWithExitStatus
 function exitstatus {
 	EXITSTATUS="$?"
@@ -54,9 +60,7 @@ function exitstatus {
 		else PS1="${RED}\u${OFF}${BLUE}@${OFF}${RED}\h \w${OFF} ${BLUE}\$${OFF} "
 	fi
 }
-
-PROMPT_COMMAND=exitstatus
-PROMPT_COMMAND="$PROMPT_COMMAND && history -a"
+PROMPT_COMMAND="exitstatus && history -a && history 1 >> ~/.bash_full"
 
 
 #complete -A setopt set
