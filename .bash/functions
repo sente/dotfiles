@@ -1,3 +1,6 @@
+
+#find . -type f -printf "%TY-%Tm-%Td\t%h/%f\n" | while read line; do unzip -d $line; done
+
 function fstr() # find a string in a set of files
 {
   if [ $# -ne 2 ]; then
