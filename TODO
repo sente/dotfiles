@@ -1,1 +1,2 @@
 create some sort of deploy script
+create a script to compare the repo vs $DEST 
