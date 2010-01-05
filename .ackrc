@@ -1,0 +1,7 @@
+--type-set=di=.int
+--type-add=di=.vim
+--type-add=di=.sh
+--type-add=di=.py
+--type-add=di=.dsc
+--type-add=di=.dic
+--type-add=di=.das
