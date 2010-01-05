@@ -60,8 +60,8 @@ function exitstatus {
 		else PS1="${RED}\u${OFF}${BLUE}@${OFF}${RED}\h \w${OFF} ${BLUE}\$${OFF} "
 	fi
 }
+#TODO move .bash_full elsewhere and log the exit statuses
 PROMPT_COMMAND="exitstatus && history -a && history 1 >> ~/.bash_full"
-
 
 #complete -A setopt set
 #complete -A user groups id
