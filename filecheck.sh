@@ -24,28 +24,6 @@ function mydiff()
 }
 
 
-
-#rm /home/stu/public_html/dotfiles.tgz
-#git-ls-files | while read line; do
-#   if [ -f $HOME/$line ]; then
-#      echo $line;
-#   fi;
-#done | xargs tar cvzf /home/stu/public_html/dotfiles.tgz
-
-
-
-
-
-#function prettydiff ()
-#{
-#   /usr/bin/diff --suppress-common-lines --side-by-side $@ | colordiff
-#}
-#
-#test -x /usr/bin/diff      && mydiff=normaldiff
-#test -x /usr/bin/colordiff && mydiff=prettydiff
-#
-#
-#
 git-ls-files | while read file; do
    if [ -f $HOME/$file ]; then
       cmp $HOME/$file $file >/dev/null
@@ -68,6 +46,28 @@ done
 #diff --suppress-common-lines --side-by-side
 
 
+
+#rm /home/stu/public_html/dotfiles.tgz
+#git-ls-files | while read line; do
+#   if [ -f $HOME/$line ]; then
+#      echo $line;
+#   fi;
+#done | xargs tar cvzf /home/stu/public_html/dotfiles.tgz
+
+
+
+
+
+#function prettydiff ()
+#{
+#   /usr/bin/diff --suppress-common-lines --side-by-side $@ | colordiff
+#}
+#
+#test -x /usr/bin/diff      && mydiff=normaldiff
+#test -x /usr/bin/colordiff && mydiff=prettydiff
+#
+#
+#
 
 #SAFE=~/.dotfile.`date +%F` 
 #
