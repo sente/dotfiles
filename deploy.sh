@@ -23,6 +23,19 @@ function mydiff()
    /usr/bin/diff --suppress-common-lines --side-by-side $@ | $COLORDIFF
 }
 
+
+
+#rm /home/stu/public_html/dotfiles.tgz
+#git-ls-files | while read line; do
+#   if [ -f $HOME/$line ]; then
+#      echo $line;
+#   fi;
+#done | xargs tar cvzf /home/stu/public_html/dotfiles.tgz
+
+
+
+
+
 #function prettydiff ()
 #{
 #   /usr/bin/diff --suppress-common-lines --side-by-side $@ | colordiff
@@ -37,7 +50,8 @@ git-ls-files | while read file; do
    if [ -f $HOME/$file ]; then
       cmp $HOME/$file $file >/dev/null
       if [ $? -ne 0 ]; then
-         ls -l "$HOME/$file" "$file"
+         stat --printf "%Y\t%y\t%n\n" "$HOME/$file" "$file" | sort
+         ls -lt "$HOME/$file" "$file"
          #echo "colordiff --suppress-common-lines --side-by-side $HOME/$file $file"
          #/usr/bin/colordiff --suppress-common-lines --side-by-side $HOME/$file $file
 
@@ -81,3 +95,4 @@ done
 #cat files.txt | while read line; do
 #   cp -a "$line" "$DEST/$line"
 #done
+

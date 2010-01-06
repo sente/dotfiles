@@ -11,17 +11,23 @@ syntax on
 highlight StatusLine ctermfg=blue ctermbg=yellow
 highlight Directory  ctermfg=red
 
-set laststatus=2	" 2->Always. Always show the status
-set statusline=%m\ %-f%=\ \ \ \ %([%l:%c\:%02p%%]%)
+
+fun! ModelTown()
+	let fmt = 'ft=%s ts=%d sw=%d %s'
+	let x = printf(fmt, &ft, &ts, &sw, (&et?"et":"noet"))
+	return x
+endf
+
+set statusline=%m\ %-f%=\ \ \ \ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
 
 set ignorecase
 set smartcase
-
 
 set mouse=a
 
 set tabstop=3     
 set shiftwidth=3  
+set laststatus=2
 
 set highlight=l:Visual 
 set scrolloff=5
@@ -46,11 +52,9 @@ map <Leader>5 :s/,/\r/g<Enter>
 map <Leader>d :diffthis<Return><C-W><C-W>:diffthis<Return>
 map <Leader>o :diffoff<Return><C-W><C-W>:diffoff<Return>:set nowrap<Return>
 
-"browse for files within the current file's directory
 map <Leader>e :e <C-R>=expand("%:p:h") . '/'<CR>
 map <Leader>s :split <C-R>=expand("%:p:h") . '/'<CR>
 map <Leader>v :vnew <C-R>=expand("%:p:h") . '/'<CR>
-
 
 vmap < <gv
 vmap > >gv
@@ -103,26 +107,45 @@ command -range Pyer python PyExecReplace(<f-line1>,<f-line2>)
 
 
 
+" http://vim.wikia.com/wiki/Handy_option_flag_toggler
+function IncrementOpt(option,min,inc,max)
+  exec ('let tz_value = (((&'.a:option.'-'.a:min.')+'.a:inc.')%(('.a:max.'-'.a:min.')+'.a:inc.'))+'.a:min)
+  if (tz_value > a:max || tz_value < a:min) " in case inc<0
+    let tz_value = a:max
+  endif
+  exec ('setlocal '.a:option.'='.tz_value)
+endfunction
+
+noremap <silent> <F7> :call IncrementOpt("tabstop",2,2,70)<BAR>set tabstop?<CR>
+noremap <silent> <F8> :call IncrementOpt("tabstop",2,-2,70)<BAR>set tabstop?<CR>
+imap <F6> <C-O><F7>
+imap <F6> <C-O><F8>
+
+fun! ModelTown()
+	let fmt = 'ft=%s ts=%d sw=%d %s'
+	let x = printf(fmt, &ft, &ts, &sw, (&et?"et":"noet"))
+	return x
+endf
+
+set statusline=%m\ %-f%=\ \ \ \ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
 
 
-"let $HSLASH=$HOME . "/"
-"let $SRCFILE=$HSLASH . ".vim/pycol.vim"
-"if file_readable($SRCFILE)
-"	source $SRCFILE
-"endif
-"let $SRCFILE=$HSLASH . ".vim/syntax/diff.vim"
-"if file_readable($SRCFILE)
-"	source $SRCFILE
-"endif
+nmap <silent> <Leader>ml :call ModelineStub()<CR>
+ 
+function! ModelineStub()
+    let save_cursor = getpos('.')
+    let fmt = ' vim: set ft=%s ts=%d sw=%d tw=%d %s:'
+ 
+    let x = printf(&cms, printf(fmt, &ft, &ts, &sw, &tw, (&et?"et":"noet")))
+    $put =substitute(substitute(x, '\ \+', ' ', 'g'), ' $', '', '')
+    call setpos('.', save_cursor)
+endfunction
 
 
-"Will allow you to use :w!! to write to a file
-"using sudo if you forgot to "sudo vim file" 
-"Why not just ":w !sudo tee %"? 
-"http://stackoverflow.com/questions/95072/what-are-your-favorite-vim-tricks
+
+
+
 cmap W!! %!sudo tee > /dev/null %
-
-
 
 :command! -bar -count CS :%!cut -f<count> | sort -u
 
