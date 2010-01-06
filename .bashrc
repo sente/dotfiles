@@ -33,8 +33,9 @@ if [ -f /etc/bash_completion ]; then
       . /etc/bash_completion
 fi
 
-eval $(dircolors -b ~/.dir_colors)
-
+if [ -f ~/.dir_colors ]; then
+	eval $(dircolors -b ~/.dir_colors)
+fi
 
 export IP=`echo $SSH_CLIENT | cut -f1 -d' '`
 export LANG=en_US.UTF-8
