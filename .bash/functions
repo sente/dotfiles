@@ -1,8 +1,8 @@
 
 
-#stolen from tpope:  http://www.tpope.net/node/108  http://c.tpope.net/
+#stolen from tpope:	http://www.tpope.net/node/108  http://c.tpope.net/
 function get_tgzfile() {
-   REMOTEFILE=http://sente.cc/stu/dotfiles.tgz
+	REMOTEFILE=http://sente.cc/stu/dotfiles.tgz
 	DESTDIR=DOTFILES
 	mkdir $DESTDIR || return 1
 
@@ -19,8 +19,8 @@ function get_tgzfile() {
 function fstr() # find a string in a set of files
 {
   if [ $# -ne 2 ]; then
-    echo "Usage: fstr \"pattern\" [files] "
-    return;
+	 echo "Usage: fstr \"pattern\" [files] "
+	 return;
   fi
   SMSO=$(tput smso)
   RMSO=$(tput rmso)
@@ -30,31 +30,31 @@ function fstr() # find a string in a set of files
 
 
 function irslocate  { locate -d '/var/lib/mlocate/mlocate.ir-scripts.db' "$@"; }
-function irlocate   { locate -d '/var/lib/mlocate/mlocate.ir.db'         "$@"; }
-function irdaily    { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'   "$@"; }
-function alllocate  { locate -d '/var/lib/mlocate/mlocate.all.db'        "$@"; }
+function irlocate   { locate -d '/var/lib/mlocate/mlocate.ir.db'			 "$@"; }
+function irdaily	  { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'	 "$@"; }
+function alllocate  { locate -d '/var/lib/mlocate/mlocate.all.db'			 "$@"; }
 function snaplocate { locate -d '/var/lib/mlocate/mlocate.snapshots.db'  "$@"; }
-function intlocate  { locate -d '/var/lib/mlocate/mlocate.ir.db'         "$@" | grep -E "\.int$|\.dsc$\.sh"; }
+function intlocate  { locate -d '/var/lib/mlocate/mlocate.ir.db'			 "$@" | grep -E "\.int$|\.dsc$\.sh"; }
 
-function ff         { find . -name "*$@*" -print 2>/dev/null; }
+function ff			  { find . -name "*$@*" -print 2>/dev/null; }
 
-function psa        { ps aux $@; }
-function psu        { ps  ux $@; }
+function psa		  { ps aux $@; }
+function psu		  { ps  ux $@; }
 
-function lpsa       { ps aux $@ | p; }
-function lpsu       { ps  ux $@ | p; }
+function lpsa		  { ps aux $@ | p; }
+function lpsu		  { ps  ux $@ | p; }
 
-function pushvim    { for s in ${@}; do rsync -avPr --delete-after .vim .vimrc .screenrc .inputrc $s:; done; }
+function pushvim	  { for s in ${@}; do rsync -avPr --delete-after .vim .vimrc .screenrc .inputrc $s:; done; }
 
-function psgrep     { ps ax | grep $1 | fgrep -v "grep $1"; }
-function hgrep      { history | grep $1 | sed '$d'; }
+function psgrep	  { ps ax | grep $1 | fgrep -v "grep $1"; }
+function hgrep		  { history | grep $1 | sed '$d'; }
 
 
 # Rename *.foo to *.bar
 function rename_ext {
-    for f in *.$1; do
-        mv $f ${f%$1}$2
-    done
+	 for f in *.$1; do
+		  mv $f ${f%$1}$2
+	 done
 }
 
 # vim:filetype=sh
