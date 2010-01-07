@@ -18,7 +18,12 @@ fun! ModelTown()
 	return x
 endf
 
-set statusline=%m\ %-f%=\ \ \ \ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
+fun! SynTown()
+	let x"=%{synIDattr(synID(line('.'),col('.'),1),'name')}"
+	return x
+endf
+
+set statusline=%m\ %-f%=\ \ \ \ %{SynTown()}\ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
 
 set ignorecase
 set smartcase
@@ -128,10 +133,10 @@ function IncrementOpt(option,min,inc,max)
   exec ('setlocal '.a:option.'='.tz_value)
 endfunction
 
-noremap <silent> <F7> :call IncrementOpt("tabstop",2,2,70)<BAR>set tabstop?<CR>
-noremap <silent> <F8> :call IncrementOpt("tabstop",2,-2,70)<BAR>set tabstop?<CR>
-imap <F6> <C-O><F7>
-imap <F6> <C-O><F8>
+noremap <silent> <F10> :call IncrementOpt("tabstop",2,-2,500)<BAR>set tabstop?<CR>
+noremap <silent> <F11> :call IncrementOpt("tabstop",2,2,500)<BAR>set tabstop?<CR>
+imap <F10> <C-O><F10>
+imap <F11> <C-O><F11>
 
 fun! ModelTown()
 	let fmt = 'ft=%s ts=%d sw=%d %s'
