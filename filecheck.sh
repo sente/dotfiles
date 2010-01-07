@@ -34,7 +34,7 @@ git-ls-files | while read file; do
          #/usr/bin/colordiff --suppress-common-lines --side-by-side $HOME/$file $file
 
          
-         mydiff "$HOME/$file" "$file"
+#         mydiff "$HOME/$file" "$file"
          #/usr/bin/diff --suppress-common-lines --side-by-side "$HOME/$file" "$file"  | colordiff
          echo "---------------------------------------------------------------------------------"
 
