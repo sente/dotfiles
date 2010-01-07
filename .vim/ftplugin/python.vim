@@ -13,5 +13,7 @@ let b:did_ftplugin = 1
 
 map <buffer> <Leader>0 :s/#//<Return>
 map <buffer> <Leader>9 :s/^/#/<Return>
-setlocal sts=4 sw=4 ts=4 noet
+
+setlocal sts=4 sw=4 ts=4 et
+
 setlocal omnifunc=pythoncomplete#Complete
