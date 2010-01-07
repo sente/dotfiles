@@ -3,7 +3,7 @@ set nocompatible
 if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
     set ttymouse=xterm
 endif
-
+"#just a simple change
 
 filetype plugin indent on
 syntax on
