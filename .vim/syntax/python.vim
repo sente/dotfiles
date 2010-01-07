@@ -54,7 +54,7 @@
 "       python_highlight_doctests
 "
 "    If you want all Python highlightings above:
-"       python_highlight_all
+       let python_highlight_all = 1
 "    (This option not override previously set options)
 "
 "    For fast machines:
