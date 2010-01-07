@@ -6,3 +6,10 @@
 --type-add=di=.dic
 --type-add=di=.das
 --type-add=di=.mrk
+
+--type-set=zzz=.zip
+--type-set=zzz=.tgz
+--type-set=zzz=.tar.gz
+--type-set=zzz=.gz
+
+
