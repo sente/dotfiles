@@ -6,7 +6,6 @@ function get_tgzfile() {
 	DESTDIR=DOTFILES
 	mkdir $DESTDIR || return 1
 
-#tra la la 
 	if [ -x "`which curl`" ];
 		then get="curl -s"
 		else get="wget -qO -"
