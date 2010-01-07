@@ -19,7 +19,7 @@ fun! ModelTown()
 endf
 
 fun! SynTown()
-	let x"=%{synIDattr(synID(line('.'),col('.'),1),'name')}"
+	let x = synIDattr(synID(line('.'),col('.'),1),'name')
 	return x
 endf
 
@@ -123,7 +123,6 @@ endif
 "endfunction
 
 
-
 " http://vim.wikia.com/wiki/Handy_option_flag_toggler
 function IncrementOpt(option,min,inc,max)
   exec ('let tz_value = (((&'.a:option.'-'.a:min.')+'.a:inc.')%(('.a:max.'-'.a:min.')+'.a:inc.'))+'.a:min)
@@ -143,8 +142,6 @@ fun! ModelTown()
 	let x = printf(fmt, &ft, &ts, &sw, (&et?"et":"noet"))
 	return x
 endf
-
-set statusline=%m\ %-f%=\ \ \ \ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
 
 
 nmap <silent> <Leader>ml :call ModelineStub()<CR>
