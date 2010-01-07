@@ -1,0 +1,562 @@
+
++inpt+
+object 'INPT' "A" {
+   input_type    = "filein",
+   filename      = "fileA.txt",
+   file_type     = "column_headers",
+   aliases       = { },
+   keep_columns  = { },
+};
+-inpt-
+
++list+
+object 'INPT' "months" {
+   Input_type    = "list",
+   Columns       = {
+            "Month Number",
+            "Month",
+            "Month Name",
+            "Month Znum",
+            "Quarter"
+   },
+   Values = {
+      { "1", "M01 January" , "January" , "01", "Q1" },
+      { "2", "M02 February" , "February" , "02", "Q1" },
+      { "3", "M03 March" , "March" , "03", "Q1" },
+      { "4", "M04 April" , "April" , "04", "Q2" },
+      { "5", "M05 May" , "May" , "05", "Q2" },
+      { "6", "M06 June" , "June" , "06", "Q2" },
+      { "7", "M07 July" , "July" , "07", "Q3" },
+      { "8", "M08 August" , "August" , "08", "Q3" },
+      { "9", "M09 September", "September", "09", "Q3" },
+      { "10", "M10 October" , "October" , "10", "Q4" },
+      { "11", "M11 November" , "November" , "11", "Q4" },
+      { "12", "M12 December" , "December" , "12", "Q4" },
+   }
+};
+-list-
+
++trace+
+   trace_after   = { filename = "trace00.txt", verbose = "false", format = "column_headers"},
+-trace-
+
++coltrace+
+   trace_after  = { filename = "trace00.txt", format = "column_headers", verbose = "false",
+       columns  = {
+
+                  },
+   },
+-coltrace-
+
+
++directory+
+object 'INPT' "dir_input" {
+   input_type = "directory",
+   directory  = "/dir/", 
+   starname   = "*.dat",
+   walk       = "true",
+   file_type  = "file" ,
+};
+
+object 'INPT' "dir_input2" {
+   input_type      = "Filein",
+   file_type       = "column_headers",
+   file_list_input = "dir_input",
+   filename_column = "filename",
+};
+-directory-
+
+
++split+
+object 'OUTP' "" {
+   output_type   = "split",
+   file_type     = "column_headers",
+   input         = "____",
+
+   filename_column  = "splitfile",
+   reportfile       = "report.rep",
+   reportfile_type  = "column_headers",
+};
+-split-
+
++filter+
+object 'PROC' "filter" {
+   process_type  = "filter",
+   input         = "",
+   action        = "discard",
+   filters       = {{column = "filter",
+                    values  = {"discard"}
+                   }},
+};
+-filter-
+
++input+
+object 'INPT' "" {
+   input_type    = "filein",
+   filename      = "file.txt",
+   file_type     = "column_headers",
+   aliases       = { },
+   keep_columns  = { },
+};
+-input-
+
++output+
+object 'OUTP' "" {
+   output_type   = "Fileout",
+   file_type     = "column_headers",
+   input         = "____",
+   filename      = "____",
+};
+-output-
+
++brackets+
+                   { "", "" },
+-brackets-
+
++sort+
+object 'PROC' "" {
+   process_type    = "Sort",
+   input           = "____",
+   sort_columns    = { "____", },
+   numeric_columns = { "____", },
+//   reverse_columns = { "____", },
+//   sort_size       = ____,
+//   temp_directory  = "temp",
+//   reverse         = "true" or "false",
+};
+-sort-
+
++squash+
+object 'PROC' "" {
+   process_type  = "Squash",
+   input         = "____",
+   dimensions    = {
+                      "____",
+   },
+   summary       = {
+                      "____", 
+   },
+   min_columns   = {
+                      "____",
+   },
+   max_columns   = {
+                      "____",
+   },
+   other_columns = {  "____",
+   },
+};
+-squash-
+
++break+
+object 'PROC' "____" {
+   process_type    = "break",
+   input           = "____",
+
+   break_column    = "____",
+   break_columns   = {
+                       "____",
+                       "____"
+                     },
+
+   first_column    = "____",
+   last_column     = "____",
+   index_column    = "____",
+   level_column    = "____",
+};
+-break-
+
++multijoin+
+   multijoins   = {
+                    { "____", "____" },
+                    { "____", "____" },
+                  },
+-multijoin-
+
++join+
+object   'PROC' "" {
+   process_type = "join",
+   join_type    = "inner",
+   inputs       = {"", ""},
+   joins        = {"", ""},
+};
+-join-
+
+
++lookup+
+object 'PROC' "" {
+   process_type   = "lookup",
+   join_type      = "inner",
+   inputs         = {"", ""},
+   joins          = {"", ""},
+};
+-lookup-
+
+
++concat+
+object 'PROC' "" {
+   process_type   = "Concat",
+   inputs         = {
+                      "____",
+                      "____",
+                    },
+};
+-concat-
+
++rotate+
+object 'PROC' "____" {
+   process_type      = "Rotate",
+   input             = "____",
+   new_horiz_column  = "____",
+   horiz_values      = {
+                         "____",
+                         "____",
+                         "____",
+                       },
+   new_value_columns = {
+                         "____",
+                         "____",
+                         "____",
+                       },
+   horiz_columns     = {
+                         "____",
+                         "____",
+                         "____",
+                       },
+};
+-rotate-
+
++unrotate+
+object 'PROC' "____" {
+   process_type      = "Unrotate",
+   input             = "____",
+   dimensions        = {
+                         "____",
+                         "____"
+                         "____",
+                       },
+   horiz_column      = "____",
+   horiz_values      = {
+                         "____",
+                         "____"
+                         "____",
+                       },
+   value_columns     = {
+                         "____",
+                         "____"
+                         "____",
+                       },
+   new_horiz_columns = {
+                         "____",
+                         "____"
+                         "____",
+                       },
+};
+-unrotate-
+
++expand+
+object 'PROC' "____" {
+   process_type  = "expand",
+   input         = "____",
+   type          = "integer",//"month","date","week",
+   start_column  = "____",
+   end_column    = "____",
+   output_column = "____",
+};
+-expand-
+
+
++alias+
+object 'PROC' "" {
+   process_type  = "alias",
+   input         = "",
+   aliases       = {
+      "karl=town",
+   },
+// keep_columns  = {
+// },
+};
+-alias-
+
++calc+
+object 'PROC' "" {
+   process_type  = "calc",
+   input         = "",
+   calcs         = {
+      { column   = "",
+        calc_str = "",
+      },
+   },
+};
+-calc-
+
++if+
+      { column   = "month",
+        calc_str = "if(last_month)=\"01\",\"12\","
+                   "if(last_month)=\"02\",\"01\","
+                   "if(last_month)=\"03\",\"02\","
+                   "if(last_month)=\"04\",\"03\","
+                   "if(last_month)=\"05\",\"04\","
+                   "if(last_month)=\"06\",\"05\","
+                   "if(last_month)=\"07\",\"06\","
+                   "if(last_month)=\"08\",\"07\","
+                   "if(last_month)=\"09\",\"08\","
+                   "if(last_month)=\"10\",\"09\","
+                   "if(last_month)=\"11\",\"10\","
+                   "if(last_month)=\"12\",\"11\","
+                   "\"ERROR\"))))))))))))",
+      },
+-if-
+
++rpad+
+      { column   = "",
+        calc_str = "rpad(dimension, 50, \"0\")",
+      },
+-rpad-
+
++scan+
+      { column   = "",
+        calc_str = "scan(dimension, 1, \"\/\")",
+      },
+-scan-
+
++translate+
+      { column   = "",
+        calc_str = "translate(\"Marry Little Lamb\", \" \", \".\")", // ==> Mary.Little.Lamb
+      },
+-translate-
+
++regexp+
+//    regexp (string, regexp)
+//    regexp (string, regexp, options)
+//           performs a search of <string> based on regular expression
+//           <regexp>.  this functions returns 1 (true) if a match is
+//           found, and 0 (false) if no match is found or the regular
+//           expression is invalid.
+-regexp-
+
++regexp_value+
+//    regexp_value (string, regexp)
+//    regexp_value (string, regexp, options)
+//           performs a search of <string> based on regular expression
+//           <regexp>.  this functions returns the portion of the string
+//           that matches the given regular expression. 
+-regexp_value-
+
+
+#TIME
++today+
+      { column   = "today",
+        calc_str = "today()", // ==> 2007/04/30
+      },
+-today-
+
++format_date+
+      { column   = "",
+        calc_str = "format_date(today(),\"YYYY/MM/DD\")", //==> converts to YYYY/MM/DD
+      },
+-format_date-
+
++format_date_range+
+      { column   = "",
+        calc_str = "format_date_range(shipdate, \"mm-yy-dd\", 1950)", //==> converts to YYYY/MM/DD
+      },
+-format_date_range-
+
++date_value+
+      { column   = "",
+        calc_str = "date_value(\"2002/04/15\")", //==> converts to DI-Date
+      },
+-date_value-
+
++column+
+      { column   = "",
+        calc_str = "",
+      },
+-column-
+
++update+
+      { column   = "",
+        calc_str = "",
+        update   = "true",
+      },
+-update-
+
++persistent+
+      { column   = "",
+        calc_str = "",
+      persistent = "true",
+      },
+-persistent-
+
+
++format_date_value+
+      { column   = "",
+        calc_str = "format_date_value(\"34567\")", //==> 2002/04/15
+      },
+-format_date_value-
+
++julian_day+
+      { column   = "",
+        calc_str = "julian_day(\"2002/04/15\")", //==> 105 (returns 1-365)
+      },
+-julian_day-
+
++age+
+      { column   = "",
+//    age("1935/01/08", "2003/01/01")  ==>  67
+//    age("1776-07-04", "1976-07-04")  ==> 200
+//    age("1965/02/01")                ==>  38 (when run in December 2003)
+//    age("2004/12/25", "2003/03/03")  ==>   0
+      },
+-age-
+
++row_num+
+      { column   = "",
+        calc_str = "row_num()",
+      },
+-row_num-
+
++year_mon+
+      { column   = "Year-Mo",    //YYYY-12 --> YYYY-Feb
+        calc_str = "concat(substr(yearmo,1,4),\"-\",substr(month_name(format_date(concat(yearmo,\"01\"),\"yyyy-mmdd\")),1,3))"
+      },
+-year_mon-
+
++execrows+
+object 'PROC' "Calc_00" {
+   process_type  = "Calc",
+   input         = "multiply 3",
+   calcs = {
+      { column = "command 1",
+      calc_str = "concat( \"integ summarize_sales.int\","
+      "\" -D size=\",      size,"
+      "\" -D class=\",     class,"
+      "\" -D dimension=\", dimension,"
+      "\" -D yearmo=\",    YYYYMM,"
+      "\" -D period=\",    Period,"
+      "\" -D periodA=\",   periodA,"
+      "\" -D periodB=\",   periodB)",
+      },
+   },
+};
+
+Object 'OUTP' "AceOut" {
+   output_type   = "execrows",
+   input         = "Calc_00",
+   commands = {
+        "$(command 1)",
+   },
+   error_command = "echo fail",
+   output_file   = "logs/parms.log",
+   append_output = "true",
+   echo          = "true",
+};
+-execrows-
+
+
+
++template+
+version "1";
+
+object 'PARM' "Parms" {parms={}};
+
+object 'TSKL' "Main" {
+   { "Template" }
+};
+
+object 'TASK' "Template" {
+   inputs     = {
+      "A",
+      "B",
+   },
+   processes  = {
+      "Look B"
+   },
+   output     = "out"
+};
+
+object 'INPT' "A" {
+   input_type    = "filein",
+   filename      = "fileA.txt",
+   file_type     = "column_headers",
+   aliases       = { },
+   keep_columns  = { },
+};
+
+object 'INPT' "B" {
+   input_type    = "filein",
+   filename      = "fileB.txt",
+   file_type     = "column_headers",
+   aliases       = { },
+   keep_columns  = { },
+};
+
+object 'PROC' "Look B" {
+   process_type  = "lookup",
+   join_type     = "inner",
+   inputs        = {"A",    "A"},
+   joins         = {"id_A", "id_B"},
+};
+
+object 'OUTP' "out" {
+   output_type   = "Fileout",
+   file_type     = "column_headers",
+   input         = "look B",
+   filename      = "output.txt",
+};
+-template-
+
+
++parms+
+object 'PARM' "parms" {
+   parms = {
+      { name = "myparm", default="town", type = "string" },
+      { name = "test",   default="town", type = "string" },
+   }
+};
+-parms-
+
++builder+
+version "1";
+
+object 'PARM' "parms" {
+   parms = {
+      { name = "myparm", default="town", type = "string" },
+      { name = "test",   default="town", type = "string" },
+   }
+};
+
+object 'DESC' "Main" {
+
+   input  = "input.txt",
+   output = "model.mdl",
+
+   column_headers = "true",
+   remove_on_fail = "true",
+   journal        = "journal.jou",
+
+   delimiter = "\t",
+   dump_key  = "True",
+
+   dimensions={
+   },
+
+   summary={
+   },
+
+   dimcounts={
+   },
+
+   info={
+   },
+
+   string={
+   },
+
+   calcs= {
+      { name="col",
+       value="\"val\"",
+      },
+   },
+};
+-builder-
