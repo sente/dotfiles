@@ -58,7 +58,7 @@ function exitstatus {
 	EXITSTATUS="$?"
 	if [ "${EXITSTATUS}" -eq 0 ]
 		then PS1="${GREEN}\u${OFF}${BLUE}@${OFF}${GREEN}\h \w${OFF} ${BLUE}\$${OFF} "
-		else PS1="${RED}\u${OFF}${BLUE}@${OFF}${RED}\h \w${OFF} ${BLUE}\$${OFF} "
+		else PS1="${RED}\u${OFF}${BLUE}@${OFF}${RED}\h \w${OFF} ${RED}\$${OFF} "
 	fi
 }
 #TODO move .bash_full elsewhere and log the exit statuses

@@ -108,6 +108,17 @@ command -range Pyer python PyExecReplace(<f-line1>,<f-line2>)
 endif
 
 
+"command Pyflakes :call Pyflakes()
+"function! Pyflakes()
+"    let tmpfile = tempname()
+"    execute "w" tmpfile
+"    execute "set makeprg=(pyflakes\\ " . tmpfile . "\\\\\\|sed\\ s@" . tmpfile ."@%@)"
+"    make
+"    cw
+"endfunction
+
+
+
 " http://vim.wikia.com/wiki/Handy_option_flag_toggler
 function IncrementOpt(option,min,inc,max)
   exec ('let tz_value = (((&'.a:option.'-'.a:min.')+'.a:inc.')%(('.a:max.'-'.a:min.')+'.a:inc.'))+'.a:min)
