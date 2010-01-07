@@ -7,6 +7,9 @@ if [[ -s ~/.motd ]] ; then
      cat ~/.motd
 fi
 
+
+#simple change here
+
 stty stop  undef
 stty start undef
 
