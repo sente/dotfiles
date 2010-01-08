@@ -4,6 +4,12 @@ if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
     set ttymouse=xterm
 endif
 
+"http://rayninfo.co.uk/vimtips.html
+"show lines matching word under cursor <cword> (super)
+"[I
+"load VIM without .vimrc and plugins (clean VIM)
+"gvim -u NONE -U NONE -N
+
 
 filetype plugin indent on
 syntax on
