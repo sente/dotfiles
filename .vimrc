@@ -97,8 +97,6 @@ map <C-l> <C-W>l
 map <C-N> <C-W>w
 
 
-imap [3~ .
-
 
 :au BufNewFile,BufRead,BufEnter *.dat set noet
 :au BufNewFile,BufRead,BufEnter *.txt set noet
