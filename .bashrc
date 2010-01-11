@@ -46,7 +46,6 @@ export GREEN="\[\e[32;1m\]"
 export BLUE="\[\e[34;1m\]"
 export OFF="\[\033[m\]"
 
-
 export HISTCONTROL=ignoredups:ignorespace
 export HISTFILESIZE=10000
 export HISTTIMEFORMAT='%F %R.%M%t'
@@ -62,6 +61,8 @@ function exitstatus {
 }
 #TODO move .bash_full elsewhere and log the exit statuses
 PROMPT_COMMAND="exitstatus && history -a && history 1 >> ~/.bash_full"
+
+#ignore this
 
 #complete -A setopt set
 #complete -A user groups id
