@@ -13,7 +13,6 @@ stty start undef
 shopt -s histappend
 shopt -s checkwinsize
 
-
 # COLUMNS is nowa ccessable from within scripts
 export COLUMNS
 
