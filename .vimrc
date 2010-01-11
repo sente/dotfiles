@@ -67,9 +67,14 @@ map <Leader>e :e <C-R>=expand("%:p:h") . '/'<CR>
 map <Leader>s :split <C-R>=expand("%:p:h") . '/'<CR>
 map <Leader>v :vnew <C-R>=expand("%:p:h") . '/'<CR>
 
-"http://www.vim.org/scripts/script.php?script_id=1965
-"http://paste.pocoo.org/help/integration/
-map  :Lodgeit<CR>
+
+if has('python')
+	runtime! lodgeit.vim
+	"http://www.vim.org/scripts/script.php?script_id=1965
+	"http://paste.pocoo.org/help/integration/
+	map  :Lodgeit<CR>
+endif
+
 
 vmap < <gv
 vmap > >gv
