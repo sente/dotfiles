@@ -72,7 +72,7 @@ if has('python')
 	runtime! lodgeit.vim
 	"http://www.vim.org/scripts/script.php?script_id=1965
 	"http://paste.pocoo.org/help/integration/
-	map  :Lodgeit<CR>
+	map <C-P> :Lodgeit<CR>
 endif
 
 
