@@ -62,7 +62,11 @@ function exitstatus {
 #TODO move .bash_full elsewhere and log the exit statuses
 PROMPT_COMMAND="exitstatus && history -a && history 1 >> ~/.bash_full"
 
-#ignore this
+
+
+#http://serverfault.com/questions/68883/linux-command-line-best-practices-and-tips/76508#76508
+#exec script ~/.typescript/`date +%Y%m%d%H%M%S`.$$
+
 
 #complete -A setopt set
 #complete -A user groups id
