@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-function curl_note () {
+function emailpipe () {
    curl -F "note=<-" http://sente.cc/cgi-bin/email.pl
 }
 
@@ -9,6 +9,7 @@ function bucket () {
 	FILE=$1
 	test -f "$FILE" && 
 	cp -a "$FILE" /home/stu/code/github/bucket/ &&
+	FILE=$(basename $FILE)
 	cd /home/stu/code/github/bucket/ &&
 	git add "$FILE" &&
 	git commit -m "$FILE" &&

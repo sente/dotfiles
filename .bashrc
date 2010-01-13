@@ -7,9 +7,6 @@ if [[ -s ~/.motd ]] ; then
      cat ~/.motd
 fi
 
-
-#{ cp dirme2.py /home/stu/code/github/bucket/ && cd /home/stu/code/github/bucket/ && git add dirme2.py && git commit -m "dirme2.py"; cd -; }
-
 stty stop  undef
 stty start undef
 
