@@ -1,3 +1,21 @@
+#!/bin/bash
+
+
+function curl_note () {
+   curl -F "note=<-" http://sente.cc/cgi-bin/email.pl
+}
+
+function bucket () {
+	FILE=$1
+	test -f "$FILE" && 
+	cp -a "$FILE" /home/stu/code/github/bucket/ &&
+	cd /home/stu/code/github/bucket/ &&
+	git add "$FILE" &&
+	git commit -m "$FILE" &&
+	git push gitweb master && 
+	cd -;
+}
+
 
 
 #stolen from tpope:	http://www.tpope.net/node/108  http://c.tpope.net/

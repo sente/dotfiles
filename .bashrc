@@ -7,6 +7,9 @@ if [[ -s ~/.motd ]] ; then
      cat ~/.motd
 fi
 
+
+#{ cp dirme2.py /home/stu/code/github/bucket/ && cd /home/stu/code/github/bucket/ && git add dirme2.py && git commit -m "dirme2.py"; cd -; }
+
 stty stop  undef
 stty start undef
 
@@ -20,8 +23,8 @@ if [ -f ~/.bash/aliases ]; then
 	   . ~/.bash/aliases
 fi
 
-if [ -f ~/bash/functions ]; then
-      . ~/bash/functions
+if [ -f ~/.bash/functions ]; then
+      . ~/.bash/functions
 fi
 
 if [ -f ~/bin/helpers.sh ]; then
@@ -62,11 +65,7 @@ function exitstatus {
 #TODO move .bash_full elsewhere and log the exit statuses
 PROMPT_COMMAND="exitstatus && history -a && history 1 >> ~/.bash_full"
 
-
-
-#http://serverfault.com/questions/68883/linux-command-line-best-practices-and-tips/76508#76508
-#exec script ~/.typescript/`date +%Y%m%d%H%M%S`.$$
-
+#ignore this
 
 #complete -A setopt set
 #complete -A user groups id
