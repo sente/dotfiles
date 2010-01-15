@@ -5,10 +5,11 @@ function emailpipe () {
    curl -F "note=<-" http://sente.cc/cgi-bin/email.pl
 }
 
+
 function webdiff () {
 	if [ ! -f "$1" ]; then echo "$1 is not a file"; return 1; fi
 	if [ ! -f "$2" ]; then echo "$2 is not a file"; return 1; fi
-	curl -F "file.1=@$1" -F "file.2=@$2"  http://sente.cc/stu/cgi-bin/compare-bin.py
+	curl -F "file.1=@$1" -F "file.2=@$2"  http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null | grep -A 100 "BEGIN LINKS" | grep '^http' 
 }
 
 function bucket () {
