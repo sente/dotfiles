@@ -55,6 +55,7 @@ function fstr() # find a string in a set of files
 }
 
 
+function hlocate    { locate -d '/home/stu/.mlocate.db' "$@"; }
 function irslocate  { locate -d '/var/lib/mlocate/mlocate.ir-scripts.db' "$@"; }
 function irlocate   { locate -d '/var/lib/mlocate/mlocate.ir.db'			 "$@"; }
 function irdaily	  { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'	 "$@"; }
