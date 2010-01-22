@@ -48,6 +48,7 @@ set nowrap
 set autoindent	
 set cmdwinheight=15
 set wildmenu
+set wildmode=list:longest,full
 
 set isfname-==  " removed '=' since we don't want that ruining our autocomplete
 
@@ -184,6 +185,7 @@ function! Graph()
    exec ":! ~/.vim/graph.sh %"
 endfunction
 
+let MRU_Window_Height = 15
 :command! -n=* Graph           :call Graph()
 
 :command! -n=* Inpt            :call Insert("inpt")
