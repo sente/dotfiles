@@ -456,6 +456,9 @@ function! s:MRU_Window_Edit_File(fname, multi, edit_type, open_type)
     if a:open_type == 'newwin'
         " Edit the file in a new window
         exe 'leftabove new ' . esc_fname
+	 elseif a:open_type == 'newvertwin'
+        " Edit the file in a new window
+        exe 'vertical new ' . esc_fname
     elseif a:open_type == 'newtab'
         " If the selected file is already open in the current tab or in
         " another tab, jump to it. Otherwise open it in a new tab
@@ -676,23 +679,41 @@ function! s:MRU_Open_Window(...)
 
     " Create mappings to select and edit a file from the MRU list
     nnoremap <buffer> <silent> <CR>
-                \ :call <SID>MRU_Select_File_Cmd('edit,useopen')<CR>
+                \ :call <SID>MRU_Select_File_Cmd('edit,newvertwin')<CR>
     vnoremap <buffer> <silent> <CR>
-                \ :call <SID>MRU_Select_File_Cmd('edit,useopen')<CR>
+                \ :call <SID>MRU_Select_File_Cmd('edit,newvertwin')<CR>
     nnoremap <buffer> <silent> o
-                \ :call <SID>MRU_Select_File_Cmd('edit,newwin')<CR>
+                \ :call <SID>MRU_Select_File_Cmd('edit,newvertwin')<CR>
     vnoremap <buffer> <silent> o
-                \ :call <SID>MRU_Select_File_Cmd('edit,newwin')<CR>
+                \ :call <SID>MRU_Select_File_Cmd('edit,newvertwin')<CR>
     nnoremap <buffer> <silent> t
-                \ :call <SID>MRU_Select_File_Cmd('edit,newtab')<CR>
+                \ :call <SID>MRU_Select_File_Cmd('edit,newvertwin')<CR>
     vnoremap <buffer> <silent> t
-                \ :call <SID>MRU_Select_File_Cmd('edit,newtab')<CR>
+                \ :call <SID>MRU_Select_File_Cmd('edit,newvertwin')<CR>
     nnoremap <buffer> <silent> v
-                \ :call <SID>MRU_Select_File_Cmd('view,useopen')<CR>
+                \ :call <SID>MRU_Select_File_Cmd('edit,newvertwin')<CR>
     nnoremap <buffer> <silent> u :MRU<CR>
     nnoremap <buffer> <silent> <2-LeftMouse>
                 \ :call <SID>MRU_Select_File_Cmd('edit,useopen')<CR>
     nnoremap <buffer> <silent> q :close<CR>
+							"    nnoremap <buffer> <silent> <CR>
+							"                \ :call <SID>MRU_Select_File_Cmd('edit,useopen')<CR>
+							"    vnoremap <buffer> <silent> <CR>
+							"                \ :call <SID>MRU_Select_File_Cmd('edit,useopen')<CR>
+							"    nnoremap <buffer> <silent> o
+							"                \ :call <SID>MRU_Select_File_Cmd('edit,newwin')<CR>
+							"    vnoremap <buffer> <silent> o
+							"                \ :call <SID>MRU_Select_File_Cmd('edit,newwin')<CR>
+							"    nnoremap <buffer> <silent> t
+							"                \ :call <SID>MRU_Select_File_Cmd('edit,newtab')<CR>
+							"    vnoremap <buffer> <silent> t
+							"                \ :call <SID>MRU_Select_File_Cmd('edit,newtab')<CR>
+							"    nnoremap <buffer> <silent> v
+							"                \ :call <SID>MRU_Select_File_Cmd('view,useopen')<CR>
+							"    nnoremap <buffer> <silent> u :MRU<CR>
+							"    nnoremap <buffer> <silent> <2-LeftMouse>
+							"                \ :call <SID>MRU_Select_File_Cmd('edit,useopen')<CR>
+							"    nnoremap <buffer> <silent> q :close<CR>
 
     " Restore the previous cpoptions settings
     let &cpoptions = old_cpoptions
