@@ -36,6 +36,12 @@ if [ -f ~/.dir_colors ]; then
 	eval $(dircolors -b ~/.dir_colors)
 fi
 
+
+#lots of random useful stuff
+#http://www.pixelbeat.org/cmdline.html
+
+
+
 export IP=`echo $SSH_CLIENT | cut -f1 -d' '`
 export LANG=en_US.UTF-8
 export PATH=$PATH:~/bin
