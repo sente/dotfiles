@@ -1,10 +1,16 @@
 #!/bin/bash
 
+function sendlast () {
+	history 1 | colopipe
+}
+
+function sendlast2 () {
+	history 1 | emailpipe
+}
 
 function emailpipe () {
    curl -F "note=<-" http://sente.cc/cgi-bin/email.pl
 }
-
 
 function webdiff () {
 	if [ ! -f "$1" ]; then echo "$1 is not a file"; return 1; fi
@@ -24,6 +30,9 @@ function bucket () {
 	cd -;
 }
 
+function curl_note () {
+   curl -F "note=<-" http://sente.cc/cgi-bin/email.pl
+}
 
 
 #stolen from tpope:	http://www.tpope.net/node/108  http://c.tpope.net/
@@ -84,5 +93,6 @@ function rename_ext {
 		  mv $f ${f%$1}$2
 	 done
 }
+
 
 # vim:filetype=sh
