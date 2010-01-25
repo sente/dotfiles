@@ -1,5 +1,27 @@
 #!/bin/bash
 
+
+function file_intersection {
+	ONE=$1
+	TWO=$2
+	if [[ -n $ONE && -f $ONE ]]; then echo $ONE okay; fi
+	if [[ -n $TWO && -f $TWO ]]; then echo $TWO okay; fi
+	(
+		sort -u $ONE
+		sort -u $TWO
+	) | sort | uniq -d
+}
+
+# http://bash-hackers.org/wiki/doku.php/snipplets/prargs
+function print_arglist {
+	printf '"%b"\n' "$0" "$@" | nl -v0 -s": "
+}
+
+function pipelast () {
+	history 2 | sed 1d | colopipe
+	history 2 | sed 1d | emailpipe
+}
+
 function sendlast () {
 	history 1 | colopipe
 }
@@ -15,7 +37,17 @@ function emailpipe () {
 function webdiff () {
 	if [ ! -f "$1" ]; then echo "$1 is not a file"; return 1; fi
 	if [ ! -f "$2" ]; then echo "$2 is not a file"; return 1; fi
-	curl -F "file.1=@$1" -F "file.2=@$2"  http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null | grep -A 100 "BEGIN LINKS" | grep '^http' 
+	F1=$(basename $1); F2=$(basename $2)
+	if [ $F1 = $F2 ]; then
+		F1=$F1.1
+		F2=$F2.2
+	fi
+	curl -F "file.1=@$1;filename=${F1}" \
+	     -F "file.2=@$2;filename=${F2}" \
+		  http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null \
+		  	| grep -A 100 "BEGIN LINKS" \
+				| grep '^http' 
+	#curl -F "file.1=@$1" -F "file.2=@$2"  http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null | grep -A 100 "BEGIN LINKS" | grep '^http' 
 }
 
 function bucket () {
