@@ -4,22 +4,33 @@ hardstatus alwayslastline "%{= KW}%-w%{= wb}%50>%n %t%{-}%+w%<%-22=%{b}%c [%l]"
 nonblock 5
 
 shelltitle '$ |bash'
+
 #screen 0
 
+bufferfile ${HOME}/.screen_buffer
+bind y eval "writebuf" "exec ${HOME}/bin/copy-to-clipboard ${HOME}/.screen_buffer"
 
-# detach the screen if we get disconnected
-autodetach on
+maptimeout 5
+bindkey ^[j prev
+bindkey ^[k next
 
-# show all messages for atleast 1 second
-msgminwait 1
-
-# show the message for at most 3 seconds (defualt 5)
-msgwait 3
+msgwait 3 				# show the message for at most 3 seconds (defualt 5)
+msgminwait 1 			# show all messages for atleast 1 second
+autodetach on 			# detach the screen if we get disconnected
+defscrollback 10000 	# allow for 10,000 lines of scroll back (default 100)
 
 shell -${SHELL}
 
-# allow for 10,000 lines of scroll back (default 100)
-defscrollback 10000
+#bind k next
+#bind h prev
+
+#http://www.saltycrane.com/blog/2008/01/how-to-scroll-in-gnu-screen/
+
+#http://web.mit.edu/gnu/doc/html/screen_11.html
+# C-a : bufferfile /etc/passwd
+# C-a < C-a ]
+# C-a : bufferfile
+
 
 #bindkey j prev
 #bindkey k next
