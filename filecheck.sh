@@ -30,6 +30,7 @@ git-ls-files | while read file; do
       if [ $? -ne 0 ]; then
          stat --printf "%Y\t%y\t%n\n" "$HOME/$file" "$file" | sort
          ls -lt "$HOME/$file" "$file"
+         echo vim -d "$HOME/$file" "$file"
          #echo "colordiff --suppress-common-lines --side-by-side $HOME/$file $file"
          #/usr/bin/colordiff --suppress-common-lines --side-by-side $HOME/$file $file
 

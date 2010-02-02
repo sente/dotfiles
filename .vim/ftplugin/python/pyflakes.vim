@@ -11,6 +11,12 @@
 " Maintainer: Kevin Watters <kevin.watters@gmail.com>
 " Version: 0.1
 
+"TODO -- document
+"changed by stu
+if !has('python')
+	finish
+endif
+
 if exists("b:did_pyflakes_plugin")
     finish " only load once
 else

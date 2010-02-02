@@ -7,15 +7,6 @@ if [[ -s ~/.motd ]] ; then
      cat ~/.motd
 fi
 
-stty stop  undef
-stty start undef
-
-shopt -s histappend
-shopt -s checkwinsize
-
-# COLUMNS is nowa ccessable from within scripts
-export COLUMNS
-
 if [ -f ~/.bash/aliases ]; then
 	   . ~/.bash/aliases
 fi
@@ -24,27 +15,48 @@ if [ -f ~/.bash/functions ]; then
       . ~/.bash/functions
 fi
 
-if [ -f ~/bin/helpers.sh ]; then
-      . ~/bin/helpers.sh
+if [ -f ~/.bash/jail ]; then
+      . ~/.bash/jail
 fi
-
-#if [ -f /etc/bash_completion ]; then
-#      . /etc/bash_completion
-#fi
 
 if [ -f ~/.dir_colors ]; then
 	eval $(dircolors -b ~/.dir_colors)
 fi
+
+if [ -d "${HOME}/bin" ]; then
+	PATH="${PATH}:${HOME}/bin"
+fi
+
+
+export PATH
+
+
+stty stop  undef
+stty start undef
+
+shopt -s histappend
+shopt -s checkwinsize
+
+
+export COLUMNS
+
+
+
+#if [ -f /etc/bash_completion ]; then
+#      . /etc/bash_completion
+#fi
 
 
 #lots of random useful stuff
 #http://www.pixelbeat.org/cmdline.html
 
 
+function _list_paths {
+	echo -e "${PATH//:/\n}"
+}
 
-export IP=`echo $SSH_CLIENT | cut -f1 -d' '`
+
 export LANG=en_US.UTF-8
-export PATH=$PATH:~/bin
 
 export BOLD="\[\033[1m\]"
 export RED="\[\033[1;31m\]"
