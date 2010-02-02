@@ -1,3 +1,5 @@
+#!/bin/sh
+# vim:set ft=sh
 
 alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 alias irc="screen -rdU irc"
