@@ -28,9 +28,9 @@ if [ -f ~/bin/helpers.sh ]; then
       . ~/bin/helpers.sh
 fi
 
-if [ -f /etc/bash_completion ]; then
-      . /etc/bash_completion
-fi
+#if [ -f /etc/bash_completion ]; then
+#      . /etc/bash_completion
+#fi
 
 if [ -f ~/.dir_colors ]; then
 	eval $(dircolors -b ~/.dir_colors)
@@ -56,6 +56,7 @@ export HISTCONTROL=ignoredups:ignorespace
 export HISTFILESIZE=10000
 export HISTTIMEFORMAT='%F %R.%M%t'
 export HISTIGNORE="history *:"
+export PYTHONPATH=${HOME}/code/lib
 
 #http://blog.gnist.org/article.php?story=BashPromptWithExitStatus
 function exitstatus {
