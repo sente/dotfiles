@@ -1,4 +1,5 @@
 
+alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 alias irc="screen -rdU irc"
 alias urg="mutt -R -f /home/stu/Mail/urgmatch"
 alias dim="mutt -f /home/stu/Mail/dimins"
