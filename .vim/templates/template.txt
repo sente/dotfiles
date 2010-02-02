@@ -477,32 +477,34 @@ object 'TASK' "Template" {
 
 object 'INPT' "A" {
    input_type    = "filein",
-   filename      = "fileA.txt",
+   filename      = "../temp/fileA.txt",
    file_type     = "column_headers",
-   aliases       = { },
-   keep_columns  = { },
+	aliases		  = {
+
+	},
 };
 
 object 'INPT' "B" {
    input_type    = "filein",
-   filename      = "fileB.txt",
+   filename      = "../temp/fileB.txt",
    file_type     = "column_headers",
-   aliases       = { },
-   keep_columns  = { },
+	aliases		  = {
+
+	},
 };
 
 object 'PROC' "Look B" {
    process_type  = "lookup",
    join_type     = "inner",
-   inputs        = {"A",    "A"},
-   joins         = {"id_A", "id_B"},
+   inputs        = {"A",    "B"},
+   joins         = {"id", "id"},
 };
 
 object 'OUTP' "out" {
    output_type   = "Fileout",
    file_type     = "column_headers",
    input         = "look B",
-   filename      = "output.txt",
+   filename      = "../temp/output.txt",
 };
 -template-
 
