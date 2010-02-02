@@ -1,16 +1,17 @@
 #!/bin/bash
 
-
-function file_intersection {
-	ONE=$1
-	TWO=$2
-	if [[ -n $ONE && -f $ONE ]]; then echo $ONE okay; fi
-	if [[ -n $TWO && -f $TWO ]]; then echo $TWO okay; fi
-	(
-		sort -u $ONE
-		sort -u $TWO
-	) | sort | uniq -d
+function webget() {
+	URL=$1
+	[[ -z "$OUT" ]] && { echo "webget <URL> --  pipe the contents of <URL> "; return 1; };
+	wget -qO - "$URL"
 }
+
+function assert_file {
+	ONE=$1
+	[[ -z "$ONE" ]] && { echo "MISSING PARAMETER"; return 1; };
+	[[ -f "$ONE" ]] || { echo "$ONE: IS NOT A FILE"; return 1; };
+}
+
 
 # http://bash-hackers.org/wiki/doku.php/snipplets/prargs
 function print_arglist {
@@ -18,16 +19,16 @@ function print_arglist {
 }
 
 function pipelast () {
-	history 2 | sed 1d | colopipe
-	history 2 | sed 1d | emailpipe
+	history 2 | sed 2d | colopipe
+	history 2 | sed 2d | emailpipe
 }
 
 function sendlast () {
-	history 1 | colopipe
+	history 2 | sed 2d | colopipe
 }
 
 function sendlast2 () {
-	history 1 | emailpipe
+	history 2 | sed 2d | emailpipe
 }
 
 function emailpipe () {
