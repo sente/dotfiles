@@ -1,0 +1,64 @@
+#!/bin/sh
+#vim:set ft=sh
+
+function jail_add_path() {
+
+if [[ -d /di/solution/executables ]]; then
+   if ! [[ :$PATH: = *:/di/solution/executables:* ]]; then
+		PATH=$PATH:/di/solution/executables
+		return
+   fi
+fi
+
+if [[ -d /di/atlantis/executables ]]; then
+   if ! [[ :$PATH: = *:/di/atlantis/executables:* ]]; then
+		PATH=$PATH:/di/atlantis/executables
+		return
+   fi
+fi
+
+if [[ -d /di_solution/executables ]]; then
+   if ! [[ :$PATH: = *:/di_solution/executables:* ]]; then
+		PATH=$PATH:/di_solution/executables
+		return
+   fi
+fi
+
+if [[ -d /di_atlantis/executables ]]; then
+   if ! [[ :$PATH: = *:/di_atlantis/executables:* ]]; then
+		PATH=$PATH:/di_atlantis/executables
+		return
+   fi
+fi
+
+}
+
+jail_add_path
+
+function _cmd_logs()
+{
+	local ldirs=()
+
+	if [ -d /di/logs/commands/ ];  then
+		ldirs+=("/di/logs/commands/")	
+	fi
+
+	if [ -d /di/logs/archives/ ];  then
+		ldirs+=("/di/logs/archives/")	
+	fi
+
+	echo ${ldirs[*]}
+
+	awk '{print $4, $5}' /di/logs/commands/integ_all_commands.log
+
+
+}
+
+function script_logs ()
+{
+
+	FILE=$1
+	[[ -f $FILE ]] || exit 1
+
+}
+
