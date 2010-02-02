@@ -57,9 +57,16 @@ set viminfo='50,<1000,s100,:100,n~/.viminfo
 
 let mapleader = ","
 
+"house=_foo_house",
+"monkey=_foo_monkey",
+"town=_foo_town",
+
 map <Leader>3 :s/\t/\r/g<Enter>
 map <Leader>4 :s/\|/\r/g<Enter>
 map <Leader>5 :s/,/\r/g<Enter>
+
+map <Leader>f :s/^/"/<CR>gv:s/$/",/<CR>
+map <Leader>a :s/"\(.*\)"/"\1=_foo_\1"/<CR>
 
 map <Leader>d :diffthis<Return><C-W><C-W>:diffthis<Return>
 map <Leader>o :diffoff<Return><C-W><C-W>:diffoff<Return>:set nowrap<Return>
