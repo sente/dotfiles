@@ -19,6 +19,14 @@ if [ -f ~/.bash/jail ]; then
       . ~/.bash/jail
 fi
 
+if [ -f ~/.bash/extras.sh ]; then
+      . ~/.bash/extras.sh
+fi
+
+if [ -f ~/.bash/setlogic ]; then
+      . ~/.bash/setlogic
+fi
+
 if [ -f ~/.dir_colors ]; then
 	eval $(dircolors -b ~/.dir_colors)
 fi
@@ -41,18 +49,21 @@ shopt -s checkwinsize
 export COLUMNS
 
 
-
-#if [ -f /etc/bash_completion ]; then
-#      . /etc/bash_completion
+#for breaks on castle
+#if [ -f ${HOME}/.bash/bash_completion ]; then
+#      . ${HOME}/.bash/bash_completion
 #fi
 
+if [ -f /etc/bash_completion ]; then
+      . /etc/bash_completion
+fi
 
 #lots of random useful stuff
 #http://www.pixelbeat.org/cmdline.html
 
 
 function _list_paths {
-	echo -e "${PATH//:/\n}"
+	echo -e "${PATH//:/\n}";
 }
 
 
@@ -60,8 +71,8 @@ export LANG=en_US.UTF-8
 
 export BOLD="\[\033[1m\]"
 export RED="\[\033[1;31m\]"
-export GREEN="\[\e[32;1m\]"
-export BLUE="\[\e[34;1m\]"
+export GREEN="\[\033[32;1m\]"
+export BLUE="\[\033[34;1m\]"
 export OFF="\[\033[m\]"
 
 export HISTCONTROL=ignoredups:ignorespace
@@ -77,6 +88,7 @@ function exitstatus {
 		then PS1="${GREEN}\u${OFF}${BLUE}@${OFF}${GREEN}\h \w${OFF} ${BLUE}\$${OFF} "
 		else PS1="${RED}\u${OFF}${BLUE}@${OFF}${RED}\h \w${OFF} ${RED}\$${OFF} "
 	fi
+	echo -ne "\033k\033\\"
 }
 #TODO move .bash_full elsewhere and log the exit statuses
 PROMPT_COMMAND="exitstatus && history -a && history 1 >> ~/.bash_full"
