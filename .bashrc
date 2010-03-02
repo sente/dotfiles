@@ -50,13 +50,13 @@ export COLUMNS
 
 
 #for breaks on castle
-#if [ -f ${HOME}/.bash/bash_completion ]; then
-#      . ${HOME}/.bash/bash_completion
-#fi
-
-if [ -f /etc/bash_completion ]; then
-      . /etc/bash_completion
+if [ -f ${HOME}/.bash/bash_completion ]; then
+      . ${HOME}/.bash/bash_completion
 fi
+
+#if [ -f /etc/bash_completion ]; then
+#      . /etc/bash_completion
+#fi
 
 #lots of random useful stuff
 #http://www.pixelbeat.org/cmdline.html

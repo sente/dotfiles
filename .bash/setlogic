@@ -1,0 +1,171 @@
+#!/bin/sh
+# vim:set ft=sh et sw=4 sts=4:
+
+
+
+
+function assert_file {
+   ONE=$1
+   [[ -z "$ONE" ]] && { echo "MISSING PARAMETER"; return 1; };
+   [[ -f "$ONE" ]] || { echo "$ONE: IS NOT A FILE"; return 1; };
+}
+
+function file_intersection {
+   ONE=$1 TWO=$2
+   assert_file $ONE || return 1
+   assert_file $TWO || return 1
+   (
+      sort -u $ONE
+      sort -u $TWO
+   ) | sort | uniq -d
+}
+
+
+function union() {
+    FIELD=$1
+    if [ -n "$FIELD" ]; then 
+        ((FIELD++))
+        echo "awk -v AF=$FIELD '!a[$AF]++'" >&2
+        set -x
+        awk -v AF=$FIELD '!a[$AF]++'
+        set +x
+    else
+        echo "awk '!a[$0]++'" >&2
+        set -x
+        awk '!a[$0]++'
+        set +x
+    fi
+}
+function slow_union(){
+    set1=$1
+    set2=$2
+    while read a; do while read b; do if [[ "$a" = "$b" ]]; then echo -e "IN\t$a"; fi; done < ${set1}; done < ${set2}
+}
+
+function intersection_help {
+
+local fileA
+local fileB
+fileA=$1
+fileB=$2
+assert_file $fileA || fileA=file_A.txt
+assert_file $fileB || fileB=file_B.txt
+
+
+cat <<EOF
+
+INTERSECTION...
+____________________
+
+comm -12 <(sort $fileA) <(sort $fileB)
+grep -xF -f $fileB $fileB
+sort $fileA $fileB | uniq -d  #(Assuming each of file1 or file2 does not have repeated content)
+
+AWK
+--------------
+
+# prints lines that are in both files; order of arguments is not important
+awk 'NR==FNR{a[$0];next} $0 in a' $file1 $file2
+
+
+INTERSECTION
+____________________
+
+$ comm -12 <(sort set1) <(sort set2)  # outputs insersect of set1 and set2
+
+$ grep -xF -f set1 set2
+
+$ sort set1 set2 | uniq -d
+
+$ join <(sort -n A) <(sort -n B)
+
+$ awk 'NR==FNR { a[$0]; next } $0 in a' set1 set2
+
+COMPLIMENT
+____________________
+
+$ comm -23 <(sort set1) <(sort set2)
+# outputs elements in set1 that are not in set2
+
+$ grep -vxF -f set2 set1           # ditto
+
+$ sort set2 set2 set1 | uniq -u    # ditto
+
+$ awk 'NR==FNR { a[$0]; next } !($0 in a)' set2 set1
+
+SET SYMMETRIC DIFFERENCE
+____________________
+
+$ comm -3 <(sort set1) <(sort set2) | sed 's/\t//g'
+# outputs elements that are in set1 or in set2 but not both
+
+$ comm -3 <(sort set1) <(sort set2) | tr -d '\t'
+
+$ sort set1 set2 | uniq -u
+
+$ cat <(grep -vxF -f set1 set2) <(grep -vxF -f set2 set1)
+
+$ grep -vxF -f set1 set2; grep -vxF -f set2 set1
+
+$ awk 'NR==FNR { a[$0]; next } $0 in a { delete a[$0]; next } 1;
+       END { for (b in a) print b }' set1 set2
+
+  # prints lines only in file1 but not in file2. Reverse the arguments to get the other way round
+    awk 'NR==FNR{a[$0];next} !($0 in a)' file2 file1
+
+EOF
+
+}
+
+function remainders {
+         #
+         ## intersection of file1 and file2
+         #comm -12 <(sort file1) <(sort file2)
+         ## subtraction of file1 from file2
+         #comm -13 <(sort file1) <(sort file2)
+         #
+         #
+         #
+         ## intersection of file1 and file2
+         #grep -xF -f file1 file2
+         ## subtraction of file1 from file2
+         #grep -vxF -f file1 file2
+         #
+         #
+         #
+         ## intersection of file1 and file2
+         #sort file1 file2 | uniq -d  (Assuming each of file1 or file2 does not have repeated content)
+         ## file1-file2 (Subtraction)
+         #sort file1 file2 file2 | uniq -u
+         ## same way for file2 - file1, change last file2 to file1
+         #sort file1 file2 file1 | uniq -u
+         #
+         #
+         #
+         #sort file1 file1 file2 | uniq -c |
+         #awk '{ if ($1 == 2) { $1 = ""; print; } }'
+         #
+         #
+         echo HI
+}
+
+
+##params: file1 file2 [file3 [file4 ... ] ]
+##output: lines that are in common
+#function intersection_of_files_lines(){
+#    if [ "$#" -eq 1 ]; then
+#        sort -u "$1"
+#    elif [ "$#" -eq 2 ]; then
+#        (sort -u "$1";sort -u "$b")|sort|uniq -d
+#    elif [ "$#" -ge 3 ]; then
+#        local a="$1"
+#        local b="$2"
+#        shift 2
+#        # make intersection of $a and $b. Then call again for intersection with rest.
+#        intersection_of_files_lines <( (sort -u "$a";sort -u "$b")|sort|uniq -d) "$@"
+#    fi
+#}
+
+
+
+# vim:filetype=sh
