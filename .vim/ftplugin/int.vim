@@ -19,4 +19,4 @@ setlocal shiftwidth=3
 
 
 map <buffer> <Leader>9 :s/^/\/\//<Return>
-map <buffer> <Leader>9 :s/^/\/\//<Return>
+map <buffer> <Leader>0 :s/\/\///<Return>
