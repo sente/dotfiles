@@ -1,67 +1,102 @@
 #!/bin/sh
-# vim:set ft=sh
+# vim:set ft=sh et sw=4 sts=4:
+
+#function webget() {
+#  URL=$1
+#  [[ -z "$OUT" ]] && { echo "webget <URL> --  pipe the contents of <URL> "; return 1; };
+#  wget -qO - "$URL"
+#}
+
+
+#taken from !du-h in #bash
+function dusk () {
+   du -sk "$@" | 
+   sort -n  |
+   awk '{
+      if ($1 > 1000000)   printf("%.2fG\t%s\n",$1/1000000,$2);
+      else if ($1 > 1000) printf("%.2fM\t%s\n",$1/1000,$2);
+      else                printf("%sk\t%s\n",  $1,$2)
+   }';
+}
 
 function webget() {
-	URL=$1
-	[[ -z "$OUT" ]] && { echo "webget <URL> --  pipe the contents of <URL> "; return 1; };
-	wget -qO - "$URL"
+if [ -x "`which curl`" ]; then
+   get="curl -s"
+else
+   get="wget -qO -"
+fi
+}
+
+function pyget() {
+   python -c "import urllib2; print urllib2.urlopen(\"$1\").read()"
+}
+
+function webheaders() {
+   python -c "import urllib2; print urllib2.urlopen(\"$1\").info()"
 }
 
 function assert_file {
-	ONE=$1
-	[[ -z "$ONE" ]] && { echo "MISSING PARAMETER"; return 1; };
-	[[ -f "$ONE" ]] || { echo "$ONE: IS NOT A FILE"; return 1; };
+   ONE=$1
+   [[ -z "$ONE" ]] && { echo "MISSING PARAMETER"; return 1; };
+   [[ -f "$ONE" ]] || { echo "$ONE: IS NOT A FILE"; return 1; };
 }
 
 
 # http://bash-hackers.org/wiki/doku.php/snipplets/prargs
 function print_arglist {
-	printf '"%b"\n' "$0" "$@" | nl -v0 -s": "
+   printf '"%b"\n' "$0" "$@" | nl -v0 -s": "
 }
 
 function pipelast () {
-	history 2 | sed 2d | colopipe
-	history 2 | sed 2d | emailpipe
+   history 2 | sed 2d | colopipe
+   history 2 | sed 2d | emailpipe
 }
 
 function sendlast () {
-	history 2 | sed 2d | colopipe
+   history 2 | sed 2d | colopipe
 }
 
 function sendlast2 () {
-	history 2 | sed 2d | emailpipe
+   history 2 | sed 2d | emailpipe
 }
 
 function emailpipe () {
    curl -F "note=<-" http://sente.cc/cgi-bin/email.pl
 }
 
+function curlnote () {
+   if [ ! -f "$1" ]; then echo "$1 is not a file"; return 1; fi
+   curl -F "note=<$1" http://sente.cc/cgi-bin/note.pl 2>/dev/null | grep -m1 -o -E '"http://[^"]+"'
+#  curl -F "note=<$1" http://sente.cc/cgi-bin/note.pl 2>/dev/null  
+   echo "http://sente.cc/notes/recent/"
+   #curl -F "note=<$1" http://sente.cc/cgi-bin/note.pl 2>/dev/null | grep -o -E 'http://[0-9_a-zA-Z./-]+'
+}
 function webdiff () {
-	if [ ! -f "$1" ]; then echo "$1 is not a file"; return 1; fi
-	if [ ! -f "$2" ]; then echo "$2 is not a file"; return 1; fi
-	F1=$(basename $1); F2=$(basename $2)
-	if [ $F1 = $F2 ]; then
-		F1=$F1.1
-		F2=$F2.2
-	fi
-	curl -F "file.1=@$1;filename=${F1}" \
-	     -F "file.2=@$2;filename=${F2}" \
-		  http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null \
-		  	| grep -A 100 "BEGIN LINKS" \
-				| grep '^http' 
-	#curl -F "file.1=@$1" -F "file.2=@$2"  http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null | grep -A 100 "BEGIN LINKS" | grep '^http' 
+   if [ ! -f "$1" ]; then echo "$1 is not a file"; return 1; fi
+   if [ ! -f "$2" ]; then echo "$2 is not a file"; return 1; fi
+   F1=$(basename $1); F2=$(basename $2)
+   if [ $F1 = $F2 ]; then
+      F1=$F1.1
+      F2=$F2.2
+   fi
+   curl -F "file.1=@$1;filename=${F1}" \
+        -F "file.2=@$2;filename=${F2}" \
+        http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null \
+         | grep -A 100 "BEGIN LINKS" \
+            | grep '^http' 
+   #curl -F "file.1=@$1" -F "file.2=@$2"  http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null | grep -A 100 "BEGIN LINKS" | grep '^http' 
 }
 
 function bucket () {
-	FILE=$1
-	test -f "$FILE" && 
-	cp -a "$FILE" /home/stu/code/github/bucket/ &&
-	FILE=$(basename $FILE)
-	cd /home/stu/code/github/bucket/ &&
-	git add "$FILE" &&
-	git commit -m "$FILE" &&
-	git push gitweb master && 
-	cd -;
+   FILE=$1
+   test -f "$FILE" && 
+   cp -a "$FILE" /home/stu/code/github/bucket/ &&
+   FILE=$(basename $FILE)
+   cd /home/stu/code/github/bucket/ &&
+   git add "$FILE" &&
+   git commit -m "$FILE" &&
+   git push gitweb master && 
+   cd -;
 }
 
 function curl_note () {
@@ -69,18 +104,18 @@ function curl_note () {
 }
 
 
-#stolen from tpope:	http://www.tpope.net/node/108  http://c.tpope.net/
+#stolen from tpope:  http://www.tpope.net/node/108  http://c.tpope.net/
 function get_tgzfile() {
-	REMOTEFILE=http://sente.cc/stu/dotfiles.tgz
-	DESTDIR=DOTFILES
-	mkdir $DESTDIR || return 1
+   REMOTEFILE=http://sente.cc/stu/dotfiles.tgz
+   DESTDIR=DOTFILES
+   mkdir $DESTDIR || return 1
 
-	if [ -x "`which curl`" ];
-		then get="curl -s"
-		else get="wget -qO -"
-	fi
-	$get $REMOTEFILE | gzip -dc | tar xf - -C $DESTDIR
-	find $REMOTEFILE
+   if [ -x "`which curl`" ];
+      then get="curl -s"
+      else get="wget -qO -"
+   fi
+   $get $REMOTEFILE | gzip -dc | tar xf - -C $DESTDIR
+   find $REMOTEFILE
 }
 
 
@@ -88,8 +123,8 @@ function get_tgzfile() {
 function fstr() # find a string in a set of files
 {
   if [ $# -ne 2 ]; then
-	 echo "Usage: fstr \"pattern\" [files] "
-	 return;
+    echo "Usage: fstr \"pattern\" [files] "
+    return;
   fi
   SMSO=$(tput smso)
   RMSO=$(tput rmso)
@@ -99,34 +134,44 @@ function fstr() # find a string in a set of files
 
 
 function hlocate    { locate -d '/home/stu/.mlocate.db' "$@"; }
-function irdaily	  { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'	 "$@"; }
+function irdaily    { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'   "$@"; }
 
 #function irslocate  { locate -d '/var/lib/mlocate/mlocate.ir-scripts.db' "$@"; }
-#function irlocate   { locate -d '/var/lib/mlocate/mlocate.ir.db'			 "$@"; }
-#function alllocate  { locate -d '/var/lib/mlocate/mlocate.all.db'			 "$@"; }
+#function irlocate   { locate -d '/var/lib/mlocate/mlocate.ir.db'        "$@"; }
+#function alllocate  { locate -d '/var/lib/mlocate/mlocate.all.db'          "$@"; }
 #function snaplocate { locate -d '/var/lib/mlocate/mlocate.snapshots.db'  "$@"; }
-#function intlocate  { locate -d '/var/lib/mlocate/mlocate.ir.db'			 "$@" | grep -E "\.int$|\.dsc$\.sh"; }
+#function intlocate  { locate -d '/var/lib/mlocate/mlocate.ir.db'        "$@" | grep -E "\.int$|\.dsc$\.sh"; }
 
-function ff			  { find . -name "*$@*" -print 2>/dev/null; }
+function ff         { find . -name "*$@*" -print 2>/dev/null; }
 
-function psa		  { ps aux $@; }
-function psu		  { ps  ux $@; }
+function psa        { ps aux $@; }
+function psu        { ps  ux $@; }
 
-function lpsa		  { ps aux $@ | p; }
-function lpsu		  { ps  ux $@ | p; }
+function lpsa       { ps aux $@ | p; }
+function lpsu       { ps  ux $@ | p; }
 
-function pushvim	  { for s in ${@}; do rsync -avPr --delete-after .vim .vimrc .screenrc .inputrc $s:; done; }
+function pushvim    { for s in ${@}; do rsync -avPr --delete-after .vim .vimrc .screenrc .inputrc $s:; done; }
 
-function psgrep	  { ps ax | grep $1 | fgrep -v "grep $1"; }
-function hgrep		  { history | grep $1 | sed '$d'; }
+function psgrep     { ps ax | grep $1 | fgrep -v "grep $1"; }
+function hgrep      { history | grep $1 | sed '$d'; }
 
 
 # Rename *.foo to *.bar
 function rename_ext {
-	 for f in *.$1; do
-		  mv $f ${f%$1}$2
-	 done
+    for f in *.$1; do
+        mv $f ${f%$1}$2
+    done
 }
 
+function wget_mirror()
+{
+   URL="$1"
+   NEW="${URL//\//^}"
+   mkdir "$NEW"
+   (
+      cd "$NEW" &&
+      wget -nd -pHEKk "$URL";
+   )        
+}
 
 # vim:filetype=sh
