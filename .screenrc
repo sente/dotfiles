@@ -1,9 +1,15 @@
 
 hardstatus alwayslastline "%{= KW}%-w%{= wb}%50>%n %t%{-}%+w%<%-22=%{b}%c [%l]"
+#caption splitonly '%?%F%{=u R}%:%{+u k}%?---> %n %t <---%{-}%>%{=u b}.%100>'
+#caption string '%?%F%{=u R}---> %n %t <---%:%{=u b}.... %n %t ....%?%{-}%>%{=u b}%100>'
+#caption splitonly '%?%F%{=u R}--->%:%{= kw}...[%?%?%F%{=u r}%:%{= kw}%?%n %t%?%F%{=u R}<---%:%{= kw}]...%?%{-}%>%{=u b} %100>'
 
+#  run FOO if the current window is selected
+#  else run BAR:
+#  %?%F FOO %: BAR %?
+caption splitonly '%?%F%{=u R}------>%:%{= kw}......[%?%?%F%{= kY}%:%{= kw}%? %n %t %?%F%{=u R}<------%:%{= kw}]......%?%{-}%>%{=u w}.%100>'
 nonblock 5
 
-shelltitle '$ |bash'
 
 #screen 0
 
@@ -21,6 +27,23 @@ defscrollback 10000 	# allow for 10,000 lines of scroll back (default 100)
 
 shell -${SHELL}
 
+
+shelltitle '$ |bash'
+
+#register s ^a0^aS^a^I^a1
+#bind G process s
+bind G eval 'split' 'focus down' 'next'
+
+
+
+# http://www.frexx.de/xterm-256-notes/
+# terminfo and termcap for nice 256 color terminal
+# allow bold colors - necessary for some reason
+attrcolor b ".I"
+# tell screen how to set colors. AB = background, AF=foreground
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+# erase background with current bg color
+defbce "on" 
 #bind k next
 #bind h prev
 
