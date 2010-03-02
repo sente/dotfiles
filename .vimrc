@@ -1,14 +1,39 @@
 set nocompatible
 
+
+"useful websites:
+" http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html
+" http://rayninfo.co.uk/vimtips.html
+
+
 if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
     set ttymouse=xterm
 endif
+
+
+
+
 
 "http://rayninfo.co.uk/vimtips.html
 "show lines matching word under cursor <cword> (super)
 "[I
 "load VIM without .vimrc and plugins (clean VIM)
 "gvim -u NONE -U NONE -N
+map <F5> :redir @r><CR>:<C-P><CR>:echo "output saved into @r"
+fun! SaveOutput()
+	let r=""
+endf
+
+
+"write current settings to a file:
+fun! Save_Settings_(id)
+	exec "mk! "      . "${HOME}/" . a:id . "_settings.txt"
+	exec "mkview! "  . "${HOME}/" . a:id . "_view.txt"
+	exec "mkvimrc! " . "${HOME}/" . a:id . "_vimrc.txt"
+	"alternatively, we could say:
+	"mk! `=a:id.'_settings.txt'`
+endf
+:command! -nargs=1 SaveSettings    :call Save_Settings_(<q-args>)
 
 
 filetype plugin indent on
@@ -80,7 +105,7 @@ if has('python')
 	runtime! lodgeit.vim
 	"http://www.vim.org/scripts/script.php?script_id=1965
 	"http://paste.pocoo.org/help/integration/
-	map <C-P> :Lodgeit<CR>
+	map <leader><leader><C-P> :Lodgeit<CR>
 endif
 
 
