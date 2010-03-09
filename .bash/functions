@@ -100,18 +100,20 @@ function bucket () {
 }
 
 function dotadd () {
+   set -x
    FILE=$1
-   cd /home/stu/code/github/dotfiles/ &&
    test -f "$FILE" && 
-   echo "cp ${HOME}/$FILE /home/stu/code/github/dotfiles/$FILE"
-   echo "cd /home/stu/code/github/dotfiles/"
-   echo "git status"
-   echo "git add $FILE"
-   echo "git commit -m ";
+   cp "${HOME}/${FILE}" "/home/stu/code/github/dotfiles/${FILE}" &&
+   cd /home/stu/code/github/dotfiles/ &&
+   git status &&
+   git add $FILE &&
+   git commit -m "$@" &&
+   git-archive --format=tar HEAD > /home/stu/dotfiles.tar &&
+   cd - 
+   set +x
 #   git add "$FILE" &&
 #   git commit -m "$FILE" &&
 #   git push gitweb master && 
-   cd -;
 }
 
 function git-tar () {
