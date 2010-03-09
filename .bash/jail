@@ -54,9 +54,9 @@ function _cmd_logs()
 
 }
 
-[ -d /di_atlantis/dl-dataroot/ ] && DATAROOT=/di/solution/dataroot
-[ -d /di/solution/dl-dataroot/ ] && DATAROOT=/di/solution/dataroot
-export DATAROOT
+[ -d /di_atlantis/dl-dataroot/ ] && export DATAROOT=/di_atlantis/dl-dataroot
+[ -d /di/solution/dl-dataroot/ ] && export DATAROOT=/di/solution/dl-dataroot
+
 
 function oldmodels()
 {
