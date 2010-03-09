@@ -66,9 +66,9 @@ function oldmodels()
 function model_dirs()
 {
     TIME=$1
-    find -L /di/solution/dl-dataroot/ -name "*.md*" -type f -exec dirname {} \; | sort -u
+    find -L $DATAROOT/data/ -name "*.md*" -type f -exec dirname {} \; | sort -u
 
-    find -L /di/solution/dl-dataroot/ -name "*.md*" -type f -exec dirname {} \; | sort -u |
+    find -L $DATAROOT/data/ -name "*.md*" -type f -exec dirname {} \; | sort -u |
         while read line; do
             find $line -maxdepth 1 -type f -mtime +${TIME} -name "*.md*" -exec \
             stat --printf "%b\t%n\t%y\n" {} +;
