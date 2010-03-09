@@ -114,6 +114,11 @@ function dotadd () {
    cd -;
 }
 
+function git-tar () {
+    cd /home/stu/code/github/dotfiles &&
+    git-status &&
+    git-archive --format=tar HEAD > /home/stu/dotfiles.tar
+}
 
 
 
