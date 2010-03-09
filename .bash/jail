@@ -65,7 +65,7 @@ function oldmodels()
 
 function model_dirs()
 {
-    TIME=$1
+    TIME={$1-10}
     find -L $DATAROOT/data/ -name "*.md*" -type f -exec dirname {} \; | sort -u
 
     find -L $DATAROOT/data/ -name "*.md*" -type f -exec dirname {} \; | sort -u |
