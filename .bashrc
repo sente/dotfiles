@@ -35,6 +35,9 @@ if [ -d "${HOME}/bin" ]; then
 	PATH="${PATH}:${HOME}/bin"
 fi
 
+epochtime () {
+	date --date '1970-01-01 UTC '$1' seconds' $2
+}
 
 export PATH
 

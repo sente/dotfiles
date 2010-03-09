@@ -1,10 +1,28 @@
 #!/bin/sh
 # vim:set ft=sh et sw=4 sts=4:
 
+wordlength(){ for i in "$@"; do echo "${#i} ${i}"; done };
 
+function most_recent_x() {
+    prog="$1"
+    num="$2"
+    test -x `which $prog` || { echo $prog is not executable; return 1; }
+    shift
+    shift
+    echo $files
+    files="`ls -1t "$@" 2>/dev/null|head -$num`"
+#    if [ -f "$file" ]; then
+        echo "$prog" $files
+        sleep 1
+        "$prog" $files
+
+#    else
+#        "$prog"
+#    fi
+}
 function most_recent() {
     prog="$1"
-    -x $prox || { echo $prog is not executable; return 1; }
+    test -x `which $prog` || { echo $prog is not executable; return 1; }
     shift
     file="`ls -1t "$@" 2>/dev/null|head -1`"
     if [ -f "$file" ]; then
