@@ -99,6 +99,24 @@ function bucket () {
    cd -;
 }
 
+function dotadd () {
+   FILE=$1
+   cd /home/stu/code/github/dotfiles/ &&
+   test -f "$FILE" && 
+   echo "cp ${HOME}/$FILE /home/stu/code/github/dotfiles/$FILE"
+   echo "cd /home/stu/code/github/dotfiles/"
+   echo "git status"
+   echo "git add $FILE"
+   echo "git commit -m ";
+#   git add "$FILE" &&
+#   git commit -m "$FILE" &&
+#   git push gitweb master && 
+   cd -;
+}
+
+
+
+
 function curl_note () {
    curl -F "note=<-" http://sente.cc/cgi-bin/email.pl
 }
