@@ -98,17 +98,32 @@ function bucket () {
    git push gitweb master && 
    cd -;
 }
-
 function dotadd () {
    FILE=$1
+   arr=("$@")
+   [ ${#arr[@]} -lt 2 ] && { echo "must pass params"; return 1; }
+
    test -f "$FILE" && 
+   echo cp "${HOME}/${FILE}" "/home/stu/code/github/dotfiles/${FILE}" &&
+   echo cd /home/stu/code/github/dotfiles/ &&
+   echo git status &&
+   echo git add "${FILE}" &&
+   echo git commit -m ${arr[1]} &&
+   echo git status &&
+   echo git-archive --format=tar HEAD > /home/stu/dotfiles.tar &&
+   echo cd - 
+
+
    cp "${HOME}/${FILE}" "/home/stu/code/github/dotfiles/${FILE}" &&
    cd /home/stu/code/github/dotfiles/ &&
    git status &&
    git add "${FILE}" &&
-   git commit -m "$@" &&
+   git commit -m ${arr[1]} &&
+   git status &&
    git-archive --format=tar HEAD > /home/stu/dotfiles.tar &&
    cd - 
+
+
 #   git add "$FILE" &&
 #   git commit -m "$FILE" &&
 #   git push gitweb master && 
