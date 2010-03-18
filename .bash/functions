@@ -8,6 +8,81 @@
 #}
 
 
+# enhanced pgrep # from meonkey's .bashrc
+p() {
+    prog=$1
+    found=`pgrep $prog`
+    # command name width
+    if [ ! -z "$2" ]
+    then
+        cmdwide='cmd -ww'
+    else
+        cmdwide='comm'
+    fi
+    if [ ! -z "$prog" ] && [ ! -z "$found" ]
+    then
+        ps -o user,pid,ppid,%cpu,%mem,stat,$cmdwide -p `pgrep $prog`
+    fi
+}
+
+pw() {
+    p "$1" show_wide_command_line
+}
+
+
+mcd ()
+{
+    mkdir "$@" && cd "${!#}"
+}
+
+cdl() {
+if [ "$1" ]
+    then builtin cd "$1" && ll
+    else builtin cd && ll
+fi
+}
+
+function ttmp () {
+    DIR=${HOME}/tmp
+    TEMPLATE=tmp.$(date "+%m-%d")
+
+    if [ -d $DIR/$TEMPLATE/ ]; then
+         cd $DIR/$TEMPLATE && ls -l *
+    else
+        mkdir $DIR/$TEMPLATE && cd $DIR/$TEMPLATE
+    fi
+}
+
+if [ "$(whoami)" != "spowers" ]; then
+
+    function curl() {
+        loggertown curl "$@"
+        command curl "$@"
+    }
+    function tar() {
+        loggertown tar "$@"
+        command tar "$@"
+    }
+    function find() {
+        loggertown find "$@"
+        command find "$@"
+    }
+    function ssh() {
+        loggertown ssh "$@"
+        command ssh "$@"
+    }
+    function wget() {
+        loggertown wget "$@"
+        command wget "$@"
+    }
+
+fi
+
+
+function epochtime () {
+	date --date '1970-01-01 UTC '$1' seconds' $2
+}
+
 #taken from !du-h in #bash
 function dusk () {
    du -sk "$@" | 
