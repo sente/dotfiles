@@ -4,43 +4,55 @@ if [[ $- != *i* ]] ; then
 fi
 
 if [[ -s ~/.motd ]] ; then
-     cat ~/.motd
+    cat ~/.motd
 fi
 
 if [ -f ~/.bash/aliases ]; then
-	   . ~/.bash/aliases
+        . ~/.bash/aliases
 fi
 
 if [ -f ~/.bash/functions ]; then
-      . ~/.bash/functions
+        . ~/.bash/functions
 fi
 
 if [ -f ~/.bash/jail ]; then
-      . ~/.bash/jail
+        . ~/.bash/jail
 fi
 
 if [ -f ~/.bash/extras.sh ]; then
-      . ~/.bash/extras.sh
+        . ~/.bash/extras.sh
 fi
 
 if [ -f ~/.bash/setlogic ]; then
-      . ~/.bash/setlogic
+        . ~/.bash/setlogic
 fi
 
 if [ -f ~/.dir_colors ]; then
-	eval $(dircolors -b ~/.dir_colors)
+    eval $(dircolors -b ~/.dir_colors)
 fi
+
+if [ -f ${HOME}/.bash/bash_completion ]; then
+        . ${HOME}/.bash/bash_completion
+fi
+
+#if [ -f /etc/bash_completion ]; then
+#       . /etc/bash_completion
+#fi
 
 if [ -d "${HOME}/bin" ]; then
-	PATH="${PATH}:${HOME}/bin"
+    PATH="${PATH}:${HOME}/bin"
 fi
 
 
-export PATH
 
+export PYTHONPATH=${HOME}/code/lib
+export LANG=en_US.UTF-8
+export GREP_OPTIONS="--color=auto"
+export HISTCONTROL=ignoredups:ignorespace
+export HISTFILESIZE=10000
+export HISTTIMEFORMAT='%F %R.%M%t'
+export HISTIGNORE="history *:"
 
-stty stop  undef
-stty start undef
 
 shopt -s histappend
 
@@ -52,65 +64,75 @@ shopt -s checkwinsize
 shopt -s no_empty_cmd_completion
 
 
-#for breaks on castle
-if [ -f ${HOME}/.bash/bash_completion ]; then
-      . ${HOME}/.bash/bash_completion
-fi
-
-#if [ -f /etc/bash_completion ]; then
-#      . /etc/bash_completion
-#fi
-
-#lots of random useful stuff
-#http://www.pixelbeat.org/cmdline.html
-
-
-function _list_paths {
-	echo -e "${PATH//:/\n}";
-}
-
-
-export LANG=en_US.UTF-8
-
-export BOLD="\[\033[1m\]"
-export RED="\[\033[1;31m\]"
-export GREEN="\[\033[32;1m\]"
-export BLUE="\[\033[34;1m\]"
-export OFF="\[\033[m\]"
-
-export GREP_OPTIONS="--color=auto"
-export HISTCONTROL=ignoredups:ignorespace
-export HISTFILESIZE=10000
-export HISTTIMEFORMAT='%F %R.%M%t'
-export HISTIGNORE="history *:"
-export PYTHONPATH=${HOME}/code/lib
+stty stop  undef
+stty start undef
 
 #http://blog.gnist.org/article.php?story=BashPromptWithExitStatus
 function exitstatus {
-	EXITSTATUS="$?"
-	if [ "${EXITSTATUS}" -eq 0 ]
-		then PS1="${GREEN}\u${OFF}${BLUE}@${OFF}${GREEN}\h \w${OFF} ${BLUE}\$${OFF} "
-		else PS1="${RED}\u${OFF}${BLUE}@${OFF}${RED}\h \w${OFF} ${RED}\$${OFF} "
-	fi
-	echo -ne "\033k\033\\"
+
+    EXITSTATUS="$?"
+    local NONE="\[\033[0m\]"     # unsets color to term's fg color
+
+    # regular colors
+    local K="\[\033[0;30m\]"     # black
+    local R="\[\033[0;31m\]"     # red
+    local G="\[\033[0;32m\]"     # green
+    local Y="\[\033[0;33m\]"     # yellow
+    local B="\[\033[0;34m\]"     # blue
+    local M="\[\033[0;35m\]"     # magenta
+    local C="\[\033[0;36m\]"     # cyan
+    local W="\[\033[0;37m\]"     # white
+
+    # empahsized (bolded) colors
+    local EMK="\[\033[1;30m\]"
+    local EMR="\[\033[1;31m\]"
+    local EMG="\[\033[1;32m\]"
+    local EMY="\[\033[1;33m\]"
+    local EMB="\[\033[1;34m\]"
+    local EMM="\[\033[1;35m\]"
+    local EMC="\[\033[1;36m\]"
+    local EMW="\[\033[1;37m\]"
+
+    # background colors
+    local BGK="\[\033[40m\]"
+    local BGR="\[\033[41m\]"
+    local BGG="\[\033[42m\]"
+    local BGY="\[\033[43m\]"
+    local BGB="\[\033[44m\]"
+    local BGM="\[\033[45m\]"
+    local BGC="\[\033[46m\]"
+    local BGW="\[\033[47m\]"
+
+    local RED="\[\033[1;31m\]"
+    local GREEN="\[\033[32;1m\]"
+    local BLUE="\[\033[34;1m\]"
+    local OFF="\[\033[m\]"
+
+
+    local UC=$NONE              # user's color
+    [ $UID -eq "0" ] && UC=$R   # root's color
+
+
+
+    if [[ "$PWD" != "$(readlink -m $PWD)" ]]; then
+         if [ "${EXITSTATUS}" -eq 0 ]
+                then PS1="${EMK}[${UC}\u${EMK}@${UC}\h ${EMG}\w ${EMK}]${UC}\\$ ${NONE}"
+                else PS1="${EMK}[${UC}\u${BLUE}@${EMK}${UC}\h ${EMG}\w${EMK}]${UC}\\$ ${NONE}"
+         fi
+    else
+         if [ "${EXITSTATUS}" -eq 0 ]
+                then PS1="${GREEN}\u${OFF}${BLUE}@${OFF}${GREEN}\h \w${OFF} ${BLUE}\$${OFF} "
+                else PS1="${RED}\u${OFF}${BLUE}@${OFF}${RED}\h \w${OFF} ${RED}\$${OFF} "
+         fi
+    fi
+
+    echo -ne "\033k\033\\"
 }
+
 #TODO move .bash_full elsewhere and log the exit statuses
-PROMPT_COMMAND="exitstatus && history -a && history 1 >> ~/.bash_full"
 
-#ignore this
+[[ $(whoami) == "spowers" ]] && PROMPT_COMMAND="exitstatus"
+[[ $(whoami) == "stu" ]]     && PROMPT_COMMAND="exitstatus && history -a && history 1 >> ~/.bash_full"
 
-#complete -A setopt set
-#complete -A user groups id
-#complete -A binding bind
-#complete -A helptopic help
-#complete -A alias {,un}alias
-#complete -A signal -P '-' kill
-#complete -A stopped -P '%' fg bg
-#complete -A job -P '%' jobs disown
-#complete -A variable readonly unset
-#complete -A file -A directory ln chmod
-#complete -A user -A hostname finger pinky
-#complete -A directory find cd pushd {mk,rm}dir
-#complete -A file -A directory -A user chown
-#complete -A file -A directory -A group chgrp
-#complete -A command man which whatis whereis sudo info apropos
+
+# vim: set et ts=4 sws=4 sw=4:

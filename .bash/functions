@@ -1,5 +1,6 @@
 #!/bin/sh
-# vim:set ft=sh et sw=4 sts=4:
+# vim: set ft=sh et sw=4 sts=4 ts=4:
+
 
 #function webget() {
 #  URL=$1
@@ -59,6 +60,7 @@ function _list_paths {
 }
 
 
+#we don't want these functions defined on any IR servers
 if [ "$(whoami)" != "spowers" ]; then
 
     function curl() {

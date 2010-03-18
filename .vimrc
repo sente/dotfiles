@@ -12,9 +12,13 @@ endif
 
 
 
-:au BufNewFile,BufRead,BufEnter *.dat set noet
-":au BufNewFile,BufRead,BufEnter *.txt set noet
-":au BufNewFile,BufRead,BufEnter *.sh  set et
+au BufNewFile,BufRead,BufEnter *.dat set noet
+au BufNewFile,BufRead,BufEnter *.txt set noet
+au BufNewFile,BufRead,BufEnter *.sh,*/.bash/*,  set ft=sh
+
+autocmd FileType sh    setlocal ai et sta sw=4 sts=4 ts=4
+
+
 
 
 "http://rayninfo.co.uk/vimtips.html
@@ -64,8 +68,8 @@ set smartcase
 
 set mouse=a
 
-set tabstop=3     
-set shiftwidth=3  
+"set tabstop=3     
+"set shiftwidth=3  
 set laststatus=2
 
 set highlight=l:Visual 
