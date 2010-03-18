@@ -1,6 +1,11 @@
 #!/bin/sh
 # vim:set ft=sh et sw=4 sts=4:
 
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
 alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 alias irc="screen -rdU irc"
 alias urg="mutt -R -f /home/stu/Mail/urgmatch"
