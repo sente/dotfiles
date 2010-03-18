@@ -53,6 +53,12 @@ function ttmp () {
     fi
 }
 
+
+function _list_paths {
+	echo -e "${PATH//:/\n}";
+}
+
+
 if [ "$(whoami)" != "spowers" ]; then
 
     function curl() {

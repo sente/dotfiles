@@ -12,6 +12,9 @@ endif
 
 
 
+:au BufNewFile,BufRead,BufEnter *.dat set noet
+":au BufNewFile,BufRead,BufEnter *.txt set noet
+":au BufNewFile,BufRead,BufEnter *.sh  set et
 
 
 "http://rayninfo.co.uk/vimtips.html
@@ -82,10 +85,10 @@ set viminfo='50,<1000,s100,:100,n~/.viminfo
 
 let mapleader = ","
 
-"house=_foo_house",
-"monkey=_foo_monkey",
-"town=_foo_town",
+set pastetoggle=<F5>
 
+map <C-p> :bnext<CR>
+map <C-n> :bprevious<CR>
 map <Leader>3 :s/\t/\r/g<Enter>
 map <Leader>4 :s/\|/\r/g<Enter>
 map <Leader>5 :s/,/\r/g<Enter>
@@ -127,13 +130,9 @@ map <C-H> <C-W>h
 map <C-J> <C-W>j
 map <C-K> <C-W>k
 map <C-l> <C-W>l
-map <C-N> <C-W>w
 
 
 
-:au BufNewFile,BufRead,BufEnter *.dat set noet
-:au BufNewFile,BufRead,BufEnter *.txt set noet
-:au BufNewFile,BufRead,BufEnter *.sh  set et
 
 runtime! ftplugin/man.vim
 source $HOME/.vim/pycol.vim
@@ -263,3 +262,4 @@ let MRU_Window_Height = 15
 :command! -n=* YearMon         :call Insert("year_mon")
 :command! -n=* Template        :call Insert("template")
 :command! -n=* Builder         :call Insert("builder")
+
