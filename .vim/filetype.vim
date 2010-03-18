@@ -19,6 +19,7 @@ augroup filetypedetect
   au! BufRead,BufNewFile *.mrc		setfiletype mhonarc
 
   au! BufRead,BufNewFile *.py		setfiletype python
+  au! BufRead,BufNewFile *.snip		setfiletype snip
 
 
 augroup END
