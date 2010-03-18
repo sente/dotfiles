@@ -35,9 +35,6 @@ if [ -d "${HOME}/bin" ]; then
 	PATH="${PATH}:${HOME}/bin"
 fi
 
-epochtime () {
-	date --date '1970-01-01 UTC '$1' seconds' $2
-}
 
 export PATH
 
@@ -46,10 +43,13 @@ stty stop  undef
 stty start undef
 
 shopt -s histappend
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-
-export COLUMNS
+# Don't try to find all the command possibilities when hitting TAB on an empty line.
+shopt -s no_empty_cmd_completion
 
 
 #for breaks on castle
@@ -78,6 +78,7 @@ export GREEN="\[\033[32;1m\]"
 export BLUE="\[\033[34;1m\]"
 export OFF="\[\033[m\]"
 
+export GREP_OPTIONS="--color=auto"
 export HISTCONTROL=ignoredups:ignorespace
 export HISTFILESIZE=10000
 export HISTTIMEFORMAT='%F %R.%M%t'
