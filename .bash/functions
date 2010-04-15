@@ -1,27 +1,55 @@
 #!/bin/sh
 # vim: set ft=sh et sw=4 sts=4 ts=4:
 
-
-#function webget() {
-#  URL=$1
-#  [[ -z "$OUT" ]] && { echo "webget <URL> --  pipe the contents of <URL> "; return 1; };
-#  wget -qO - "$URL"
-#}
-
-
 # enhanced pgrep # from meonkey's .bashrc
-p() {
+
+function list_latest()
+{
+    local file files=("${1:-.}/"*) latest=$files;
+    for file in "${files[@]}"; do
+        [[ $file -nt $latest ]] && latest=$file;
+    done;
+    echo "$latest"
+}
+
+function list_files()
+{
+    local file files=("${1:-.}/"*)
+    for file in "${files[@]}"; do
+        [[ -f "$file" ]] && echo $file
+    done;
+}
+
+function _list_dotfiles()
+{
+    local file files=("${1:-.}/".*)
+    for file in "${files[@]}"; do
+        [[ "$file" = "./." ]] && continue
+        [[ "$file" = "./.." ]] && continue
+        [[ -d "$file" ]] && echo $file
+    done
+}
+
+function _list_paths {
+	echo -e "${PATH//:/\n}";
+}
+
+# http://bash-hackers.org/wiki/doku.php/snipplets/prargs
+function print_arglist () {
+   printf '"%b"\n' "$0" "$@" | nl -v0 -s": "
+}
+
+function inspect() { echo "\$$1 = ${!1}"; };
+
+function p() {
     prog=$1
     found=`pgrep $prog`
     # command name width
     if [ ! -z "$2" ]
-    then
-        cmdwide='cmd -ww'
-    else
-        cmdwide='comm'
+        then cmdwide='cmd -ww'
+        else cmdwide='comm'
     fi
-    if [ ! -z "$prog" ] && [ ! -z "$found" ]
-    then
+    if [ ! -z "$prog" ] && [ ! -z "$found" ]; then
         ps -o user,pid,ppid,%cpu,%mem,stat,$cmdwide -p `pgrep $prog`
     fi
 }
@@ -31,7 +59,7 @@ pw() {
 }
 
 
-mcd ()
+mkcd ()
 {
     mkdir "$@" && cd "${!#}"
 }
@@ -43,7 +71,7 @@ if [ "$1" ]
 fi
 }
 
-function ttmp () {
+function mkt () {
     DIR=${HOME}/tmp
     TEMPLATE=tmp.$(date "+%m-%d")
 
@@ -54,14 +82,17 @@ function ttmp () {
     fi
 }
 
-
-function _list_paths {
-	echo -e "${PATH//:/\n}";
-}
-
-
 #we don't want these functions defined on any IR servers
 if [ "$(whoami)" != "spowers" ]; then
+
+    function snapshot-show () {
+        arg=$(readlink -m "$1")
+        echo "arg=$arg"
+        snapdirs="/snapshots/*.*/sente"
+        for f in $snapdirs; do
+            echo ${f}${arg}
+        done
+    }
 
     function curl() {
         loggertown curl "$@"
@@ -125,11 +156,6 @@ function assert_file {
 }
 
 
-# http://bash-hackers.org/wiki/doku.php/snipplets/prargs
-function print_arglist {
-   printf '"%b"\n' "$0" "$@" | nl -v0 -s": "
-}
-
 function pipelast () {
    history 2 | sed 2d | colopipe
    history 2 | sed 2d | emailpipe
@@ -181,7 +207,7 @@ function bucket () {
    git push gitweb master && 
    cd -;
 }
-function dotadd () {
+function dotadd() {
    FILE=$1
    arr=("$@")
    [ ${#arr[@]} -lt 2 ] && { echo "must pass params"; return 1; }
@@ -218,8 +244,6 @@ function git-tar () {
     git-archive --format=tar HEAD > /home/stu/dotfiles.tar
 }
 
-
-
 function curl_note () {
    curl -F "note=<-" http://sente.cc/cgi-bin/email.pl
 }
@@ -240,20 +264,6 @@ function get_tgzfile() {
 }
 
 
-
-function fstr() # find a string in a set of files
-{
-  if [ $# -ne 2 ]; then
-    echo "Usage: fstr \"pattern\" [files] "
-    return;
-  fi
-  SMSO=$(tput smso)
-  RMSO=$(tput rmso)
-  find . -type f -name "*${2}" -print | xargs grep -sin "$1" | \
-  sed "s/$1/$SMSO$1$RMSO/gI"
-}
-
-
 function hlocate    { locate -d '/home/stu/.mlocate.db' "$@"; }
 function irdaily    { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'   "$@"; }
 
@@ -261,14 +271,6 @@ function locate_migration { locate -d '/var/lib/mlocate/mlocate.migration.db' "$
 function locate_scratch { locate -d '/var/lib/mlocate/mlocate.scratch.db' "$@";  }
 function locate_irdaily { locate -d '/var/lib/mlocate/mlocate.ir-daily.db' "$@";  }
 function locate_snapshot { ls -1 /snapshots/locate/*.db; locate -d '/snapshots/locate/daily.0.db' "$@";  }
-
-
-
-#function irslocate  { locate -d '/var/lib/mlocate/mlocate.ir-scripts.db' "$@"; }
-#function irlocate   { locate -d '/var/lib/mlocate/mlocate.ir.db'        "$@"; }
-#function alllocate  { locate -d '/var/lib/mlocate/mlocate.all.db'          "$@"; }
-#function snaplocate { locate -d '/var/lib/mlocate/mlocate.snapshots.db'  "$@"; }
-#function intlocate  { locate -d '/var/lib/mlocate/mlocate.ir.db'        "$@" | grep -E "\.int$|\.dsc$\.sh"; }
 
 function ff         { find . -name "*$@*" -print 2>/dev/null; }
 
@@ -278,16 +280,17 @@ function psu        { ps  ux $@; }
 function lpsa       { ps aux $@ | p; }
 function lpsu       { ps  ux $@ | p; }
 
-function pushvim    { for s in ${@}; do rsync -avPr --delete-after .vim .vimrc .screenrc .inputrc $s:; done; }
-
 function psgrep     { ps ax | grep $1 | fgrep -v "grep $1"; }
-function hgrep      { history | grep $1 | sed '$d'; }
 
 
 # Rename *.foo to *.bar
 function rename_ext {
-    for f in *.$1; do
-        mv $f ${f%$1}$2
+    fr=$1
+    to=$2
+    shift; shift; 
+    for f in "${@}"; do
+        #make sure the file extension matches
+        [[ ${f##*.} == "$fr" ]] && echo "mv $f ${f%$fr}$to"
     done
 }
 
@@ -301,5 +304,3 @@ function wget_mirror()
       wget -nd -pHEKk "$URL";
    )        
 }
-
-# vim:filetype=sh

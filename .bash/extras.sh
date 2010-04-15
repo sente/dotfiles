@@ -1,6 +1,14 @@
 #!/bin/sh
 # vim:set ft=sh et sw=4 sts=4:
 
+
+function translate() 
+{
+    #stu@sente ~ $ translate "what time does school start?" en es
+    #¿A qué hora empiezan la escuela?
+    wget -qO- "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=$1&langpair=$2|${3:-en}" | sed 's/.*"translatedText":"\([^"]*\)".*}/\1\n/';
+}
+
 wordlength(){ for i in "$@"; do echo "${#i} ${i}"; done };
 
 function most_recent_x() {
@@ -11,15 +19,11 @@ function most_recent_x() {
     shift
     echo $files
     files="`ls -1t "$@" 2>/dev/null|head -$num`"
-#    if [ -f "$file" ]; then
-        echo "$prog" $files
-        sleep 1
-        "$prog" $files
-
-#    else
-#        "$prog"
-#    fi
+    echo "$prog" $files
+    sleep 1
+    "$prog" $files
 }
+
 function most_recent() {
     prog="$1"
     test -x `which $prog` || { echo $prog is not executable; return 1; }
@@ -38,14 +42,6 @@ function tar_out() {
     ( tar cf - "$@" )
 }
 
-# stu@sente ~ $ pgpg ssh
-#   PID USER      NI TT       STAT  STARTED COMMAND
-#    1754 root       0 ?        Ss     Feb 15 /usr/sbin/sshd
-#    27176 root       0 ?        Ss     Feb 27  \_ sshd: bobz [priv]
-#    27179 bobz       0 ?        S      Feb 27  |   \_ sshd: bobz@pts/3
-#    32190 root       0 ?        Ss   01:37:02  \_ sshd: stu [priv]
-#    32192 stu        0 ?        S    01:37:03  |   \_ sshd: stu@notty
-#     8868 root       0 ?        Ss   04:06:55  \_ sshd: stu [priv]
 
 function pwd_in_path()
 {

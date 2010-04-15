@@ -2,58 +2,40 @@ set nocompatible
 
 "useful websites:
 " http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html
-" http://rayninfo.co.uk/vimtips.html
+" http://got-ravings.blogspot.com/2008/08/vim-pr0n-making-statuslines-that-own.html
+" http://RAYNInfo.co.uk/vimtips.html
 
 
 if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
     set ttymouse=xterm
 endif
 
-
-"au BufNewFile,BufRead,BufEnter *.dat set noet
-"au BufNewFile,BufRead,BufEnter *.txt set noet
-"au BufNewFile,BufRead,BufEnter *.sh,*/.bash/*,  set ft=sh
-"au BufNewFile,BufRead,BufEnter *.rb,*.erb,*.rake set ft=ruby
-"au BufNewFile,BufRead,BufEnter *.pl* setlocal ft=pl ai et sta sw=4 sts=4
-
-
-"au! FileType sh    setlocal ai et sta sw=4 sts=4 ts=4
-"au! FileType ruby  setlocal ai et sta sw=2 sts=2 ts=2
-
-
-
-"show lines matching word under cursor <cword> (super)
-"[I
-"load VIM without .vimrc and plugins (clean VIM)
-"gvim -u NONE -U NONE -N
-map <F5> :redir @r><CR>:<C-P><CR>:echo "output saved into @r"
-fun! SaveOutput()
-	let r=""
-endf
-
-
-
 filetype plugin indent on
 syntax on
-
-"au BufNewFile,BufRead,BufEnter *.das set ft=das syntax=java
 
 highlight StatusLine ctermfg=blue ctermbg=yellow
 highlight Directory  ctermfg=red
 
-
 fun! ModelTown()
 	let fmt = 'ft=%s ts=%d sw=%d %s'
-	let x = printf(fmt, &ft, &ts, &sw, (&et?"et":"noet"))
+	let x = printf(fmt, &ft, &ts, &sw ,(&et?"et":"noet"))
 	return x
 endf
 
-fun! SynTown()
+fun! SynName()
 	let x = synIDattr(synID(line('.'),col('.'),1),'name')
 	return x
 endf
+fun! Synfg()
+	let x = synIDattr(synID(line('.'),col('.'),1),'fg')
+	return x
+endf
 
-set statusline=%m\ %-f%=\ \ \ \ %{SynTown()}\ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
+
+
+set statusline=%m\ %-f%=\ \ \ \ %{SynName()}\ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
+"set statusline=%m\ %1*%-f%*%=\ \ \ \ %{SynName()}\ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
+
 
 set ignorecase
 set smartcase
@@ -81,7 +63,8 @@ set viminfo='50,<1000,s100,:100,n~/.viminfo
 
 let mapleader = ","
 
-set pastetoggle=<F5>
+
+set pastetoggle=<F12>
 
 map <C-p> :bnext<CR>
 map <C-n> :bprevious<CR>
@@ -178,11 +161,6 @@ noremap <silent> <F11> :call IncrementOpt("tabstop",2,2,500)<BAR>set tabstop?<CR
 imap <F10> <C-O><F10>
 imap <F11> <C-O><F11>
 
-fun! ModelTown()
-	let fmt = 'ft=%s ts=%d sw=%d %s'
-	let x = printf(fmt, &ft, &ts, &sw, (&et?"et":"noet"))
-	return x
-endf
 
 
 nmap <silent> <Leader>ml :call ModelineStub()<CR>
@@ -252,4 +230,3 @@ let MRU_Window_Height = 15
 :command! -n=* YearMon         :call Insert("year_mon")
 :command! -n=* Template        :call Insert("template")
 :command! -n=* Builder         :call Insert("builder")
-

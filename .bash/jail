@@ -32,8 +32,10 @@ if [[ -d /di_atlantis/executables ]]; then
 fi
 
 }
-
 jail_add_path
+
+
+
 
 function _cmd_logs()
 {
@@ -58,6 +60,12 @@ function _cmd_logs()
 [ -d /di/solution/dl-dataroot/ ] && export DATAROOT=/di/solution/dl-dataroot
 
 
+
+function usage_logs() {
+    find $DATAROOT/logs/usage/*/ -mtime -1
+}
+
+
 function oldmodels()
 {
     find -L "$@" -mtime +10 -name "*.md*" -exec ls -lt {} +
@@ -73,18 +81,5 @@ function model_dirs()
             find $line -maxdepth 1 -type f -mtime +${TIME} -name "*.md*" -exec \
             stat --printf "%b\t%n\t%y\n" {} +;
         done
-}
-
-function dir_size_time()
-{
-    echo foo
-}
-
-function script_logs ()
-{
-
-	FILE=$1
-	[[ -f $FILE ]] || exit 1
-
 }
 

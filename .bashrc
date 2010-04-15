@@ -48,10 +48,11 @@ fi
 export PYTHONPATH=${HOME}/code/lib
 export LANG=en_US.UTF-8
 export GREP_OPTIONS="--color=auto"
+
+unset HISTFILESIZE
+export HISTSIZE=10000
+#export HISTIGNORE="history *:"
 export HISTCONTROL=ignoredups:ignorespace
-export HISTFILESIZE=10000
-export HISTTIMEFORMAT='%F %R.%M%t'
-export HISTIGNORE="history *:"
 
 
 shopt -s histappend
@@ -129,10 +130,12 @@ function exitstatus {
     echo -ne "\033k\033\\"
 }
 
-#TODO move .bash_full elsewhere and log the exit statuses
+if [[ $HOSTNAME = *interreport* ]]; then
+    PROMPT_COMMAND="exitstatus"
+elif [[ $HOSTNAME = *dimins* ]]; then
+    PROMPT_COMMAND="exitstatus"
+elif [[ $HOSTNAME = *sente* ]]; then
+    PROMPT_COMMAND="exitstatus && history -a && history 1 >> ${HOME}/logs/bash_history"
+fi
 
-[[ $(whoami) == "spowers" ]] && PROMPT_COMMAND="exitstatus"
-[[ $(whoami) == "stu" ]]     && PROMPT_COMMAND="exitstatus && history -a && history 1 >> ~/.bash_full"
-
-
-# vim: set et ts=4 sws=4 sw=4:
+# vim: set ft=sh ts=4 sws=4 sw=4:
