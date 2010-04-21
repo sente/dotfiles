@@ -61,10 +61,12 @@ syntax keyword attr detail_info
 
 syntax keyword nameval name value
 
+syntax keyword ERROR jounral 
+
 
 "highlight link xERROR ERROR
 "highlight link blocks Type
-highlight link attributes Statement
+"highlight link attributes Statement
 
 
 hi blocks     ctermfg=red

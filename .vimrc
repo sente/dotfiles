@@ -16,6 +16,12 @@ syntax on
 highlight StatusLine ctermfg=blue ctermbg=yellow
 highlight Directory  ctermfg=red
 
+highlight Pmenu     ctermbg=black
+highlight PmenuSel  ctermfg=black   ctermbg=cyan
+highlight PmenuSbar ctermbg=cyan    ctermfg=yellow
+highlight PmenuThumb ctermfg=yellow ctermbg=cyan
+
+
 fun! ModelTown()
 	let fmt = 'ft=%s ts=%d sw=%d %s'
 	let x = printf(fmt, &ft, &ts, &sw ,(&et?"et":"noet"))
