@@ -19,11 +19,14 @@ augroup filetypedetect
   au! BufRead,BufNewFile *.mrk      setfiletype mrk
   au! BufRead,BufNewFile *.dvp      setfiletype dvp 
 
+
   au! BufRead,BufNewFile integ_all_commands.log     setfiletype cmd_log
   au! BufRead,BufNewFile builder_all_commands.log   setfiletype cmd_log
-  
+
   au! BufRead,BufNewFile integ_2*.log   setfiletype log
   au! BufRead,BufNewFile builder_2*.log setfiletype log
+  au! BufRead,BufNewFile i_2*.log       setfiletype log
+  au! BufRead,BufNewFile b_2*.log       setfiletype log
 
 
 
@@ -34,6 +37,8 @@ augroup filetypedetect
 
   au! FileType perl  setlocal ai et sta sw=4 sts=4
   au! FileType sh    setlocal ai et sta sw=4 sts=4 ts=4
+"  au! FileType sh    let b:comtown='#'
+"  au! FileType int   let b:comtown='//'
   au! FileType ruby  setlocal ai et sta sw=2 sts=2 ts=2
 
 
