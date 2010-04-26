@@ -2,8 +2,6 @@
 {
    start = sprintf("\\+%s\\+", pattern)
    stop  = sprintf("\\-%s\\-", pattern)
-#   start = sprintf("\+%s\+", pattern)
-#   stop  = sprintf("\-%s\-", pattern)
 
    if ($0 ~ start) {
       good = 1;
