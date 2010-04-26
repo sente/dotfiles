@@ -114,6 +114,10 @@ if [ "$(whoami)" != "spowers" ]; then
         loggertown wget "$@"
         command wget "$@"
     }
+    function rsync() {
+        loggertown rsync "$@"
+        command rsync "$@"
+    }
 
 fi
 
