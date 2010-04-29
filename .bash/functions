@@ -195,8 +195,10 @@ function webdiff () {
    curl -F "file.1=@$1;filename=${F1}" \
         -F "file.2=@$2;filename=${F2}" \
         http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null \
-         | grep -A 100 "BEGIN LINKS" \
-            | grep '^http' 
+         | grep -E "^http"
+#        http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null \
+#         | grep -A 100 "BEGIN LINKS" \
+#            | grep '^http' 
    #curl -F "file.1=@$1" -F "file.2=@$2"  http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null | grep -A 100 "BEGIN LINKS" | grep '^http' 
 }
 

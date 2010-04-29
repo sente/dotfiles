@@ -5,6 +5,8 @@ set nocompatible
 " http://got-ravings.blogspot.com/2008/08/vim-pr0n-making-statuslines-that-own.html
 " http://RAYNInfo.co.uk/vimtips.html
 
+"experimental
+set list listchars=tab:>·,trail:·
 
 if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
     set ttymouse=xterm

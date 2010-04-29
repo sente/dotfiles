@@ -76,6 +76,15 @@ $if Bash
 "\C-xr": redraw-current-line
 # Edit variable on current line.
 "\M-\C-v": "\C-a\C-k$\C-y\M-\C-e\C-a\C-y="
+
+
+
+#"\C-j": "cdhist_forward\C-m"
+#"\C-k": "cdhist_back\C-m"
+
+
+
+
 $endif
 
 # use a visible bell if one is available
