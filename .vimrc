@@ -6,7 +6,7 @@ set nocompatible
 " http://RAYNInfo.co.uk/vimtips.html
 
 "experimental
-set list listchars=tab:>·,trail:·
+"set list listchars=tab:>.,trail:.
 
 if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
     set ttymouse=xterm

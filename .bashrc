@@ -115,7 +115,7 @@ function exitstatus {
 
 
 
-    if [[ "$PWD" != "$(readlink -m $PWD)" ]]; then
+    if [[ $PWD != "$(readlink -m "$PWD")" ]]; then
          if [ "${EXITSTATUS}" -eq 0 ]
                 then PS1="${EMK}[${UC}\u${EMK}@${UC}\h ${EMG}\w ${EMK}]${UC}\\$ ${NONE}"
                 else PS1="${EMK}[${UC}\u${BLUE}@${EMK}${UC}\h ${EMG}\w${EMK}]${UC}\\$ ${NONE}"
