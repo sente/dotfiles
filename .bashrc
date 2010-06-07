@@ -32,7 +32,7 @@ if [ -f ~/.dir_colors ]; then
 fi
 
 if [ -f ${HOME}/.bash/bash_completion ]; then
-        . ${HOME}/.bash/bash_completion
+      . ${HOME}/.bash/bash_completion
 fi
 
 #if [ -f /etc/bash_completion ]; then
