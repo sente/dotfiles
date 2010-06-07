@@ -31,9 +31,9 @@ augroup filetypedetect
 
 
 
-  au! BufNewFile,BufRead,BufEnter *.sh,*/.bash/*,   setfiletype sh
-  au! BufNewFile,BufRead,BufEnter *.rb,*.erb,*.rake setfiletype ruby
-  au! BufNewFile,BufRead,BufEnter *.pl              setfiletype perl
+  au! BufNewFile,BufRead *.sh,*/.bash/*,   setfiletype sh
+  au! BufNewFile,BufRead *.rb,*.erb,*.rake setfiletype ruby
+  au! BufNewFile,BufRead *.pl              setfiletype perl
 
   au! FileType perl  setlocal ai et sta sw=4 sts=4
   au! FileType sh    setlocal ai et sta sw=4 sts=4 ts=4
@@ -43,8 +43,10 @@ augroup filetypedetect
 
 
 
-  au! BufNewFile,BufRead,BufEnter *.dat set noet
-  au! BufNewFile,BufRead,BufEnter *.txt set noet
+  au! BufNewFile,BufRead  *.html set et sw=4 sts=4 ai sta
+
+  au! BufNewFile,BufRead  *.dat set noet
+  au! BufNewFile,BufRead  *.txt set noet
 
   au! BufRead,BufNewFile *.mine     setfiletype mine
   au! BufRead,BufNewFile *.xyz      setfiletype drawing
