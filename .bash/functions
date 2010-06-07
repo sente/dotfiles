@@ -3,6 +3,20 @@
 
 # enhanced pgrep # from meonkey's .bashrc
 
+
+
+# inspired by tpope :)
+function FINDDIR(){ 
+    find "$@" -mindepth 1 -type d 2> /dev/null
+}
+function FIND(){ 
+    find "$@" ! -type d 2> /dev/null
+}
+
+function decolor(){
+    sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
+}
+
 function list_latest()
 {
     local file files=("${1:-.}/"*) latest=$files;
@@ -94,6 +108,23 @@ if [ "$(whoami)" != "spowers" ]; then
         done
     }
 
+    function awk() {
+        loggertown awk "$@"
+        command awk "$@"
+    }
+
+    function awk() {
+        loggertown awk "$@"
+        command awk "$@"
+    }
+    function python() {
+        loggertown python "$@"
+        command python "$@"
+    }
+    function vim() {
+        loggertown vim "$@"
+        command vim "$@"
+    }
     function curl() {
         loggertown curl "$@"
         command curl "$@"
@@ -123,7 +154,7 @@ fi
 
 
 function epochtime () {
-	date --date '1970-01-01 UTC '$1' seconds' $2
+    date --date '1970-01-01 UTC '$1' seconds' $2
 }
 
 #taken from !du-h in #bash
