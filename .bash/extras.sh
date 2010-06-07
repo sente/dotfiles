@@ -53,14 +53,14 @@ function pwd_in_path()
 function pardir()
 {
     D=$1
-    P=$(dirname $D)
+    P=$(dirname "$D")
     if [ "$P" = "$D" ] ; then 
         return 0
     fi
 
     stat --printf "%F\t%n\n" "$P"
     
-    pardir $P
+    pardir "$P"
 }
 
 function pgtree () {
