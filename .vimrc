@@ -23,6 +23,7 @@ highlight PmenuSel  ctermfg=black   ctermbg=cyan
 highlight PmenuSbar ctermbg=cyan    ctermfg=yellow
 highlight PmenuThumb ctermfg=yellow ctermbg=cyan
 
+set et sw=4 ts=4
 
 fun! ModelTown()
 	let fmt = 'ft=%s ts=%d sw=%d %s'
