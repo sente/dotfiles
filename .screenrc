@@ -14,7 +14,10 @@ nonblock 5
 #screen 0
 
 bufferfile ${HOME}/.screen_buffer
-bind y eval "writebuf" "exec ${HOME}/bin/copy-to-clipboard ${HOME}/.screen_buffer"
+#http://github.com/rtyler/dotfiles/blob/master/.screenrc
+bind ^B eval "hardcopy_append off" "hardcopy -h $HOME/.screen-scrape" #"screen /home/stu/bin/colonote $HOME/.screen-scrape"
+bind  y eval "writebuf" "exec ${HOME}/bin/copy-to-clipboard ${HOME}/.screen_buffer"
+
 
 maptimeout 5
 bindkey ^[j prev
