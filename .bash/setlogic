@@ -52,7 +52,7 @@ assert_file $fileA || fileA=file_A.txt
 assert_file $fileB || fileB=file_B.txt
 
 
-cat <<EOF
+cat <<'EOF'
 
 INTERSECTION...
 ____________________
