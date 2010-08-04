@@ -168,6 +168,25 @@ function dusk () {
    }';
 }
 
+dumdl ()
+{
+    for mdl in "$@"; do
+        if [[ -f "$mdl" && "$mdl" == *.mdl ]]; then
+            mdlbase=${mdl%%.mdl};
+            mdlsize=$(du -sck "${mdlbase}"*|grep total|cut -f1);
+            #mdlhumansize=$(awk -v m=${mdlsize} 'BEGIN{printf "%.02f",(m/(1024)/1024)}' 1);
+            echo -e "${mdlsize}\t${mdlbase}.mdl";
+            #echo -e "${mdlhumansize}\t${mdlsize}\t${mdlbase}*";
+        fi
+    done | sort -n |
+        awk '{
+            if ($1 > 1000000)   printf("%.2fG\t%s\n",$1/1000000,$2);
+            else if ($1 > 1000) printf("%.2fM\t%s\n",$1/1000,$2);
+            else                printf("%sk\t%s\n",  $1,$2)
+        }';
+}
+
+
 function webget() {
 if [ -x "`which curl`" ]; then
    get="curl -s"
@@ -304,9 +323,10 @@ function get_tgzfile() {
 function hlocate    { locate -d '/home/stu/.mlocate.db' "$@"; }
 function irdaily    { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'   "$@"; }
 
-function locate_migration { locate -d '/var/lib/mlocate/mlocate.migration.db' "$@";  }
-function locate_scratch { locate -d '/var/lib/mlocate/mlocate.scratch.db' "$@";  }
-function locate_irdaily { locate -d '/var/lib/mlocate/mlocate.ir-daily.db' "$@";  }
+function locate_migration { locate -d '/var/lib/mlocate/mlocate.migration.db' "$@"; }
+function locate_scratch   { locate -d '/var/lib/mlocate/mlocate.scratch.db'   "$@"; }
+function locate_irdaily   { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'  "$@"; }
+function locate_all       { locate -d '/var/lib/mlocate/mlocate.all.db'       "$@"; }
 function locate_snapshot { ls -1 /snapshots/locate/*.db; locate -d '/snapshots/locate/daily.0.db' "$@";  }
 
 function ff         { find . -name "*$@*" -print 2>/dev/null; }
