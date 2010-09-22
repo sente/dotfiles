@@ -6,8 +6,20 @@ rm -rf  dotfiles.git 2>/dev/null
 git clone git@github.com:sente/dotfiles.git dotfiles.git || exit 1
 
 
-
-git --git-dir=dotfiles.git/.git/ --work-tree=${HOME} status
+git --git-dir=dotfiles.git/.git/ --work-tree=${HOME} status |
+    awk '
+    {ar[ct++]=$0};
+    /Untracked files/
+    {
+        for(i=0;i<ct-2;i++)
+        {
+            print ar[i]
+        };
+        nextfile
+    }
+    END{}
+    '
+git --git-dir=dotfiles.git/.git/ --work-tree=${HOME} status | sed -p '/# Untracked files:/q'
 
 
 mv dotfiles.git/.git .dotfiles.git || exit 1
