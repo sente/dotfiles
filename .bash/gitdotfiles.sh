@@ -1,20 +1,14 @@
 #!/bin/sh 
 
-if [[ "$1" != "run" ]]; then
-    echo "usage: \"$0 run\""
-    exit 1
-fi
-
 rm -rf .dotfiles.git 2>/dev/null
-rm -rf dotfiles.git 2>/dev/null 
+rm -rf  dotfiles.git 2>/dev/null 
 
 git clone git@github.com:sente/dotfiles.git dotfiles.git || exit 1
+
 mv dotfiles.git/.git .dotfiles.git || exit 1
-shopt -s dotglob || exit 1
 
 
 (cd dotfiles.git && tar cf - . ; ) | tar df - | grep -v "Mod time differs"
-
 (cd dotfiles.git && tar cf - . ; ) | tar xf - 
 
 
@@ -28,6 +22,4 @@ git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME ls-files | while read FILE;
     fi
 done
 
-
 rm -rf dotfiles.git
-
