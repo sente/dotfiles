@@ -21,9 +21,9 @@ cmddiff ()
     CMD1="$1"
     CMD2="$2"
     if [[ -x $(which colordiff ) ]]; then
-        colordiff -y --side-by-side <( ${CMD1} ) <( ${CMD2} )
+        colordiff -W 200 -y --side-by-side <( eval "${CMD1}" ) <( eval "${CMD2}" )
     else
-        diff -y --side-by-side <( ${CMD1} ) <( ${CMD2} )
+        diff -W 200 -y --side-by-side <( eval "${CMD1}" ) <( eval "${CMD2}" )
     fi
 
 }
