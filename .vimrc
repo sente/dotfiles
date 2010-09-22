@@ -1,4 +1,14 @@
+
+
+
 set nocompatible
+
+autocmd BufRead *.py set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
+autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m 
+autocmd BufRead *.py nmap <F5> :!python %<CR>
+
+
+
 
 "useful websites:
 " http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html
@@ -75,6 +85,11 @@ let mapleader = ","
 
 set pastetoggle=<F12>
 
+
+"ctrl-\ inserts the current file's path
+cmap <C-\> <C-R>=expand("%:p:h") . "/" <CR>
+cmap <C-\>\ <C-R>=expand("%:p:n") <CR>
+
 map <C-p> :bnext<CR>
 map <C-n> :bprevious<CR>
 map <Leader>3 :s/\t/\r/g<Enter>
@@ -141,6 +156,27 @@ def PyExecReplace(line1,line2):
 	output = redirected.getvalue().split('\n')
 	r[:] = output[:-1] # the -1 is to remove the final blank line
 	redirected.close()
+
+
+def SetBreakpoint():
+    import re
+    nLine = int( vim.eval( 'line(".")'))
+
+    strLine = vim.current.line
+    strWhite = re.search( '^(\s*)', strLine).group(1)
+
+    vim.current.buffer.append( "%(space)spdb.set_trace() %(mark)s Breakpoint %(mark)s" %
+         {'space':strWhite, 'mark': '#' * 30}, nLine - 1)
+
+    for strLine in vim.current.buffer:
+        if strLine == "import pdb":
+            break
+    else:
+        vim.current.buffer.append( 'import pdb', 0)
+        vim.command( 'normal j1')
+
+vim.command( 'map <f7> :py SetBreakpoint()<cr>')
+
 EOL
 command -range Pyer python PyExecReplace(<f-line1>,<f-line2>)
 endif
