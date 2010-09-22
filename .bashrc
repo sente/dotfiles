@@ -31,6 +31,7 @@ if [ -f ~/.dir_colors ]; then
     eval $(dircolors -b ~/.dir_colors)
 fi
 
+
 #if [ -f ${HOME}/.bash/bash_completion ]; then
 #      . ${HOME}/.bash/bash_completion
 #fi
