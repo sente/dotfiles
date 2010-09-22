@@ -43,6 +43,7 @@ if [ -d "${HOME}/bin" ]; then
     PATH="${PATH}:${HOME}/bin"
 fi
 
+alias dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 
 
 export PYTHONPATH=${HOME}/code/lib
