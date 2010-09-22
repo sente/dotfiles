@@ -5,10 +5,15 @@ if [[ "$1" != "run" ]]; then
     exit 1
 fi
 
-git clone git@github.com:sente/dotfiles.git dotfiles.git
-mv dotfiles.git/.git .dotfiles.git
-shopt -s dotglob
+rm -rf .dotfiles.git 2>/dev/null
+rm -rf dotfiles.git 2>/dev/null 
 
+git clone git@github.com:sente/dotfiles.git dotfiles.git || exit 1
+mv dotfiles.git/.git .dotfiles.git || exit 1
+shopt -s dotglob || exit 1
+
+
+(cd dotfiles.git && tar cf - . ; ) | tar df -
 
 (cd dotfiles.git && tar cf - . ; ) | tar xvf - 
 
