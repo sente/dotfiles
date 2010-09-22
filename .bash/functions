@@ -9,14 +9,22 @@ colordirdiff ()
     serverA=$1;
     serverB=$2;
     thedir=$3;
-    colordiff -y --side-by-side <(ssh $1 "cd $thedir; find . -maxdepth 1 -type f -exec md5sum {} \;| sort -k 2") <(ssh $2 "cd $thedir; find . -maxdepth 1 -type f -exec md5sum {} \;| sort -k 2")
+    if [ -x $(which colordiff ) ]; then
+        colordiff -y --side-by-side <(ssh $1 "cd $thedir; find . -maxdepth 1 -type f -exec md5sum {} \;| sort -k 2") <(ssh $2 "cd $thedir; find . -maxdepth 1 -type f -exec md5sum {} \;| sort -k 2")
+    else 
+        diff -y --side-by-side <(ssh $1 "cd $thedir; find . -maxdepth 1 -type f -exec md5sum {} \;| sort -k 2") <(ssh $2 "cd $thedir; find . -maxdepth 1 -type f -exec md5sum {} \;| sort -k 2")
+    fi  
 }
 
 cmddiff ()
 {
     CMD1="$1"
     CMD2="$2"
-    colordiff -y --side-by-side <(${CMD1}) <(${CMD2})
+    if [ -x $(which colordiff ) ]; then
+        colordiff -y --side-by-side <( ${CMD1} ) <( ${CMD2} )
+    else
+        diff -y --side-by-side <( ${CMD1} ) <( ${CMD2} )
+    fi
 
 }
 
