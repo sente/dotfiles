@@ -18,6 +18,7 @@ colordirdiff ()
 
 cmddiff ()
 {
+
     CMD1="$1"
     CMD2="$2"
     if [[ -x $(which colordiff ) ]]; then
