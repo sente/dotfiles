@@ -4,6 +4,15 @@
 # enhanced pgrep # from meonkey's .bashrc
 
 
+colordirdiff ()
+{
+    serverA=$1;
+    serverB=$2;
+    thedir=$3;
+    colordiff -y --side-by-side <(ssh $1 "cd $thedir; find . -maxdepth 1 -type f -exec md5sum {} \;| sort -k 2") <(ssh $2 "cd $thedir; find . -maxdepth 1 -type f -exec md5sum {} \;| sort -k 2")
+}
+
+
 
 # inspired by tpope :)
 function FINDDIR(){ 
@@ -99,14 +108,81 @@ function mkt () {
 #we don't want these functions defined on any IR servers
 if [ "$(whoami)" != "spowers" ]; then
 
+    function tmpfile () {
+        basedir=${HOME}/public_html/tmpfiles
+        extension=html
+
+        while test $# -gt 0; do
+            case $1 in 
+                -e | --e )
+                    shift; extension="$1"
+                    ;;
+                -d | --dir )
+                    shift; baseidr="$1"
+                    ;;
+                *)
+                    break
+                    ;;
+            esac
+        done
+        file="${basedir}/$(date +%F.%s).${extension}";
+        echo $file
+        while read line; do
+            echo "$line" >> $file;
+        done;
+
+#        echo ${file/public_html/http:\/\/sente.cc\/stu}
+    }
+
+
+
     function snapshot-show () {
         arg=$(readlink -m "$1")
-        echo "arg=$arg"
-        snapdirs="/snapshots/*.*/sente"
-        for f in $snapdirs; do
-            echo ${f}${arg}
+        echo "arg=$arg" >&2
+        snapdirs=(/snapshots/{daily,weekly,monthly}.*/sente)
+        for f in "${snapdirs[@]}"; do
+            if [[ -f ${f}${arg} ]] ; then
+                echo ${f}${arg}
+            else
+                echo ${f}${arg} "[missing]">&2
+            fi
         done
     }
+
+    function snapdiff() {
+        snapshot-show $1 2> /dev/null | xargs md5sum | awk '{if(!foo[$1]++){print $2}}' | while read line; do
+            if  [[ $(which colordiff) ]]; then
+                CCC="diff --side-by-side --suppress-common-lines  $LAST $line | colordiff";
+            else
+                CCC="diff --side-by-side --suppress-common-lines  $LAST $line";
+            fi
+            echo $CCC;
+            eval $CCC;
+            echo -e "\n\n\n\n\n";
+            LAST=$line;
+        done 
+#| ansi2html.sh --bg=dark > public_html/bahtown.html
+    }
+
+snapdiff2 ()
+{
+    echo 'ls -1t /snapshots/daily.*/some/file | snapdiff2' >&2
+    echo '-e to run the commands ' >&2
+    
+
+    while read meta; do
+        md5sum $meta;
+    done | awk '{if(!foo[$1]++){print $2}}' | while read line; do
+        if [[ -n $(which colordiff) ]]; then
+            CCC="diff --side-by-side --suppress-common-lines  $LAST $line | colordiff";
+        else
+            CCC="diff --side-by-side --suppress-common-lines  $LAST $line";
+        fi;
+        echo $CCC;
+        LAST=$line;
+    done
+}
+
 
     function awk() {
         loggertown awk "$@"
