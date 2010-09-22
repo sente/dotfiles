@@ -8,23 +8,23 @@ if [[ -s ~/.motd ]] ; then
 fi
 
 if [ -f ~/.bash/aliases ]; then
-        . ~/.bash/aliases
+      . ~/.bash/aliases
 fi
 
 if [ -f ~/.bash/functions ]; then
-        . ~/.bash/functions
+      . ~/.bash/functions
 fi
 
 if [ -f ~/.bash/jail ]; then
-        . ~/.bash/jail
+      . ~/.bash/jail
 fi
 
 if [ -f ~/.bash/extras.sh ]; then
-        . ~/.bash/extras.sh
+      . ~/.bash/extras.sh
 fi
 
 if [ -f ~/.bash/setlogic ]; then
-        . ~/.bash/setlogic
+      . ~/.bash/setlogic
 fi
 
 if [ -f ~/.dir_colors ]; then
@@ -36,7 +36,7 @@ if [ -f ${HOME}/.bash/bash_completion ]; then
 fi
 
 #if [ -f /etc/bash_completion ]; then
-#       . /etc/bash_completion
+#      . /etc/bash_completion
 #fi
 
 if [ -d "${HOME}/bin" ]; then
@@ -54,8 +54,6 @@ unset HISTFILESIZE
 export HISTSIZE=10000
 #export HISTIGNORE="history *:"
 export HISTCONTROL=ignoredups:ignorespace
-
-
 shopt -s histappend
 
 # check the window size after each command and, if necessary,
@@ -64,6 +62,7 @@ shopt -s checkwinsize
 
 # Don't try to find all the command possibilities when hitting TAB on an empty line.
 shopt -s no_empty_cmd_completion
+
 
 
 function RED    () { tput setaf 1; echo "$@"; tput setaf 9; }
