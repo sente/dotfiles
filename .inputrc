@@ -23,6 +23,13 @@ $if mode=emacs
 
 Meta-Control-h:	backward-kill-word	Text after the function name is ignored
 
+
+#  http://www.reddit.com/r/bashtricks/comments/czcbn/use_readline_key_bindings_to_easily_insert_common/
+#bind -m emacs '"^[f":"for i in ;do ;done^[b^[b\C-b"'
+
+
+#
+#
 #
 # Arrow keys in keypad mode
 #
@@ -59,8 +66,19 @@ $endif
 # An old-style binding.  This happens to be the default.
 TAB: complete
 
+
+#added by stu on Aug 17th
+#Control-x: shell-expand-line
+"\C-o": "\C-p\C-a\ef"
+
+#creates a function from the current command line
+"\eg": "\C-afunction bindfunction(){ \C-e; };declare -f bindfunction\C-j"
+
+
 # Macros that are convenient for shell interaction
-$if Bash
+
+#$if Bash
+#
 # edit the path
 "\C-xp": "PATH=${PATH}\e\C-e\C-a\ef\C-f"
 # prepare to type a quoted word --
@@ -85,7 +103,7 @@ $if Bash
 
 
 
-$endif
+#$endif
 
 # use a visible bell if one is available
 set bell-style none
