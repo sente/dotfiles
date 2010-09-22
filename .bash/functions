@@ -183,6 +183,19 @@ snapdiff2 ()
     done
 }
 
+    function loggertown() {
+
+        if  [ -d $HOME/logs/ ] ; then
+
+            file=$HOME/logs/cmdlogs.log
+            town=$HOME/logs/cmdlogs2.log
+
+            echo $(date "+%F %R:%S") $(whoami) ${PWD}: $@ >> $file
+            echo -n $(date "+%F %R:%S") $(whoami) ${PWD}: >> $town
+            printf "%q " $* >> $town
+            echo "" >> $town
+        fi
+    }
 
     function awk() {
         loggertown awk "$@"
