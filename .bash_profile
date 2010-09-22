@@ -1,0 +1,21 @@
+# ~/.bash_profile: executed by bash(1) for login shells.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/login.defs
+#umask 022
+
+if [ -x "`which keychain`" ]; then
+	keychain --quiet ~/.ssh/id_rsa
+	source ~/.keychain/sente.cc-sh > /dev/null
+fi
+
+if [ -f ~/.keychain/sente.cc-csh ]; then
+     rm ~/.keychain/sente.cc-csh
+fi
+
+
+# include .bashrc if it exists
+if [ -f "${HOME}/.bashrc" ]; then
+      . "${HOME}/.bashrc"
+fi
