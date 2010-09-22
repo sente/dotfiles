@@ -36,6 +36,7 @@ git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME ls-files | while read FILE;
         TTTT=$(git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME log --date=rfc "$FILE" | grep Date:  | head -n1 | sed 's/Date: *//')
         dd=$(date --date "$TTTT")
         touch -m -d "$dd" "$FILE"
+
     fi
 done
 
