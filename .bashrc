@@ -45,6 +45,9 @@ fi
 
 alias dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 
+function dfp() {
+    df=($(df -P /)); echo "${df[11]}"
+}
 
 export PYTHONPATH=${HOME}/code/lib
 export LANG=en_US.UTF-8
