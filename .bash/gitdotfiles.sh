@@ -9,9 +9,9 @@ git clone git@github.com:sente/dotfiles.git dotfiles.git
 mv dotfiles.git/.git .dotfiles.git
 shopt -s dotglob
 
-rm -rf dotfiles.git
 
 (cd dotfiles.git && tar cf - . ; ) | tar xvf - 
+
 
 git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME ls-files | while read FILE; do
 
@@ -22,3 +22,7 @@ git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME ls-files | while read FILE;
         touch -m -d "$dd" "$FILE"
     fi
 done
+
+
+rm -rf dotfiles.git
+
