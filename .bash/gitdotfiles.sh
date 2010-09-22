@@ -5,6 +5,11 @@ rm -rf  dotfiles.git 2>/dev/null
 
 git clone git@github.com:sente/dotfiles.git dotfiles.git || exit 1
 
+
+
+git --git-dir=dotfiles.git/.git/ --work-tree=${HOME} status
+
+
 mv dotfiles.git/.git .dotfiles.git || exit 1
 
 
