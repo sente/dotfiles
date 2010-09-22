@@ -65,6 +65,30 @@ shopt -s checkwinsize
 shopt -s no_empty_cmd_completion
 
 
+function RED    () { tput setaf 1; echo "$@"; tput setaf 9; }
+function GREEN	() { tput setaf 2; echo "$@"; tput setaf 9; }
+function YELLOW	() { tput setaf 3; echo "$@"; tput setaf 9; }
+function BLUE	() { tput setaf 4; echo "$@"; tput setaf 9; }
+function PURPLE	() { tput setaf 5; echo "$@"; tput setaf 9; }
+function CYAN	() { tput setaf 6; echo "$@"; tput setaf 9; }
+function WHITE	() { tput setaf 7; echo "$@"; tput setaf 9; }
+
+function COLORFUNC {
+    n=$1
+    shift;
+
+    if ! [[ -n $n ]]; then echo "pass parm" >&2; return 1; fi
+    [[ $n -eq 1 ]]  && BLUE "$@" && return 0
+    [[ $n -eq 2 ]]  && RED "$@" && return 0
+    [[ $n -eq 3 ]]  && GREEN "$@" && return 0
+    [[ $n -eq 4 ]]  && YELLOW "$@" && return 0
+    [[ $n -eq 5 ]]  && PURPLE "$@" && return 0
+    [[ $n -eq 6 ]]  && CYAN "$@" && return 0
+    [[ $n -eq 7 ]]  && WHITE "$@" && return 0
+    echo "bad parm" >&2; return 1;
+
+}
+
 stty stop  undef
 stty start undef
 
