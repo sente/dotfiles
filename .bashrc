@@ -43,7 +43,17 @@ if [ -d "${HOME}/bin" ]; then
     PATH="${PATH}:${HOME}/bin"
 fi
 
+
 alias dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
+
+function getdotfiles() {
+    if [ -x $(which curl) ]; then
+        curl http://github.com/sente/dotfiles/raw/master/.bash/gitdotfiles.sh | sh 
+    elif [ -x $(which wget) ]; then
+        wget -q -O - http://github.com/sente/dotfiles/raw/master/.bash/gitdotfiles.sh | sh 
+    fi
+}
+
 
 function dfp() {
     df=($(df -P /)); echo "${df[11]}"
