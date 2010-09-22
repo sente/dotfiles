@@ -7,8 +7,11 @@
 
 if [ -x "`which keychain`" ]; then
 	keychain --quiet ~/.ssh/id_rsa
-	source ~/.keychain/sente.cc-sh > /dev/null
+    if [ -f ~/.keychain/sente.cc-csh ]; then
+        source ~/.keychain/sente.cc-sh > /dev/null
+    fi
 fi
+
 
 if [ -f ~/.keychain/sente.cc-csh ]; then
      rm ~/.keychain/sente.cc-csh
