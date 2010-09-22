@@ -19,7 +19,7 @@ git --git-dir=dotfiles.git/.git/ --work-tree=${HOME} status |
     }
     END{}
     '
-git --git-dir=dotfiles.git/.git/ --work-tree=${HOME} status | sed -p '/# Untracked files:/q'
+git --git-dir=dotfiles.git/.git/ --work-tree=${HOME} status | sed '/Untracked files:/q'
 
 
 mv dotfiles.git/.git .dotfiles.git || exit 1
