@@ -15,7 +15,7 @@ git --git-dir=dotfiles.git/.git/ --work-tree=${HOME} status |
         {
             print ar[i]
         };
-        nextfile
+        exit(0)
     }
     END{}
     '
