@@ -148,7 +148,7 @@ if [ "$(whoami)" != "spowers" ]; then
             echo "$line" >> $file;
         done;
 
-#        echo ${file/public_html/http:\/\/sente.cc\/stu}
+        echo "${file/$basedir/http://www.sente.cc/stu/tmpfiles}"
     }
 
 
