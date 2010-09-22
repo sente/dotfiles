@@ -107,11 +107,6 @@ $ cat <(grep -vxF -f set1 set2) <(grep -vxF -f set2 set1)
 
 $ grep -vxF -f set1 set2; grep -vxF -f set2 set1
 
-$ awk 'NR==FNR { a[$0]; next } $0 in a { delete a[$0]; next } 1;
-       END { for (b in a) print b }' set1 set2
-
-  # prints lines only in file1 but not in file2. Reverse the arguments to get the other way round
-    awk 'NR==FNR{a[$0];next} !($0 in a)' file2 file1
 
 EOF
 
