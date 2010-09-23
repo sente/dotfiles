@@ -11,7 +11,7 @@
     meta = yellow 
 
 [core]
-    excludesfile = /home/beno/.gitignore
+    #excludesfile = .gitignore
     editor = vim
     pager = less -FXRS
 [apply]
