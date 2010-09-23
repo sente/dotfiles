@@ -9,6 +9,10 @@ autocmd BufRead *.py nmap <F5> :!python %<CR>
 
 
 
+let g:esc_filename_chars = ' *?[{`$%#"|!<>();&' . "'\t\n"
+function! Stu_escape(fname)
+    return escape(a:fname, g:esc_filename_chars)
+endfunction
 
 "useful websites:
 " http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html
