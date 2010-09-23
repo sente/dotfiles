@@ -2,7 +2,7 @@
 # vim: set ft=sh et sw=4 sts=4 ts=4:
 
 if [ ! -d ${HOME}/logs/cmds/ ] ; then
-   exit 0
+   return 0
 fi
 
 
