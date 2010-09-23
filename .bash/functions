@@ -181,79 +181,23 @@ if [ "$(whoami)" != "spowers" ]; then
 #| ansi2html.sh --bg=dark > public_html/bahtown.html
     }
 
-snapdiff2 ()
-{
-    echo 'ls -1t /snapshots/daily.*/some/file | snapdiff2' >&2
-    echo '-e to run the commands ' >&2
-    
+    snapdiff2 ()
+    {
+        echo 'ls -1t /snapshots/daily.*/some/file | snapdiff2' >&2
+        echo '-e to run the commands ' >&2
+        
 
-    while read meta; do
-        md5sum $meta;
-    done | awk '{if(!foo[$1]++){print $2}}' | while read line; do
-        if [[ -n $(which colordiff) ]]; then
-            CCC="diff --side-by-side --suppress-common-lines  $LAST $line | colordiff";
-        else
-            CCC="diff --side-by-side --suppress-common-lines  $LAST $line";
-        fi;
-        echo $CCC;
-        LAST=$line;
-    done
-}
-
-    function loggertown() {
-
-        if  [ -d $HOME/logs/ ] ; then
-
-            file=$HOME/logs/cmdlogs.log
-            town=$HOME/logs/cmdlogs2.log
-
-            echo $(date "+%F %R:%S") $(whoami) ${PWD}: $@ >> $file
-            echo -n $(date "+%F %R:%S") $(whoami) ${PWD}: >> $town
-            printf "%q " $* >> $town
-            echo "" >> $town
-        fi
-    }
-
-    function awk() {
-        loggertown awk "$@"
-        command awk "$@"
-    }
-
-    function awk() {
-        loggertown awk "$@"
-        command awk "$@"
-    }
-    function python() {
-        loggertown python "$@"
-        command python "$@"
-    }
-    function vim() {
-        loggertown vim "$@"
-        command vim "$@"
-    }
-    function curl() {
-        loggertown curl "$@"
-        command curl "$@"
-    }
-    function tar() {
-        loggertown tar "$@"
-        command tar "$@"
-    }
-    function find() {
-        loggertown find "$@"
-        command find "$@"
-    }
-    function ssh() {
-        loggertown ssh "$@"
-        command ssh "$@"
-    }
-    function wget() {
-        loggertown wget "$@"
-        command wget "$@"
-    }
-    function rsync() {
-        loggertown rsync "$@"
-        command rsync "$@"
+        while read meta; do
+            md5sum $meta;
+        done | awk '{if(!foo[$1]++){print $2}}' | while read line; do
+            if [[ -n $(which colordiff) ]]; then
+                CCC="diff --side-by-side --suppress-common-lines  $LAST $line | colordiff";
+            else
+                CCC="diff --side-by-side --suppress-common-lines  $LAST $line";
+            fi;
+            echo $CCC;
+            LAST=$line;
+        done
     }
 
 fi
