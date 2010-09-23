@@ -204,7 +204,12 @@ fi
 
 
 function epochtime () {
-    date --date "1970-01-01 UTC "$1" seconds" $2 $3
+    dddd="$1"
+    shift
+    ffff="$2"
+    shift
+#    rest="$3"
+    date --date "1970-01-01 UTC $dddd seconds" $ffff #$rest" 
 }
 
 #taken from !du-h in #bash
