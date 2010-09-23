@@ -1,0 +1,34 @@
+[user]
+    name = Stuart Powers
+    email = stuart.powers@gmail.com
+
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+
+[color "diff"]
+    meta = yellow 
+
+[core]
+    excludesfile = /home/beno/.gitignore
+    editor = vim
+    pager = less -FXRS
+[apply]
+    whitespace = nowarn
+
+[alias]
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    lol = log --pretty=oneline --abbrev-commit --graph --decorate
+    co = checkout
+    st = !"git status | sed '/Untracked files/q'"
+#
+#   graphviz2   = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' "$@" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
+#   graphviz    = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' "$@" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
+#   graph       = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }'      |sed 's/[0-9a-f][0-9a-f]*/"&"/g'; e    cho '}'; }; f"
+
+[help]
+    autocorrect = 1
+
+[status]
+    showUntrackedFiles = no # git 1.7.1+
