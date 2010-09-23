@@ -90,6 +90,8 @@ set pastetoggle=<F12>
 cmap <C-\> <C-R>=expand("%:p:h") . "/" <CR>
 cmap <C-\>\ <C-R>=expand("%:p:n") <CR>
 
+nmap <leader>l :set list!<CR>
+
 map <C-p> :bnext<CR>
 map <C-n> :bprevious<CR>
 map <Leader>3 :s/\t/\r/g<Enter>
