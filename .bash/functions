@@ -216,7 +216,7 @@ function epochtime () {
 function dusk () {
    du -sk "$@" | 
    sort -n  |
-   awk '{
+   awk -F'\t' '{
       if ($1 > 1000000)   printf("%.2fG\t%s\n",$1/1000000,$2);
       else if ($1 > 1000) printf("%.2fM\t%s\n",$1/1000,$2);
       else                printf("%sk\t%s\n",  $1,$2)
