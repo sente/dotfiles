@@ -98,11 +98,11 @@ function ipython() {
     command ipython "$@"
 }
 function git() {
-    echo -e  "$(date +%s)\t$PWD\t$(history 1 | sed -r 's/^ +[0-9]+ +//' )" >> ${HOME}/logs/cmds/git.log 2>/dev/null
+    echo -e "$(date +%s)\t$PWD\t$(history 1 | sed -r 's/^ +[0-9]+ +//' )" >> ${HOME}/logs/cmds/git.log 2>/dev/null
     command git "$@"
 }
 function ssh() {
-    echo -e  "$(date +%s)\t$PWD\t$(history 1 | sed -r 's/^ +[0-9]+ +//' )" >> ${HOME}/logs/cmds/ssh.log 2>/dev/null
+    echo -e "$(date +%s)\t$PWD\t$(history 1 | sed -r 's/^ +[0-9]+ +//' )" >> ${HOME}/logs/cmds/ssh.log 2>/dev/null
     command ssh "$@"
 }
 
