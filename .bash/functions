@@ -3,8 +3,18 @@
 
 # enhanced pgrep # from meonkey's .bashrc
 
+function canonpath ()
+{
+    # show's the absolute path of a given file/directory
+    # uses pwd'd -P option which resolves all symlinks
 
-colordirdiff ()
+    # echo $(cd $(dirname "$1"); pwd -P)/$(basename "$1")
+    readlink -m "$1"
+}
+
+
+
+function colordirdiff ()
 {
     serverA=$1;
     serverB=$2;
@@ -16,7 +26,7 @@ colordirdiff ()
     fi  
 }
 
-cmddiff ()
+function cmddiff ()
 {
 
     CMD1="$1"
@@ -94,17 +104,17 @@ function p() {
     fi
 }
 
-pw() {
+function pw() {
     p "$1" show_wide_command_line
 }
 
 
-mkcd ()
+function mkcd ()
 {
     mkdir "$@" && cd "${!#}"
 }
 
-cdl() {
+function cdl() {
 if [ "$1" ]
     then builtin cd "$1" && ll
     else builtin cd && ll
@@ -223,7 +233,7 @@ function dusk () {
    }';
 }
 
-dumdl ()
+function dumdl ()
 {
     for mdl in "$@"; do
         if [[ -f "$mdl" && "$mdl" == *.mdl ]]; then
@@ -243,12 +253,29 @@ dumdl ()
 
 
 function webget() {
-if [ -x "`which curl`" ]; then
-   get="curl -s"
-else
-   get="wget -qO -"
-fi
+    if [ -x "`which curl`" ]; then
+       get="curl -s"
+    else
+       get="wget -qO -"
+    fi
 }
+function pip2h()
+{
+    NAME=$1;
+    python -c "import socket;  print socket.gethostbyaddr(\"$NAME\");"
+}
+function ph2ip()
+{
+    NAME=$1;
+    python -c "import socket;  print socket.gethostbyname(\"$NAME\");"
+}
+
+function pname ()
+{
+    NAME=$1;
+    python -c "import socket; print socket.gethostbyname(\"$NAME\"); print socket.gethostbyaddr(\"$NAME\");"
+}
+
 
 function pyget() {
    python -c "import urllib2; print urllib2.urlopen(\"$1\").read()"
@@ -258,7 +285,7 @@ function webheaders() {
    python -c "import urllib2; print urllib2.urlopen(\"$1\").info()"
 }
 
-function assert_file {
+function assert_file() {
    ONE=$1
    [[ -z "$ONE" ]] && { echo "MISSING PARAMETER"; return 1; };
    [[ -f "$ONE" ]] || { echo "$ONE: IS NOT A FILE"; return 1; };
@@ -289,23 +316,47 @@ function curlnote () {
    echo "http://sente.cc/notes/recent/"
    #curl -F "note=<$1" http://sente.cc/cgi-bin/note.pl 2>/dev/null | grep -o -E 'http://[0-9_a-zA-Z./-]+'
 }
-function webdiff () {
-   if [ ! -f "$1" ]; then echo "$1 is not a file"; return 1; fi
-   if [ ! -f "$2" ]; then echo "$2 is not a file"; return 1; fi
-   F1=$(basename $1); F2=$(basename $2)
-   if [ $F1 = $F2 ]; then
-      F1=$F1.1
-      F2=$F2.2
-   fi
-   curl -F "file.1=@$1;filename=${F1}" \
-        -F "file.2=@$2;filename=${F2}" \
-        http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null \
-         | grep -E "^http"
+#function webdiff () {
+#   if [ ! -f "$1" ]; then echo "$1 is not a file"; return 1; fi
+#   if [ ! -f "$2" ]; then echo "$2 is not a file"; return 1; fi
+#   F1=$(basename $1); F2=$(basename $2)
+#   if [ $F1 = $F2 ]; then
+#      F1=$F1.1
+#      F2=$F2.2
+#   fi
+#   curl -F "file.1=@$1;filename=${F1}" \
+#        -F "file.2=@$2;filename=${F2}" \
 #        http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null \
-#         | grep -A 100 "BEGIN LINKS" \
-#            | grep '^http' 
-   #curl -F "file.1=@$1" -F "file.2=@$2"  http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null | grep -A 100 "BEGIN LINKS" | grep '^http' 
+#         | grep -E "^http"
+##        http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null \
+##         | grep -A 100 "BEGIN LINKS" \
+##            | grep '^http' 
+#   #curl -F "file.1=@$1" -F "file.2=@$2"  http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null | grep -A 100 "BEGIN LINKS" | grep '^http' 
+#}
+function webdiff ()
+{
+    if [[ ! -f $1 ]]; then
+        echo "$1 is not a file";
+        return 1;
+    fi;
+    if [[ ! -f $2 ]]; then
+        echo "$2 is not a file";
+        return 1;
+    fi;
+    F1=$(basename "$1");
+    F2=$(basename "$2");
+    if [[ $F1 = $F2 ]]; then
+        F1=${F1}.1;
+        F2=${F2}.2;
+    fi;
+    curl -F "file.1=@$1;filename=${F1}" \
+         -F "file.2=@$2;filename=${F2}" \
+         http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null | \
+         grep --color=auto -E "^http"
 }
+
+
+
 
 function bucket () {
    FILE=$1
@@ -375,28 +426,28 @@ function get_tgzfile() {
 }
 
 
-function hlocate    { locate -d '/home/stu/.mlocate.db' "$@"; }
-function irdaily    { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'   "$@"; }
+function hlocate()    { locate -d '/home/stu/.mlocate.db' "$@"; }
+function irdaily()    { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'   "$@"; }
 
-function locate_migration { locate -d '/var/lib/mlocate/mlocate.migration.db' "$@"; }
-function locate_scratch   { locate -d '/var/lib/mlocate/mlocate.scratch.db'   "$@"; }
-function locate_irdaily   { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'  "$@"; }
-function locate_all       { locate -d '/var/lib/mlocate/mlocate.all.db'       "$@"; }
-function locate_snapshot { ls -1 /snapshots/locate/*.db; locate -d '/snapshots/locate/daily.0.db' "$@";  }
+function locate_migration() { locate -d '/var/lib/mlocate/mlocate.migration.db' "$@"; }
+function locate_scratch()   { locate -d '/var/lib/mlocate/mlocate.scratch.db'   "$@"; }
+function locate_irdaily()   { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'  "$@"; }
+function locate_all()       { locate -d '/var/lib/mlocate/mlocate.all.db'       "$@"; }
+function locate_snapshot() { ls -1 /snapshots/locate/*.db; locate -d '/snapshots/locate/daily.0.db' "$@";  }
 
-function ff         { find . -name "*$@*" -print 2>/dev/null; }
+function ff()        { find . -name "*$@*" -print 2>/dev/null; }
 
-function psa        { ps aux $@; }
-function psu        { ps  ux $@; }
+function psa()       { ps aux $@; }
+function psu()       { ps  ux $@; }
 
-function lpsa       { ps aux $@ | p; }
-function lpsu       { ps  ux $@ | p; }
+function lpsa()      { ps aux $@ | p; }
+function lpsu()      { ps  ux $@ | p; }
 
-function psgrep     { ps ax | grep $1 | fgrep -v "grep $1"; }
+function psgrep()    { ps ax | grep $1 | fgrep -v "grep $1"; }
 
 
 # Rename *.foo to *.bar
-function rename_ext {
+function rename_ext() {
     fr=$1
     to=$2
     shift; shift; 
