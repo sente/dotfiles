@@ -1,6 +1,16 @@
 #!/bin/sh
 # vim:set ft=sh et sw=4 sts=4:
 
+
+
+function jaillogs() {
+    printf "%s\n" "${@}" | xargs cut -f1,4,5 | while read log a b c; do
+        [[ -f $a/$b ]] && echo -ne "$log\t$a/$b\t$c\n";
+    done | awk -F'\t' '!seen[$2]++'
+}
+
+
+
 function jail_add_path() {
 
 if [[ -d /di/solution/executables ]]; then
