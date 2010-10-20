@@ -35,6 +35,10 @@ if [ -f ~/.bash/wrappers.sh ]; then
       . ~/.bash/wrappers.sh
 fi
 
+if [ -f ~/.bashrc_local ]; then
+      . ~/.bashrc_local
+fi
+
 
 #if [ -f ${HOME}/.bash/bash_completion ]; then
 #      . ${HOME}/.bash/bash_completion
