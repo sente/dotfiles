@@ -1,7 +1,6 @@
 #!/bin/sh
 # vim: set ft=sh et sw=4 sts=4 ts=4:
 
-# enhanced pgrep # from meonkey's .bashrc
 
 function canonpath ()
 {
@@ -11,7 +10,6 @@ function canonpath ()
     # echo $(cd $(dirname "$1"); pwd -P)/$(basename "$1")
     readlink -m "$1"
 }
-
 
 
 function colordirdiff ()
@@ -36,9 +34,7 @@ function cmddiff ()
     else
         diff -W 200 -y --side-by-side <( eval "${CMD1}" ) <( eval "${CMD2}" )
     fi
-
 }
-
 
 
 # inspired by tpope :)
@@ -154,7 +150,7 @@ if [ "$(whoami)" != "spowers" ]; then
         done
         file="${basedir}/$(date +%F.%s).${extension}";
         echo $file
-        while read line; do
+        while IFS='' read line; do
             echo "$line" >> $file;
         done;
 
@@ -316,39 +312,35 @@ function curlnote () {
    echo "http://sente.cc/notes/recent/"
    #curl -F "note=<$1" http://sente.cc/cgi-bin/note.pl 2>/dev/null | grep -o -E 'http://[0-9_a-zA-Z./-]+'
 }
-#function webdiff () {
-#   if [ ! -f "$1" ]; then echo "$1 is not a file"; return 1; fi
-#   if [ ! -f "$2" ]; then echo "$2 is not a file"; return 1; fi
-#   F1=$(basename $1); F2=$(basename $2)
-#   if [ $F1 = $F2 ]; then
-#      F1=$F1.1
-#      F2=$F2.2
-#   fi
-#   curl -F "file.1=@$1;filename=${F1}" \
-#        -F "file.2=@$2;filename=${F2}" \
-#        http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null \
-#         | grep -E "^http"
-##        http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null \
-##         | grep -A 100 "BEGIN LINKS" \
-##            | grep '^http' 
-#   #curl -F "file.1=@$1" -F "file.2=@$2"  http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null | grep -A 100 "BEGIN LINKS" | grep '^http' 
-#}
+
 function webdiff ()
 {
-    if [[ ! -f $1 ]]; then
-        echo "$1 is not a file";
-        return 1;
-    fi;
-    if [[ ! -f $2 ]]; then
-        echo "$2 is not a file";
-        return 1;
-    fi;
+    if [[ ! -f $1 || ! -f $2 ]]; then
+        echo "usage: $0 file1 file2"
+        return 1
+    fi
+
+    if [[ ! -s $1 || ! -s $2 ]]; then
+        echo "$1 or $2 is empty"
+        return 1
+    fi
+
+    read md5 _ < <(md5sum < $1)
+    read md6 _ < <(md5sum < $2)
+
+    if [[ $md5 = $md6 ]]; then
+        echo "$1 and $2 are equal"
+        return 0
+    fi
+
     F1=$(basename "$1");
     F2=$(basename "$2");
+
     if [[ $F1 = $F2 ]]; then
         F1=${F1}.1;
         F2=${F2}.2;
     fi;
+
     curl -F "file.1=@$1;filename=${F1}" \
          -F "file.2=@$2;filename=${F2}" \
          http://sente.cc/stu/cgi-bin/compare-bin.py 2>/dev/null | \
@@ -467,3 +459,30 @@ function wget_mirror()
       wget -nd -pHEKk "$URL";
    )        
 }
+
+
+
+tailwithfile ()
+{
+    if [[ $1 == -n ]]; then
+        n=$2; shift; shift;
+    fi;
+    for foo in "${@}"; do
+        while read line; do
+            echo -e "$foo:\t$line";
+        done < <(tail -n$n $foo);
+    done
+}
+
+catwithfile ()
+{
+    if [[ $1 == -n ]]; then
+        n=$2; shift; shift;
+    fi;
+    for foo in "${@}"; do
+        while read line; do
+            echo -e "$foo:\t$line";
+        done < <(tail -n$n $foo);
+    done
+}
+
