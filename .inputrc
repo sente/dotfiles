@@ -14,7 +14,6 @@
 # assignments from /etc/Inputrc
 $include /etc/inputrc
 
-#
 # Set various bindings for emacs mode.
 
 set editing-mode emacs
@@ -28,9 +27,6 @@ Meta-Control-h:	backward-kill-word	Text after the function name is ignored
 #bind -m emacs '"^[f":"for i in ;do ;done^[b^[b\C-b"'
 
 
-#
-#
-#
 # Arrow keys in keypad mode
 #
 #"\M-OD":        backward-char
@@ -129,3 +125,11 @@ $if Ftp
 "\C-xt": "put \M-?"
 "\M-.": yank-last-arg
 $endif
+
+
+#from IPython's ipythonrc
+#$if Python
+#"\M-i": "    "
+#"\M-u": "\d\d\d\d"
+#$endif
+
