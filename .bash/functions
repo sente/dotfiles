@@ -47,6 +47,10 @@ function FIND(){
 
 function decolor(){
     sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
+
+    # or perhaps: 
+    # sed -r "s/\x1B\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g"
+    # who can really say these days?
 }
 
 function list_latest()
