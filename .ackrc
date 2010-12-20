@@ -1,3 +1,7 @@
+--type-set=stu=.py
+--type-set=stu=.sh
+--type-set=stu=.awk
+
 --type-set=di=.int
 --type-add=di=.vim
 --type-add=di=.sh
