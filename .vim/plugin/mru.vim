@@ -312,9 +312,11 @@ endfunction
 
 " MRU_SaveList                          {{{1
 " Saves the MRU file names to the MRU file
-function! s:MRU_SaveList()
+function! s:MRU_SaveList()  "edited by Stuart
     let l = []
     call add(l, '# Most recently edited files in Vim (version 3.0)')
+    "this way we can more easily grep/head or otherwise use the file
+    "-Stuat Powers, Dec,2010
     call extend(l, s:MRU_files)
     call writefile(l, g:MRU_File)
 endfunction
