@@ -1,19 +1,33 @@
 
 hardstatus alwayslastline "%{= KW}%-w%{= wb}%50>%n %t%{-}%+w%<%-22=%{b}%c [%l]"
-#caption splitonly '%?%F%{=u R}%:%{+u k}%?---> %n %t <---%{-}%>%{=u b}.%100>'
-#caption string '%?%F%{=u R}---> %n %t <---%:%{=u b}.... %n %t ....%?%{-}%>%{=u b}%100>'
-#caption splitonly '%?%F%{=u R}--->%:%{= kw}...[%?%?%F%{=u r}%:%{= kw}%?%n %t%?%F%{=u R}<---%:%{= kw}]...%?%{-}%>%{=u b} %100>'
 
-#  run FOO if the current window is selected
-#  else run BAR:
-#  %?%F FOO %: BAR %?
+
 caption splitonly '%?%F%{=u R}------>%:%{= kw}......[%?%?%F%{= kY}%:%{= kw}%? %n %t %?%F%{=u R}<------%:%{= kw}]......%?%{-}%>%{=u w}.%100>'
 nonblock 5
 
 
-#screen 0
+#       bufferfile [exchange-file]
+#
+#        Change the filename used for reading and writing with the paste buffer.
+#        If the optional argument to the "bufferfile" command is omitted, the default
+#        setting ("/tmp/screen-exchange") is reactivated.  The following example will
+#        paste the systems password file into the screen window (using the paste buffer,
+#        where a copy remains):
+#
+#           C-a : bufferfile /etc/passwd
+#           C-a < C-a ]
+#           C-a : bufferfile
 
-bufferfile ${HOME}/.screen_buffer
+
+#   http://www.mail-archive.com/screen-users@gnu.org/msg01126.html
+#
+#        when I press the bound key (F9 here) ':foobar' is typed for me.
+#       :bindkey -k k9 eval "colon" "stuff foo" "stuff bar"
+
+
+#bind b eval "writebuf" "exec sh -c 'curl_note_bin < /tmp/screen-exchange'"
+
+#bufferfile ${HOME}/.screen_buffer
 #http://github.com/rtyler/dotfiles/blob/master/.screenrc
 bind ^B eval "hardcopy_append off" "hardcopy -h $HOME/.screen-scrape" #"screen /home/stu/bin/colonote $HOME/.screen-scrape"
 bind  y eval "writebuf" "exec ${HOME}/bin/copy-to-clipboard ${HOME}/.screen_buffer"
@@ -49,21 +63,6 @@ termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 defbce "on" 
 #bind k next
 #bind h prev
-
-#http://www.saltycrane.com/blog/2008/01/how-to-scroll-in-gnu-screen/
-
-#http://web.mit.edu/gnu/doc/html/screen_11.html
-# C-a : bufferfile /etc/passwd
-# C-a < C-a ]
-# C-a : bufferfile
-
-
-#bindkey j prev
-#bindkey k next
-
-#bindkey -k k1 select 1
-#bindkey -k k2 select 2
-#bindkey -k k3 select 3
 
 #caption always "%{= KW}%-w%{= wb}%50>%n %t%{-}%+w%<%-22=%{b}%c [%l]"
 #hardstatus alwayslastline "%{= KW}%-w%{= wk}%50>%n %t%{-}%+w%<"
