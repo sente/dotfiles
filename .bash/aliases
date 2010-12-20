@@ -11,7 +11,10 @@ alias irc="screen -rdU irc"
 alias urg="mutt -Rf /home/stu/Mail/urgmatch"
 alias dim="mutt -Rf /home/stu/Mail/dimins"
 alias mim="mutt -Rf /home/stu/Mail/mfolder"
-alias grep="grep --color=auto"
+
+# this option is exported in ~/.bashrc's GREP_OPTIONS 
+#alias grep="grep --color=auto"
+
 alias free="free -m"
 alias sls="screen -ls"
 alias srd="screen -rd"
