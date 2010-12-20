@@ -2,6 +2,28 @@
 # vim: set ft=sh et sw=4 sts=4 ts=4:
 
 
+
+
+
+#stat's terse format:
+#stat -t ==  "%n %s %b %f %u %g %D %i %h %t %T %X %Y %Z %o"
+stat_delim="\t"
+SFMT=$(echo "%n %s %b %f %u %g %D %i %h %t %T %X %Y %Z %o\n" | sed "s/ /${stat_delim-\t}/g")
+
+
+
+repeat() { local i n; n=$1; shift; for ((i=1; i<=n; i++)); do "$@"; done; }
+#stu@sente ~ $ repeat 3 echo foo
+#foo
+#foo
+#foo
+
+
+
+
+#see colors with less
+export LESS="-iMFXR"
+
 function canonpath ()
 {
     # show's the absolute path of a given file/directory
