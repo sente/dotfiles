@@ -56,6 +56,8 @@ endf
 
 
 
+
+
 set statusline=%m\ %-f%=\ \ \ \ %{SynName()}\ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
 "set statusline=%m\ %1*%-f%*%=\ \ \ \ %{SynName()}\ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
 
@@ -128,6 +130,10 @@ vmap <C-c> :w! ~/.vbuf<CR>
 nmap <C-c> :.w! ~/.vbuf<CR>
 nmap <C-v> :r ~/.vbuf<CR>
 
+vmap <leader><C-c> :w! ~/.vbuf.
+nmap <leader><C-c> :.w! ~/.vbuf.
+nmap <leader><C-v> :r ~/.vbuf.
+
 nnoremap ' `
 nnoremap ` '
 
@@ -148,6 +154,9 @@ source $HOME/.vim/pycol.vim
 "runtime! pycol.vim
 "runtime! syntax/diff.vim
 "runtime! syntax/pmenu.vim
+
+"temporary hack...
+source $HOME/.vim/syntax/diff.vim
 
 
 if has('python')

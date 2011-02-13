@@ -1,7 +1,57 @@
 #!/bin/sh
-# vim: set ft=sh et sw=4 sts=4 ts=4:
+# vim: set ft=sh et sw=4 sts=4 ts=4: 
 
 
+export LESS="-iMXRS#10"
+
+
+
+pstable ()
+{
+    ps -eo user,rss,vsize,pid,ppid,pcpu,pmem,cmd -ww --sort=user | tr '\t' ' ' | sed 's/ \+/ /g' | while read a b c d e f g h; do
+        echo -e "$a\t$b\t$c\t$d\t$e\t$f\t$g\t$h\t$i";
+    done | columnate.awk -F'\t' | less -SR
+}
+
+
+
+snapshot-list ()
+{
+    #function lists the snapshot paths for $ARG
+
+    local path=$1;
+
+    if [[ -x $(which readlink) ]]; then
+        path=$($(which readlink) -m "$path")
+        if [[ $path =~ ^/ ]]; then
+            #remove leading '/' from $path if $path starts with /
+            path="${path:1}"
+        fi
+    fi
+
+    #if we're not currently in /snapshots...
+    local snapdir="";
+    if [[ ! $PWD =~ ^/snapshots/* ]]; then
+        snapdir=/snapshots/;
+    fi;
+
+    local prefix=sente;
+    local types=(daily weekly monthly);
+    local numbers=(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16);
+
+
+    for t in ${types[@]};
+    do
+        for n in ${numbers[@]};
+        do
+            ddd=${snapdir}${t}.${n}
+            if [[ -d $ddd ]]; then
+                str=$ddd/${prefix}/$path
+                if [[ -e $str ]]; then echo "$str"; fi
+            fi
+        done
+    done
+}
 
 
 
@@ -11,18 +61,34 @@ stat_delim="\t"
 SFMT=$(echo "%n %s %b %f %u %g %D %i %h %t %T %X %Y %Z %o\n" | sed "s/ /${stat_delim-\t}/g")
 
 
+#inarray() { local q=$1 e; shift; for e; do [[ $q = "$e" ]] && return; done; } # Usage: inarray "$value" "${array[@]}"
+inarray ()
+{
+    local q=$1 e;
+    shift;
+    for e in "$@";
+    do
+        [[ $q = "$e" ]] && return;
+    done
+}
+
 
 repeat() { local i n; n=$1; shift; for ((i=1; i<=n; i++)); do "$@"; done; }
+export -f repeat
 #stu@sente ~ $ repeat 3 echo foo
 #foo
 #foo
 #foo
 
+python_module_dir () {
+    python -c """
+import os.path as _, $1 
+print _.dirname(_.realpath($1.__file__[:-1]))
+"""
+}
 
 
 
-#see colors with less
-export LESS="-iMFXR"
 
 function canonpath ()
 {
@@ -144,6 +210,31 @@ fi
 }
 
 function mkt () {
+    DIR=${HOME}/tmp/daily
+    TEMPLATE=$(date "+%m/%d")
+
+    arg=$1
+    if [[ -n $arg ]]; then
+        if [[ $arg =~ ^([[:alnum:]]|[[:punct:]])+$ ]]; then
+            TEMPLATE=$TEMPLATE/${arg}
+            echo "arg=$arg"
+        else
+            echo "error: arg: '$arg'" >&2
+            sleep 1
+        fi
+    fi
+
+    if [ -d $DIR/$TEMPLATE/ ]; then
+         cd $DIR/$TEMPLATE && ls -l
+    else
+        mkdir -p $DIR/$TEMPLATE && cd $DIR/$TEMPLATE
+    fi
+    echo $TEMPLATE >> $DIR/list.txt
+    echo -e "$(date +%s)\t$TEMPLATE" >> $DIR/log.txt
+}
+
+
+function mkt_old () {
     DIR=${HOME}/tmp
     TEMPLATE=tmp.$(date "+%m-%d")
 
@@ -153,6 +244,7 @@ function mkt () {
         mkdir $DIR/$TEMPLATE && cd $DIR/$TEMPLATE
     fi
 }
+
 
 #we don't want these functions defined on any IR servers
 if [ "$(whoami)" != "spowers" ]; then
@@ -176,7 +268,7 @@ if [ "$(whoami)" != "spowers" ]; then
         done
         file="${basedir}/$(date +%F.%s).${extension}";
         echo $file
-        while IFS='' read line; do
+        while IFS='' read -r line; do
             echo "$line" >> $file;
         done;
 
@@ -333,10 +425,9 @@ function emailpipe () {
 
 function curlnote () {
    if [ ! -f "$1" ]; then echo "$1 is not a file"; return 1; fi
-   curl -F "note=<$1" http://sente.cc/cgi-bin/note.pl 2>/dev/null | grep -m1 -o -E '"http://[^"]+"'
-#  curl -F "note=<$1" http://sente.cc/cgi-bin/note.pl 2>/dev/null  
+   #curl -F "note=<$1" http://sente.cc/cgi-bin/note.pl 2>/dev/null | grep -m1 -o -E '"http://[^"]+"'
+   curl --data-urlencode "note@$1" http://sente.cc/cgi-bin/note.pl 2>/dev/null | grep -m1 -o -E '"http://[^"]+"'
    echo "http://sente.cc/notes/recent/"
-   #curl -F "note=<$1" http://sente.cc/cgi-bin/note.pl 2>/dev/null | grep -o -E 'http://[0-9_a-zA-Z./-]+'
 }
 
 function webdiff ()

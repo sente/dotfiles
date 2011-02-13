@@ -38,15 +38,16 @@ fi
 if [ -f ~/.bashrc_local ]; then
       . ~/.bashrc_local
 fi
+#now handled with .bashrc_local
+    #if [ -f ${HOME}/.bash/bash_completion ]; then
+    #      . ${HOME}/.bash/bash_completion
+    #fi
+
+    #if [ -f /etc/bash_completion ]; then
+    #      . /etc/bash_completion
+    #fi
 
 
-#if [ -f ${HOME}/.bash/bash_completion ]; then
-#      . ${HOME}/.bash/bash_completion
-#fi
-
-#if [ -f /etc/bash_completion ]; then
-#      . /etc/bash_completion
-#fi
 
 if [ -d "${HOME}/bin" ]; then
     PATH="${PATH}:${HOME}/bin"
@@ -54,6 +55,19 @@ fi
 
 
 alias dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
+
+cdp ()
+{
+    if [ -n $2 ]; then
+        python=$1;
+        module=$2;
+    else
+        python=python;
+        module=$1;
+    fi;
+    cd "$($python -c "import os.path as _, ${module}; print _.dirname(_.realpath(${module}.__file__[:-1]))")"
+}
+
 
 function getdotfiles() {
     if [ -x $(which curl) ]; then
@@ -94,6 +108,17 @@ function BLUE	() { tput setaf 4; echo "$@"; tput setaf 9; }
 function PURPLE	() { tput setaf 5; echo "$@"; tput setaf 9; }
 function CYAN	() { tput setaf 6; echo "$@"; tput setaf 9; }
 function WHITE	() { tput setaf 7; echo "$@"; tput setaf 9; }
+
+#red='\e[0;31m'
+#RED='\e[1;31m'
+#green='\e[0;32m'
+#GREEN='\e[1;32m'
+#blue='\e[0;34m'
+#BLUE='\e[1;34m'
+#cyan='\e[0;36m'
+#CYAN='\e[1;36m'
+#NC='\e[0m'
+
 
 function COLORFUNC {
     n=$1
@@ -164,7 +189,7 @@ function exitstatus {
     if [[ $PWD != "$(readlink -m "$PWD")" ]]; then
          if [ "${EXITSTATUS}" -eq 0 ]
                 then PS1="${EMK}[${UC}\u${EMK}@${UC}\h ${EMG}\w ${EMK}]${UC}\\$ ${NONE}"
-                else PS1="${EMK}[${UC}\u${BLUE}@${EMK}${UC}\h ${EMG}\w${EMK}]${UC}\\$ ${NONE}"
+                else PS1="${RED}[${EMR}\u${BLUE}@${EMR}\h ${EMG}\w${EMK}]${UC}\\$ ${NONE}"
          fi
     else
          if [ "${EXITSTATUS}" -eq 0 ]
