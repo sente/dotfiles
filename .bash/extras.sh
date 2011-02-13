@@ -64,8 +64,6 @@ function pardir()
 }
 
 function pgtree () {
-    LESS="-FRSX#10"
-    export LESS
     (
     arg="$1"; shift
     cols="pid,user,ni,tt,stat,start,command"
