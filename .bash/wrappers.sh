@@ -146,8 +146,8 @@ function runremote() {
 }
 export -f runremote
 
-function runremote-dev() {
+function runremotedev() {
     echo -e  "$(date +%s)\t$PWD\t$(history 1 | sed -r 's/^ +[0-9]+ +//' )" >> ${HOME}/logs/cmds/runremote-dev.log 2>/dev/null
     command runremote-dev "$@"
 }
-export -f runremote-dev
+export -f runremotedev
