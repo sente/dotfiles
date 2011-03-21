@@ -1,12 +1,17 @@
 
 
-
 set nocompatible
 
+
+set bg=dark
+nnoremap <leader>w <C-w>v<C-w>l
+
+"makes ;; auto-complete while in insert mode
+imap ;; <C-P>
+    
 autocmd BufRead *.py set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
 autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m 
 autocmd BufRead *.py nmap <F5> :!python %<CR>
-
 
 
 let g:esc_filename_chars = ' *?[{`$%#"|!<>();&' . "'\t\n"
@@ -233,6 +238,21 @@ function! ModelineStub()
     $put =substitute(substitute(x, '\ \+', ' ', 'g'), ' $', '', '')
     call setpos('.', save_cursor)
 endfunction
+
+
+
+"taken from  https://github.com/alfredodeza/dotfiles/blob/master/.vimrc
+
+
+
+source $HOME/.vim/extras.vim
+
+
+
+
+
+
+
 
 
 
