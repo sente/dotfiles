@@ -5,6 +5,33 @@
 export LESS="-iMXRS#10"
 
 
+
+reverse_array() {
+
+    # A=(a b c d e f)
+    # reverse_array B "${A[@]}"
+    # echo "A = ${A[@]}"
+    # echo "B = ${B[@]}"
+
+    # A = a b c d e f
+    # B = f e d c b a
+
+    local _array="$1"
+    shift
+
+    unset $_array
+    while test $# != 0
+    do
+        IFS= read -rd '' "$_array[$#-1]" < <(printf %s "$1")
+        #printf -v "$_array[$(( $#-1 ))]" "%s" "$1"
+        #printf -v $_array[$#-1] "%s" "$1"
+        shift
+    done
+}
+
+
+
+
 #baseN(int(time.time()),36)
 
 function baseN() {
