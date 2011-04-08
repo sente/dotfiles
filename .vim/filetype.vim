@@ -30,7 +30,6 @@ augroup filetypedetect
 
 
 
-
   au! BufNewFile,BufRead *.sh,*/.bash/*,   setfiletype sh
   au! BufNewFile,BufRead *.rb,*.erb,*.rake setfiletype ruby
   au! BufNewFile,BufRead *.pl              setfiletype perl
@@ -52,7 +51,7 @@ augroup filetypedetect
   au! BufRead,BufNewFile *.xyz      setfiletype drawing
   au! BufRead,BufNewFile *.mrc      setfiletype mhonarc
 
-  au! BufRead,BufNewFile *.py       setfiletype python
+  au! BufRead,BufNewFile *.py,*.rpy setfiletype python
   au! BufRead,BufNewFile *.snip     setfiletype snip
 
 augroup END
