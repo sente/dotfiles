@@ -7,7 +7,8 @@ export LESS="-iMXRS#10"
 
 function webshare()
 {
-    python -c "import SimpleHTTPServer;SimpleHTTPServer.test($port)" $*
+    #usage: 'webshare <PORT>' - creates an HTTP Server on <PORT>
+    python -c "import SimpleHTTPServer;SimpleHTTPServer.test()" $*
 }
 
 
