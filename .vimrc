@@ -14,12 +14,15 @@
 
 set nocompatible
 
+filetype plugin indent on
+syntax on
+
 if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
     set ttymouse=xterm
 endif
 
 
-set bg=dark
+
 
 "makes ;; auto-complete while in insert mode
 imap ;; <C-P>
@@ -29,36 +32,12 @@ function! Stu_escape(fname)
     return escape(a:fname, g:esc_filename_chars)
 endfunction
 
-filetype plugin indent on
-syntax on
 
 
 highlight StatusLine ctermfg=blue ctermbg=yellow
 highlight Directory  ctermfg=red
 
-
-fun! StatusInfoHelper()
-	let fmt = 'ft=%s ts=%d sw=%d %s'
-	let x = printf(fmt, &ft, &ts, &sw ,(&et?"et":"noet"))
-	return x
-endf
-
-fun! SynName()
-    "returns the syntax type 'name' for the word under the cursor
-	let x = synIDattr(synID(line('.'),col('.'),1),'name')
-	return x
-endf
-
-fun! Synfg()
-	let x = synIDattr(synID(line('.'),col('.'),1),'fg')
-	return x
-endf
-
-set statusline=%m\ %-f%=\ \ \ \ %{SynName()}\ %{StatusInfoHelper()}\ %([%l:%c\:%02p%%]%)
-"set statusline=%m\ %1*%-f%*%=\ \ \ \ %{SynName()}\ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
-
-
-
+set bg=dark
 
 set et sw=4 ts=4
 
@@ -84,12 +63,16 @@ set isfname-==  " removed '=' since we don't want that ruining our autocomplete
 set whichwrap=b,s,h,l
 set viminfo='50,<1000,s100,:100,n~/.viminfo
 
+
+" StatusInfoHelper() and SynName() defined below
+set statusline=%m\ %-f%=\ \ \ \ %{SynName()}\ %{StatusInfoHelper()}\ %([%l:%c\:%02p%%]%)
+
+set pastetoggle=<F12>
+
+
 let mapleader = ","
 
 nnoremap <leader>w <C-w>v<C-w>l
-
-
-set pastetoggle=<F12>
 
 
 "ctrl-\ inserts the current file's path
@@ -203,6 +186,27 @@ fun! FixInvisiblePunctuation()
 endfun
 
 source $HOME/.vim/extras.vim
+
+
+
+fun! StatusInfoHelper()
+	let fmt = 'ft=%s ts=%d sw=%d %s'
+	let x = printf(fmt, &ft, &ts, &sw ,(&et?"et":"noet"))
+	return x
+endf
+
+fun! SynName()
+    "returns the syntax type 'name' for the word under the cursor
+	let x = synIDattr(synID(line('.'),col('.'),1),'name')
+	return x
+endf
+
+fun! Synfg()
+	let x = synIDattr(synID(line('.'),col('.'),1),'fg')
+	return x
+endf
+
+
 
 
 "from pprint import pprint; import IPython; IPython.Shell.IPShellEmbed(argv=[])()
