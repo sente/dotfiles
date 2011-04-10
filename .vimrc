@@ -1,9 +1,22 @@
+" Stuart Powers
+" http://sente.cc/
+" http://www.github.com/sente/dotfiles/
 
 set nocompatible
 
+if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
+    set ttymouse=xterm
+endif
+
+" useful websites:
+" http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html
+" http://got-ravings.blogspot.com/2008/08/vim-pr0n-making-statuslines-that-own.html
+" http://RAYNInfo.co.uk/vimtips.html
+" https://github.com/alfredodeza/dotfiles/blob/master/.vimrc
+" https://github.com/mitsuhiko/dotfiles/blob/master/vim/vimrc
+
 
 set bg=dark
-nnoremap <leader>w <C-w>v<C-w>l
 
 "makes ;; auto-complete while in insert mode
 imap ;; <C-P>
@@ -12,23 +25,10 @@ autocmd BufRead *.py set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stde
 autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m 
 autocmd BufRead *.py nmap <F5> :!python %<CR>
 
-
 let g:esc_filename_chars = ' *?[{`$%#"|!<>();&' . "'\t\n"
 function! Stu_escape(fname)
     return escape(a:fname, g:esc_filename_chars)
 endfunction
-
-"useful websites:
-" http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html
-" http://got-ravings.blogspot.com/2008/08/vim-pr0n-making-statuslines-that-own.html
-" http://RAYNInfo.co.uk/vimtips.html
-
-"experimental
-"set list listchars=tab:>.,trail:.
-
-if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
-    set ttymouse=xterm
-endif
 
 filetype plugin indent on
 syntax on
@@ -91,6 +91,8 @@ set whichwrap=b,s,h,l
 set viminfo='50,<1000,s100,:100,n~/.viminfo
 
 let mapleader = ","
+
+nnoremap <leader>w <C-w>v<C-w>l
 
 
 set pastetoggle=<F12>
