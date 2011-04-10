@@ -24,10 +24,6 @@ set bg=dark
 "makes ;; auto-complete while in insert mode
 imap ;; <C-P>
     
-autocmd BufRead *.py set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
-autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m 
-autocmd BufRead *.py nmap <F5> :!python %<CR>
-
 let g:esc_filename_chars = ' *?[{`$%#"|!<>();&' . "'\t\n"
 function! Stu_escape(fname)
     return escape(a:fname, g:esc_filename_chars)
