@@ -11,7 +11,6 @@
 " https://github.com/mitsuhiko/dotfiles/blob/master/vim/vimrc
 
 
-
 set nocompatible
 
 filetype plugin indent on
@@ -22,32 +21,15 @@ if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
 endif
 
 
-
-
-"makes ;; auto-complete while in insert mode
-imap ;; <C-P>
-    
-let g:esc_filename_chars = ' *?[{`$%#"|!<>();&' . "'\t\n"
-function! Stu_escape(fname)
-    return escape(a:fname, g:esc_filename_chars)
-endfunction
-
-
-
 highlight StatusLine ctermfg=blue ctermbg=yellow
 highlight Directory  ctermfg=red
 
 set bg=dark
-
 set et sw=4 ts=4
-
 set ignorecase
 set smartcase
-
 set mouse=a
-
 set laststatus=2
-
 set highlight=l:Visual 
 set scrolloff=5
 set number
@@ -57,23 +39,23 @@ set autoindent
 set cmdwinheight=15
 set wildmenu
 set wildmode=list:longest,full
-
 set isfname-==  " removed '=' since we don't want that ruining our autocomplete
-
 set whichwrap=b,s,h,l
 set viminfo='50,<1000,s100,:100,n~/.viminfo
+set pastetoggle=<F12>
 
 
 " StatusInfoHelper() and SynName() defined below
 set statusline=%m\ %-f%=\ \ \ \ %{SynName()}\ %{StatusInfoHelper()}\ %([%l:%c\:%02p%%]%)
 
-set pastetoggle=<F12>
 
 
 let mapleader = ","
 
 nnoremap <leader>w <C-w>v<C-w>l
 
+"makes ;; auto-complete while in insert mode
+imap ;; <C-P>
 
 "ctrl-\ inserts the current file's path
 cmap <C-\> <C-R>=expand("%:p:h") . "/" <CR>
@@ -123,17 +105,8 @@ map <C-l> <C-W>l
 
 
 
-
+" allow for 'Man foo' functionality
 runtime! ftplugin/man.vim
-source $HOME/.vim/pycol.vim
-"runtime! pycol.vim
-"runtime! syntax/diff.vim
-"runtime! syntax/pmenu.vim
-
-"temporary hack...
-source $HOME/.vim/syntax/diff.vim
-
-
 
 
 noremap <silent> <F10> :call IncrementOpt("tabstop",2,-2,500)<BAR>set tabstop?<CR>
@@ -153,37 +126,6 @@ endfunction
 
 
 
-nmap <silent> <Leader>ml :call ModelineStub()<CR>
- 
-function! ModelineStub()
-    "inserts '/* vim: set ft=vim ts=4 sw=4 tw=0 et:*/' at the bottom of the file
-
-    let save_cursor = getpos('.')
-    let fmt = ' vim: set ft=%s ts=%d sw=%d tw=%d %s:'
- 
-    let x = printf(&cms, printf(fmt, &ft, &ts, &sw, &tw, (&et?"et":"noet")))
-    $put =substitute(substitute(x, '\ \+', ' ', 'g'), ' $', '', '')
-    call setpos('.', save_cursor)
-endfunction
-
-
-"taken from  https://github.com/alfredodeza/dotfiles/blob/master/.vimrc
-
-fun! FixInvisiblePunctuation()
-"\%u2018\|\%u2019\|\%u2026\|\%uf0e0\|\%u0092\|\%u2013\|\%u2014\|\%u201C\|\%u201D\|\%u0052\%u20ac\%u2122\|\%ua0
-    silent! %s/\%u2018/'/g
-    silent! %s/\%u2019/'/g
-    silent! %s/\%u2026/.../g
-    silent! %s/\%uf0e0/->/g
-    silent! %s/\%u0092/'/g
-    silent! %s/\%u2013/--/g
-    silent! %s/\%u2014/--/g
-    silent! %s/\%u201C/"/g
-    silent! %s/\%u201D/"/g
-    silent! %s/\%u0052\%u20ac\%u2122/'/g
-    silent! %s/\%ua0/ /g
-    retab
-endfun
 
 source $HOME/.vim/extras.vim
 
@@ -208,8 +150,6 @@ endf
 
 
 
-
-"from pprint import pprint; import IPython; IPython.Shell.IPShellEmbed(argv=[])()
 
 
 if has('python')
@@ -257,6 +197,30 @@ EOL
 command -range Pyer python PyExecReplace(<f-line1>,<f-line2>)
 endif
 
+
+"from pprint import pprint; import IPython; IPython.Shell.IPShellEmbed(argv=[])()
+
+
+fun! FixInvisiblePunctuation()
+" taken from  https://github.com/alfredodeza/dotfiles/blob/master/.vimrc
+" \%u2018\|\%u2019\|\%u2026\|\%uf0e0\|\%u0092\|\%u2013\|\%u2014\|\%u201C\|\%u201D\|\%u0052\%u20ac\%u2122\|\%ua0
+    silent! %s/\%u2018/'/g
+    silent! %s/\%u2019/'/g
+    silent! %s/\%u2026/.../g
+    silent! %s/\%uf0e0/->/g
+    silent! %s/\%u0092/'/g
+    silent! %s/\%u2013/--/g
+    silent! %s/\%u2014/--/g
+    silent! %s/\%u201C/"/g
+    silent! %s/\%u201D/"/g
+    silent! %s/\%u0052\%u20ac\%u2122/'/g
+    silent! %s/\%ua0/ /g
+    retab
+endfun
+
+
+" ===================================================================
+
 "command Pyflakes :call Pyflakes()
 "function! Pyflakes()
 "    let tmpfile = tempname()
@@ -266,60 +230,91 @@ endif
 "    cw
 "endfunction
 
+" ===================================================================
 
+" nmap <silent> <Leader>ml :call ModelineStub()<CR>
+"  
+" function! ModelineStub()
+"     "inserts '/* vim: set ft=vim ts=4 sw=4 tw=0 et:*/' at the bottom of the file
+" 
+"     let save_cursor = getpos('.')
+"     let fmt = ' vim: set ft=%s ts=%d sw=%d tw=%d %s:'
+"  
+"     let x = printf(&cms, printf(fmt, &ft, &ts, &sw, &tw, (&et?"et":"noet")))
+"     $put =substitute(substitute(x, '\ \+', ' ', 'g'), ' $', '', '')
+"     call setpos('.', save_cursor)
+" endfunction
 
+" ===================================================================
 
-function! Insert(token)
-   exec "r !awk -vpattern=" . a:token . " -f ~/.vim/templates/awk.awk ~/.vim/templates/template.txt"
-endfunction
+" let g:esc_filename_chars = ' *?[{`$%#"|!<>();&' . "'\t\n"
+" function! Stu_escape(fname)
+"     return escape(a:fname, g:esc_filename_chars)
+" endfunction
 
-function! Graph()
-   exec ":! ~/.vim/graph.sh %"
-endfunction
+" ===================================================================
 
-let MRU_Window_Height = 15
-:command! -n=* Graph           :call Graph()
+" source $HOME/.vim/pycol.vim
+" runtime! pycol.vim
+" runtime! syntax/diff.vim
+" runtime! syntax/pmenu.vim
 
-:command! -n=* Inpt            :call Insert("inpt")
-:command! -n=* Parms           :call Insert("parms")
-:command! -n=* Directory       :call Insert("directory")
-:command! -n=* Alias           :call Insert("alias")
-:command! -n=* Execrows        :call Insert("execrows")
-:command! -n=* List            :call Insert("list")
-:command! -n=* ColTrace        :call Insert("coltrace")
-:command! -n=* Trace           :call Insert("trace")
-:command! -n=* Split           :call Insert("split")
-:command! -n=* Filter          :call Insert("filter")
-:command! -n=* Output          :call Insert("output")
-:command! -n=* Brackets        :call Insert("brackets")
-:command! -n=* Sort            :call Insert("sort")
-:command! -n=* Squash          :call Insert("squash")
-:command! -n=* Break           :call Insert("break")
-:command! -n=* Multijoin       :call Insert("multijoin")
-:command! -n=* Join            :call Insert("join")
-:command! -n=* Lookup          :call Insert("lookup")
-:command! -n=* Concat          :call Insert("concat")
-:command! -n=* Rotate          :call Insert("rotate")
-:command! -n=* Unrotate        :call Insert("unrotate")
-:command! -n=* Expand          :call Insert("expand")
-:command! -n=* Calc            :call Insert("calc")
-:command! -n=* If              :call Insert("if")
-:command! -n=* Rpad            :call Insert("rpad")
-:command! -n=* Scan            :call Insert("scan")
-:command! -n=* Translate       :call Insert("translate")
-:command! -n=* Regexp          :call Insert("regexp")
-:command! -n=* Regexpvalue     :call Insert("regexp_value")
-:command! -n=* Today           :call Insert("today")
-:command! -n=* Formatdate      :call Insert("format_date")
-:command! -n=* Formatdaterange :call Insert("format_date_range")
-:command! -n=* Datevalue       :call Insert("date_value")
-:command! -n=* Column          :call Insert("column")
-:command! -n=* Update          :call Insert("update")
-:command! -n=* Persistent      :call Insert("persistent")
-:command! -n=* Formatdatevalue :call Insert("format_date_value")
-:command! -n=* Julianday       :call Insert("julian_day")
-:command! -n=* Age             :call Insert("age")
-:command! -n=* Rownum          :call Insert("row_num")
-:command! -n=* YearMon         :call Insert("year_mon")
-:command! -n=* Template        :call Insert("template")
-:command! -n=* Builder         :call Insert("builder")
+" temporary hack...
+" source $HOME/.vim/syntax/diff.vim
+
+" ===================================================================
+
+" function! Insert(token)
+"    exec "r !awk -vpattern=" . a:token . " -f ~/.vim/templates/awk.awk ~/.vim/templates/template.txt"
+" endfunction
+" 
+" function! Graph()
+"    exec ":! ~/.vim/graph.sh %"
+" endfunction
+" 
+" let MRU_Window_Height = 15
+" :command! -n=* Graph           :call Graph()
+" 
+" :command! -n=* Inpt            :call Insert("inpt")
+" :command! -n=* Parms           :call Insert("parms")
+" :command! -n=* Directory       :call Insert("directory")
+" :command! -n=* Alias           :call Insert("alias")
+" :command! -n=* Execrows        :call Insert("execrows")
+" :command! -n=* List            :call Insert("list")
+" :command! -n=* ColTrace        :call Insert("coltrace")
+" :command! -n=* Trace           :call Insert("trace")
+" :command! -n=* Split           :call Insert("split")
+" :command! -n=* Filter          :call Insert("filter")
+" :command! -n=* Output          :call Insert("output")
+" :command! -n=* Brackets        :call Insert("brackets")
+" :command! -n=* Sort            :call Insert("sort")
+" :command! -n=* Squash          :call Insert("squash")
+" :command! -n=* Break           :call Insert("break")
+" :command! -n=* Multijoin       :call Insert("multijoin")
+" :command! -n=* Join            :call Insert("join")
+" :command! -n=* Lookup          :call Insert("lookup")
+" :command! -n=* Concat          :call Insert("concat")
+" :command! -n=* Rotate          :call Insert("rotate")
+" :command! -n=* Unrotate        :call Insert("unrotate")
+" :command! -n=* Expand          :call Insert("expand")
+" :command! -n=* Calc            :call Insert("calc")
+" :command! -n=* If              :call Insert("if")
+" :command! -n=* Rpad            :call Insert("rpad")
+" :command! -n=* Scan            :call Insert("scan")
+" :command! -n=* Translate       :call Insert("translate")
+" :command! -n=* Regexp          :call Insert("regexp")
+" :command! -n=* Regexpvalue     :call Insert("regexp_value")
+" :command! -n=* Today           :call Insert("today")
+" :command! -n=* Formatdate      :call Insert("format_date")
+" :command! -n=* Formatdaterange :call Insert("format_date_range")
+" :command! -n=* Datevalue       :call Insert("date_value")
+" :command! -n=* Column          :call Insert("column")
+" :command! -n=* Update          :call Insert("update")
+" :command! -n=* Persistent      :call Insert("persistent")
+" :command! -n=* Formatdatevalue :call Insert("format_date_value")
+" :command! -n=* Julianday       :call Insert("julian_day")
+" :command! -n=* Age             :call Insert("age")
+" :command! -n=* Rownum          :call Insert("row_num")
+" :command! -n=* YearMon         :call Insert("year_mon")
+" :command! -n=* Template        :call Insert("template")
+" :command! -n=* Builder         :call Insert("builder")
