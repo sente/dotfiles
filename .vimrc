@@ -32,18 +32,9 @@ endfunction
 filetype plugin indent on
 syntax on
 
+
 highlight StatusLine ctermfg=blue ctermbg=yellow
 highlight Directory  ctermfg=red
-
-highlight Pmenu     ctermbg=black
-highlight PmenuSel  ctermfg=black   ctermbg=cyan
-highlight PmenuSbar ctermbg=cyan    ctermfg=yellow
-highlight PmenuThumb ctermfg=yellow ctermbg=cyan
-
-
-
-
-
 
 
 fun! StatusInfoHelper()
@@ -69,9 +60,6 @@ set statusline=%m\ %-f%=\ \ \ \ %{SynName()}\ %{StatusInfoHelper()}\ %([%l:%c\:%
 
 
 
-
-
-
 set et sw=4 ts=4
 
 set ignorecase
@@ -79,8 +67,6 @@ set smartcase
 
 set mouse=a
 
-"set tabstop=3     
-"set shiftwidth=3  
 set laststatus=2
 
 set highlight=l:Visual 
