@@ -133,7 +133,7 @@ nnoremap <Leader>1 yypVr=
 nnoremap <Leader>2 yypVr-
 
 " Count current word 
-nmap <Leader>w <Esc>:call Count(expand("<cword>"))<CR>
+" nmap <Leader>w <Esc>:call Count(expand("<cword>"))<CR>
 
 " Ack searching 
 nmap <Leader>a <Esc>:Ack 
