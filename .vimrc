@@ -2,18 +2,21 @@
 " http://sente.cc/
 " http://www.github.com/sente/dotfiles/
 
-set nocompatible
 
-if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
-    set ttymouse=xterm
-endif
-
-" useful websites:
+" useful resources:
 " http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html
 " http://got-ravings.blogspot.com/2008/08/vim-pr0n-making-statuslines-that-own.html
 " http://RAYNInfo.co.uk/vimtips.html
 " https://github.com/alfredodeza/dotfiles/blob/master/.vimrc
 " https://github.com/mitsuhiko/dotfiles/blob/master/vim/vimrc
+
+
+
+set nocompatible
+
+if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
+    set ttymouse=xterm
+endif
 
 
 set bg=dark
@@ -41,30 +44,39 @@ highlight PmenuSel  ctermfg=black   ctermbg=cyan
 highlight PmenuSbar ctermbg=cyan    ctermfg=yellow
 highlight PmenuThumb ctermfg=yellow ctermbg=cyan
 
-set et sw=4 ts=4
 
-fun! ModelTown()
+
+
+
+
+
+fun! StatusInfoHelper()
 	let fmt = 'ft=%s ts=%d sw=%d %s'
 	let x = printf(fmt, &ft, &ts, &sw ,(&et?"et":"noet"))
 	return x
 endf
 
 fun! SynName()
+    "returns the syntax type 'name' for the word under the cursor
 	let x = synIDattr(synID(line('.'),col('.'),1),'name')
 	return x
 endf
+
 fun! Synfg()
 	let x = synIDattr(synID(line('.'),col('.'),1),'fg')
 	return x
 endf
 
-
-
-
-
-set statusline=%m\ %-f%=\ \ \ \ %{SynName()}\ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
+set statusline=%m\ %-f%=\ \ \ \ %{SynName()}\ %{StatusInfoHelper()}\ %([%l:%c\:%02p%%]%)
 "set statusline=%m\ %1*%-f%*%=\ \ \ \ %{SynName()}\ %{ModelTown()}\ %([%l:%c\:%02p%%]%)
 
+
+
+
+
+
+
+set et sw=4 ts=4
 
 set ignorecase
 set smartcase
@@ -121,14 +133,6 @@ map <Leader>s :split <C-R>=expand("%:p:h") . '/'<CR>
 map <Leader>v :vnew <C-R>=expand("%:p:h") . '/'<CR>
 
 
-if has('python')
-	runtime! lodgeit.vim
-	"http://www.vim.org/scripts/script.php?script_id=1965
-	"http://paste.pocoo.org/help/integration/
-	map <leader><leader><C-P> :Lodgeit<CR>
-endif
-
-
 vmap < <gv
 vmap > >gv
 
@@ -163,6 +167,71 @@ source $HOME/.vim/pycol.vim
 
 "temporary hack...
 source $HOME/.vim/syntax/diff.vim
+
+
+
+
+noremap <silent> <F10> :call IncrementOpt("tabstop",2,-2,500)<BAR>set tabstop?<CR>
+noremap <silent> <F11> :call IncrementOpt("tabstop",2,2,500)<BAR>set tabstop?<CR>
+imap <F10> <C-O><F10>
+imap <F11> <C-O><F11>
+
+
+" http://vim.wikia.com/wiki/Handy_option_flag_toggler
+function IncrementOpt(option,min,inc,max)
+  exec ('let tz_value = (((&'.a:option.'-'.a:min.')+'.a:inc.')%(('.a:max.'-'.a:min.')+'.a:inc.'))+'.a:min)
+  if (tz_value > a:max || tz_value < a:min) " in case inc<0
+    let tz_value = a:min
+  endif
+  exec ('setlocal '.a:option.'='.tz_value)
+endfunction
+
+
+
+nmap <silent> <Leader>ml :call ModelineStub()<CR>
+ 
+function! ModelineStub()
+    "inserts '/* vim: set ft=vim ts=4 sw=4 tw=0 et:*/' at the bottom of the file
+
+    let save_cursor = getpos('.')
+    let fmt = ' vim: set ft=%s ts=%d sw=%d tw=%d %s:'
+ 
+    let x = printf(&cms, printf(fmt, &ft, &ts, &sw, &tw, (&et?"et":"noet")))
+    $put =substitute(substitute(x, '\ \+', ' ', 'g'), ' $', '', '')
+    call setpos('.', save_cursor)
+endfunction
+
+
+"taken from  https://github.com/alfredodeza/dotfiles/blob/master/.vimrc
+
+fun! FixInvisiblePunctuation()
+"\%u2018\|\%u2019\|\%u2026\|\%uf0e0\|\%u0092\|\%u2013\|\%u2014\|\%u201C\|\%u201D\|\%u0052\%u20ac\%u2122\|\%ua0
+    silent! %s/\%u2018/'/g
+    silent! %s/\%u2019/'/g
+    silent! %s/\%u2026/.../g
+    silent! %s/\%uf0e0/->/g
+    silent! %s/\%u0092/'/g
+    silent! %s/\%u2013/--/g
+    silent! %s/\%u2014/--/g
+    silent! %s/\%u201C/"/g
+    silent! %s/\%u201D/"/g
+    silent! %s/\%u0052\%u20ac\%u2122/'/g
+    silent! %s/\%ua0/ /g
+    retab
+endfun
+
+source $HOME/.vim/extras.vim
+
+
+"from pprint import pprint; import IPython; IPython.Shell.IPShellEmbed(argv=[])()
+
+
+if has('python')
+	runtime! lodgeit.vim
+	"http://www.vim.org/scripts/script.php?script_id=1965
+	"http://paste.pocoo.org/help/integration/
+	map <leader><leader><C-P> :Lodgeit<CR>
+endif
 
 
 if has('python')
@@ -202,7 +271,6 @@ EOL
 command -range Pyer python PyExecReplace(<f-line1>,<f-line2>)
 endif
 
-
 "command Pyflakes :call Pyflakes()
 "function! Pyflakes()
 "    let tmpfile = tempname()
@@ -211,64 +279,6 @@ endif
 "    make
 "    cw
 "endfunction
-
-
-" http://vim.wikia.com/wiki/Handy_option_flag_toggler
-function IncrementOpt(option,min,inc,max)
-  exec ('let tz_value = (((&'.a:option.'-'.a:min.')+'.a:inc.')%(('.a:max.'-'.a:min.')+'.a:inc.'))+'.a:min)
-  if (tz_value > a:max || tz_value < a:min) " in case inc<0
-    let tz_value = a:max
-  endif
-  exec ('setlocal '.a:option.'='.tz_value)
-endfunction
-
-noremap <silent> <F10> :call IncrementOpt("tabstop",2,-2,500)<BAR>set tabstop?<CR>
-noremap <silent> <F11> :call IncrementOpt("tabstop",2,2,500)<BAR>set tabstop?<CR>
-imap <F10> <C-O><F10>
-imap <F11> <C-O><F11>
-
-
-
-nmap <silent> <Leader>ml :call ModelineStub()<CR>
- 
-function! ModelineStub()
-    let save_cursor = getpos('.')
-    let fmt = ' vim: set ft=%s ts=%d sw=%d tw=%d %s:'
- 
-    let x = printf(&cms, printf(fmt, &ft, &ts, &sw, &tw, (&et?"et":"noet")))
-    $put =substitute(substitute(x, '\ \+', ' ', 'g'), ' $', '', '')
-    call setpos('.', save_cursor)
-endfunction
-
-
-
-"taken from  https://github.com/alfredodeza/dotfiles/blob/master/.vimrc
-
-fun! FixInvisiblePunctuation()
-"\%u2018\|\%u2019\|\%u2026\|\%uf0e0\|\%u0092\|\%u2013\|\%u2014\|\%u201C\|\%u201D\|\%u0052\%u20ac\%u2122\|\%ua0
-    silent! %s/\%u2018/'/g
-    silent! %s/\%u2019/'/g
-    silent! %s/\%u2026/.../g
-    silent! %s/\%uf0e0/->/g
-    silent! %s/\%u0092/'/g
-    silent! %s/\%u2013/--/g
-    silent! %s/\%u2014/--/g
-    silent! %s/\%u201C/"/g
-    silent! %s/\%u201D/"/g
-    silent! %s/\%u0052\%u20ac\%u2122/'/g
-    silent! %s/\%ua0/ /g
-    retab
-endfun
-
-
-
-source $HOME/.vim/extras.vim
-
-
-
-
-"from pprint import pprint; import IPython; IPython.Shell.IPShellEmbed(argv=[])()
-
 
 
 
