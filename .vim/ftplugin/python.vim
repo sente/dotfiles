@@ -23,3 +23,22 @@ set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_co
 set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
 
 map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
+
+
+
+
+" http://stackoverflow.com/questions/601039/vim-save-and-run-at-the-same-time
+
+command! -complete=file -nargs=+ Shell call s:runshellcommand(<q-args>)
+
+function! s:runshellcommand(cmdline)
+    botright vnew
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    call setline(1,a:cmdline)
+    call setline(2,substitute(a:cmdline,'.','=','g'))
+    execute 'silent $read !'.escape(a:cmdline,'%#')
+    setlocal nomodifiable
+    1
+endfunction
+
+map <F9> :w<CR>:Shell python % <CR><C-W>
