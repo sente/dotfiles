@@ -82,6 +82,7 @@ function dfp() {
     df=($(df -P /)); echo "${df[11]}"
 }
 
+export PYTHONSTARTUP=${HOME}/.pythonrc
 export PYTHONPATH=${HOME}/code/lib
 export LANG=en_US.UTF-8
 export GREP_OPTIONS="--color=auto"
