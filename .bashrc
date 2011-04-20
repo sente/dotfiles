@@ -202,12 +202,6 @@ function exitstatus {
     echo -ne "\033k\033\\"
 }
 
-if [[ $HOSTNAME = *interreport* ]]; then
-    PROMPT_COMMAND="exitstatus"
-elif [[ $HOSTNAME = *dimins* ]]; then
-    PROMPT_COMMAND="exitstatus"
-elif [[ $HOSTNAME = *sente* ]]; then
-    PROMPT_COMMAND="exitstatus && history -a && history 1 >> ${HOME}/logs/bash_history"
-fi
+PROMPT_COMMAND="exitstatus && history -a && history 1 >> ${HOME}/logs/bash_history"
 
 # vim: set ft=sh ts=4 sws=4 sw=4:
