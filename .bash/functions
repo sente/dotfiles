@@ -5,6 +5,39 @@
 export LESS="-iMXRS#10"
 
 
+confirm()
+{
+    local reply;
+    # make sure stdin is a terminal
+    [[ -t 0 ]] || exec < /dev/tty;
+
+    read -p "$bold$1$reset [Y/n] " reply;
+
+    # if reply is empty
+    [[ -z $reply ]] && return 0
+
+    # if reply is Yes
+    [[ $reply = [Yy] || $reply = [Yy][Ee][Ss] ]] && return 0
+    
+    # they typed something but it wasn't Y,Yes,YES,yES...
+    return 1
+}
+
+die()
+{
+    if ((color)) && [[ -t 2 ]]; then
+        printf "$red%s:$reset" "error";
+    else
+        printf "$bold%s:$reset" "error";
+    fi;
+    printf "\t %s\n" "$@";
+    exit 1
+} 1>&2
+
+
+
+
+
 function webshare()
 {
     #usage: 'webshare <PORT>' - creates an HTTP Server on <PORT>
