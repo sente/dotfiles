@@ -6,6 +6,8 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
+alias duh='du -h --max-depth=1'
+
 alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 alias irc="screen -rdU irc"
 alias urg="mutt -Rf /home/stu/Mail/urgmatch"
