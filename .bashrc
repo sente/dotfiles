@@ -38,16 +38,6 @@ fi
 if [ -f ~/.bashrc_local ]; then
       . ~/.bashrc_local
 fi
-#now handled with .bashrc_local
-    #if [ -f ${HOME}/.bash/bash_completion ]; then
-    #      . ${HOME}/.bash/bash_completion
-    #fi
-
-    #if [ -f /etc/bash_completion ]; then
-    #      . /etc/bash_completion
-    #fi
-
-
 
 if [ -d "${HOME}/bin" ]; then
     PATH="${PATH}:${HOME}/bin"
@@ -55,18 +45,6 @@ fi
 
 
 alias dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
-
-cdp ()
-{
-    if [ -n $2 ]; then
-        python=$1;
-        module=$2;
-    else
-        python=python;
-        module=$1;
-    fi;
-    cd "$($python -c "import os.path as _, ${module}; print _.dirname(_.realpath(${module}.__file__[:-1]))")"
-}
 
 
 function getdotfiles() {
@@ -78,9 +56,8 @@ function getdotfiles() {
 }
 
 
-function dfp() {
-    df=($(df -P /)); echo "${df[11]}"
-}
+stty stop  undef
+stty start undef
 
 export PYTHONSTARTUP=${HOME}/.pythonrc
 export PYTHONPATH=${HOME}/code/lib
@@ -88,8 +65,9 @@ export LANG=en_US.UTF-8
 export GREP_OPTIONS="--color=auto"
 
 unset HISTFILESIZE
+
 export HISTSIZE=10000
-#export HISTIGNORE="history *:"
+# export HISTIGNORE="history *:"
 export HISTCONTROL=ignoredups:ignorespace
 shopt -s histappend
 
@@ -102,45 +80,8 @@ shopt -s no_empty_cmd_completion
 
 
 
-function RED    () { tput setaf 1; echo "$@"; tput setaf 9; }
-function GREEN	() { tput setaf 2; echo "$@"; tput setaf 9; }
-function YELLOW	() { tput setaf 3; echo "$@"; tput setaf 9; }
-function BLUE	() { tput setaf 4; echo "$@"; tput setaf 9; }
-function PURPLE	() { tput setaf 5; echo "$@"; tput setaf 9; }
-function CYAN	() { tput setaf 6; echo "$@"; tput setaf 9; }
-function WHITE	() { tput setaf 7; echo "$@"; tput setaf 9; }
-
-#red='\e[0;31m'
-#RED='\e[1;31m'
-#green='\e[0;32m'
-#GREEN='\e[1;32m'
-#blue='\e[0;34m'
-#BLUE='\e[1;34m'
-#cyan='\e[0;36m'
-#CYAN='\e[1;36m'
-#NC='\e[0m'
-
-
-function COLORFUNC {
-    n=$1
-    shift;
-
-    if ! [[ -n $n ]]; then echo "pass parm" >&2; return 1; fi
-    [[ $n -eq 1 ]]  && BLUE "$@" && return 0
-    [[ $n -eq 2 ]]  && RED "$@" && return 0
-    [[ $n -eq 3 ]]  && GREEN "$@" && return 0
-    [[ $n -eq 4 ]]  && YELLOW "$@" && return 0
-    [[ $n -eq 5 ]]  && PURPLE "$@" && return 0
-    [[ $n -eq 6 ]]  && CYAN "$@" && return 0
-    [[ $n -eq 7 ]]  && WHITE "$@" && return 0
-    echo "bad parm" >&2; return 1;
-
-}
-
-stty stop  undef
-stty start undef
-
 #http://blog.gnist.org/article.php?story=BashPromptWithExitStatus
+
 function exitstatus {
 
     EXITSTATUS="$?"
@@ -186,7 +127,6 @@ function exitstatus {
     [ $UID -eq "0" ] && UC=$R   # root's color
 
 
-
     if [[ $PWD != "$(readlink -m "$PWD")" ]]; then
          if [ "${EXITSTATUS}" -eq 0 ]
                 then PS1="${EMK}[${UC}\u${EMK}@${UC}\h ${EMG}\w ${EMK}]${UC}\\$ ${NONE}"
@@ -202,6 +142,13 @@ function exitstatus {
     echo -ne "\033k\033\\"
 }
 
+function log_hist_command {
+    echo -e "$(date +%F.%H:%M:%S)\t${PWD}\t$(tail -n1 ${HOME}/.bash_history)" >> "${HOME}/logs/history/$(date +%F).log"
+}
+
+#PROMPT_COMMAND="exitstatus && history -a && log_hist_command"
+
 PROMPT_COMMAND="exitstatus && history -a && history 1 >> ${HOME}/logs/bash_history"
+
 
 # vim: set ft=sh ts=4 sws=4 sw=4:

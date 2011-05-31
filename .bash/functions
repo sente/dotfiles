@@ -5,6 +5,65 @@
 export LESS="-iMXRS#10"
 
 
+function dfp() {
+    # reports the percentage of used diskspace
+    # stu@vervet:~$ dfp
+    # 11%
+    # stu@sente ~ $ dfp
+    # 97%
+    mydf=($(df -P /));
+    echo "${mydf[11]}"
+}
+
+
+cdp ()
+{
+    # usage: cdp <python> <module>
+    # cdp python json --> cd's you into the json module's directory
+    # can be used to determine the module for a given python version
+
+    if [ -n $2 ]; then
+        python=$1;
+        module=$2;
+    else
+        python=python;
+        module=$1;
+    fi;
+    cd "$($python -c "import os.path as _, ${module}; print _.dirname(_.realpath(${module}.__file__[:-1]))")"
+}
+
+function RED    () { tput setaf 1; echo "$@"; tput setaf 9; }
+function GREEN	() { tput setaf 2; echo "$@"; tput setaf 9; }
+function YELLOW	() { tput setaf 3; echo "$@"; tput setaf 9; }
+function BLUE	() { tput setaf 4; echo "$@"; tput setaf 9; }
+function PURPLE	() { tput setaf 5; echo "$@"; tput setaf 9; }
+function CYAN	() { tput setaf 6; echo "$@"; tput setaf 9; }
+function WHITE	() { tput setaf 7; echo "$@"; tput setaf 9; }
+
+function COLORFUNC {
+
+    n=$1
+    shift;
+
+    if ! [[ -n $n ]]; then
+        echo "pass parm" >&2;
+        return 1;
+    fi
+
+    [[ $n -eq 1 ]] && BLUE "$@" && return 0
+    [[ $n -eq 2 ]] && RED "$@" && return 0
+    [[ $n -eq 3 ]] && GREEN "$@" && return 0
+    [[ $n -eq 4 ]] && YELLOW "$@" && return 0
+    [[ $n -eq 5 ]] && PURPLE "$@" && return 0
+    [[ $n -eq 6 ]] && CYAN "$@" && return 0
+    [[ $n -eq 7 ]] && WHITE "$@" && return 0
+    echo "bad parm" >&2; return 1;
+
+}
+
+
+
+
 confirm()
 {
     local reply;
