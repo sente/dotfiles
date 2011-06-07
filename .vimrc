@@ -10,6 +10,8 @@
 " https://github.com/alfredodeza/dotfiles/blob/master/.vimrc
 " https://github.com/mitsuhiko/dotfiles/blob/master/vim/vimrc
 
+" colorscheme mustang
+" colorscheme impact
 
 set nocompatible
 
