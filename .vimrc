@@ -23,6 +23,11 @@ if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
 endif
 
 
+" there's probably a better place to put this...
+let &t_Co=256
+colorscheme delek
+
+
 highlight StatusLine ctermfg=blue ctermbg=yellow
 highlight Directory  ctermfg=red
 
