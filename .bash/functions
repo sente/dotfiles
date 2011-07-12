@@ -5,6 +5,11 @@
 export LESS="-iMXRS#10"
 
 
+
+function show_tcp_ports() {
+    nmap -p1-65535 localhost 2>/dev/null | awk -F/ '/^[0-9]+\/tcp/{print "http://sente.cc:" $1 "/"}'
+}
+
 function dfp() {
     # reports the percentage of used diskspace
     # stu@vervet:~$ dfp
