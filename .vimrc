@@ -25,6 +25,7 @@ endif
 
 " there's probably a better place to put this...
 let &t_Co=256
+" I really shouldn't have this here..
 colorscheme delek
 
 
