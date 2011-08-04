@@ -44,7 +44,9 @@ if [ -d "${HOME}/bin" ]; then
 fi
 
 
-alias dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
+#moved to .bash/aliases
+#alias dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
+
 
 
 function getdotfiles() {

@@ -33,4 +33,6 @@ alias lsf='ls -lh | grep "^-"'
 alias lsd='ls -lh | grep "^d"' # list only directories
 alias lsl='ls -lh | grep "^l"' # list only links
 
+alias dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
+
 # vim:filetype=sh
