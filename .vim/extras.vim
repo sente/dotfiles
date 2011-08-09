@@ -51,7 +51,8 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 "
 
 " For xml, xhtml and html let's use 2 spaces of indentation
-autocmd FileType html,xhtml,xml setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+" also for javascript
+autocmd FileType html,xhtml,xml,javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
 " Let me know what command I'm typing 
 set showcmd
