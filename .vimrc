@@ -51,7 +51,8 @@ set isfname-==  " removed '=' since we don't want that ruining our autocomplete
 set whichwrap=b,s,h,l
 set viminfo='50,<1000,s100,:100,n~/.viminfo
 set pastetoggle=<F12>
-
+set modeline
+set modelines=5
 
 " StatusInfoHelper() and SynName() defined below
 set statusline=%m\ %-f%=\ \ \ \ %{SynName()}\ %{StatusInfoHelper()}\ %([%l:%c\:%02p%%]%)
