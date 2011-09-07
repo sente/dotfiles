@@ -136,6 +136,38 @@ au FileType html setlocal foldmethod=manual
 au FileType html nnoremap <buffer> <leader>f Vatzf
 
 
+"hilight word under cursor
+nnoremap <silent> <leader>hh :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
+nnoremap <silent> <leader>h1 :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
+nnoremap <silent> <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
+nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
+
+hi def link InterestingWord1 Todo
+hi def link InterestingWord2 Error
+hi def link InterestingWord3 Todo
+"hi InterestingWord1 guifg=#000000 guibg=#FFA700
+"hi InterestingWord2 guifg=#000000 guibg=#53FF00
+"hi InterestingWord3 guifg=#000000 guibg=#FF74F8
+
+
+
+" Error navigation {{{
+"
+"             Location List     QuickFix Window
+"            (e.g. Syntastic)     (e.g. Ack)
+"            ----------------------------------
+" Next      |     M-k               M-Down     |
+" Previous  |     M-l                M-Up      |
+"            ----------------------------------
+"
+nnoremap ˚ :lnext<cr>zvzz
+nnoremap ¬ :lprevious<cr>zvzz
+inoremap ˚ <esc>:lnext<cr>zvzz
+inoremap ¬ <esc>:lprevious<cr>zvzz
+nnoremap <m-Down> :cnext<cr>zvzz
+nnoremap <m-Up> :cprevious<cr>zvzz
+
+
 noremap <silent> <F10> :call IncrementOpt("tabstop",2,-2,500)<BAR>set tabstop?<CR>
 noremap <silent> <F11> :call IncrementOpt("tabstop",2,2,500)<BAR>set tabstop?<CR>
 imap <F10> <C-O><F10>
