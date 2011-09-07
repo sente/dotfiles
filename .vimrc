@@ -18,6 +18,9 @@ set nocompatible
 filetype plugin indent on
 syntax on
 
+
+call pathogen#infect()
+
 if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
     set ttymouse=xterm
 endif
@@ -26,8 +29,14 @@ endif
 " there's probably a better place to put this...
 let &t_Co=256
 " I really shouldn't have this here..
-colorscheme delek
+" colorscheme delek
 
+colorscheme solarized
+let g:solarized_termcolors=256
+set background=dark
+"highlight :background
+
+nnoremap <F5> :GundoToggle<CR>
 
 highlight StatusLine ctermfg=blue ctermbg=yellow
 highlight Directory  ctermfg=red
@@ -117,6 +126,9 @@ map <C-l> <C-W>l
 " allow for 'Man foo' functionality
 runtime! ftplugin/man.vim
 
+"http://twitter.com/#!/dotvimrc/status/108977303400357888
+"open a quickfix window of last search term
+nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 
 noremap <silent> <F10> :call IncrementOpt("tabstop",2,-2,500)<BAR>set tabstop?<CR>
 noremap <silent> <F11> :call IncrementOpt("tabstop",2,2,500)<BAR>set tabstop?<CR>
@@ -270,60 +282,3 @@ endfun
 
 " temporary hack...
 " source $HOME/.vim/syntax/diff.vim
-
-" ===================================================================
-
-" function! Insert(token)
-"    exec "r !awk -vpattern=" . a:token . " -f ~/.vim/templates/awk.awk ~/.vim/templates/template.txt"
-" endfunction
-" 
-" function! Graph()
-"    exec ":! ~/.vim/graph.sh %"
-" endfunction
-" 
-" let MRU_Window_Height = 15
-" :command! -n=* Graph           :call Graph()
-" 
-" :command! -n=* Inpt            :call Insert("inpt")
-" :command! -n=* Parms           :call Insert("parms")
-" :command! -n=* Directory       :call Insert("directory")
-" :command! -n=* Alias           :call Insert("alias")
-" :command! -n=* Execrows        :call Insert("execrows")
-" :command! -n=* List            :call Insert("list")
-" :command! -n=* ColTrace        :call Insert("coltrace")
-" :command! -n=* Trace           :call Insert("trace")
-" :command! -n=* Split           :call Insert("split")
-" :command! -n=* Filter          :call Insert("filter")
-" :command! -n=* Output          :call Insert("output")
-" :command! -n=* Brackets        :call Insert("brackets")
-" :command! -n=* Sort            :call Insert("sort")
-" :command! -n=* Squash          :call Insert("squash")
-" :command! -n=* Break           :call Insert("break")
-" :command! -n=* Multijoin       :call Insert("multijoin")
-" :command! -n=* Join            :call Insert("join")
-" :command! -n=* Lookup          :call Insert("lookup")
-" :command! -n=* Concat          :call Insert("concat")
-" :command! -n=* Rotate          :call Insert("rotate")
-" :command! -n=* Unrotate        :call Insert("unrotate")
-" :command! -n=* Expand          :call Insert("expand")
-" :command! -n=* Calc            :call Insert("calc")
-" :command! -n=* If              :call Insert("if")
-" :command! -n=* Rpad            :call Insert("rpad")
-" :command! -n=* Scan            :call Insert("scan")
-" :command! -n=* Translate       :call Insert("translate")
-" :command! -n=* Regexp          :call Insert("regexp")
-" :command! -n=* Regexpvalue     :call Insert("regexp_value")
-" :command! -n=* Today           :call Insert("today")
-" :command! -n=* Formatdate      :call Insert("format_date")
-" :command! -n=* Formatdaterange :call Insert("format_date_range")
-" :command! -n=* Datevalue       :call Insert("date_value")
-" :command! -n=* Column          :call Insert("column")
-" :command! -n=* Update          :call Insert("update")
-" :command! -n=* Persistent      :call Insert("persistent")
-" :command! -n=* Formatdatevalue :call Insert("format_date_value")
-" :command! -n=* Julianday       :call Insert("julian_day")
-" :command! -n=* Age             :call Insert("age")
-" :command! -n=* Rownum          :call Insert("row_num")
-" :command! -n=* YearMon         :call Insert("year_mon")
-" :command! -n=* Template        :call Insert("template")
-" :command! -n=* Builder         :call Insert("builder")
