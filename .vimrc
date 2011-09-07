@@ -130,6 +130,12 @@ runtime! ftplugin/man.vim
 "open a quickfix window of last search term
 nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 
+
+"fold HTML tags with <leader>f
+au FileType html setlocal foldmethod=manual
+au FileType html nnoremap <buffer> <leader>f Vatzf
+
+
 noremap <silent> <F10> :call IncrementOpt("tabstop",2,-2,500)<BAR>set tabstop?<CR>
 noremap <silent> <F11> :call IncrementOpt("tabstop",2,2,500)<BAR>set tabstop?<CR>
 imap <F10> <C-O><F10>
