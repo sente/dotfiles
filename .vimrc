@@ -67,6 +67,10 @@ set modelines=5
 set statusline=%m\ %-f%=\ \ \ \ %{SynName()}\ %{StatusInfoHelper()}\ %([%l:%c\:%02p%%]%)
 
 
+" diff between the current buffer and the original file
+command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+
+
 
 let mapleader = ","
 
