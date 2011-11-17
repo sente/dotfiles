@@ -10,6 +10,9 @@
 " https://github.com/alfredodeza/dotfiles/blob/master/.vimrc
 " https://github.com/mitsuhiko/dotfiles/blob/master/vim/vimrc
 
+" http://got-ravings.blogspot.com/2008/08/vim-pr0n-making-statuslines-that-own.html#
+
+
 " colorscheme mustang
 " colorscheme impact
 
@@ -25,15 +28,17 @@ if $TERM =~ '^screen' && exists("+ttymouse") && &ttymouse == ''
     set ttymouse=xterm
 endif
 
+let NERDTreeIgnore=['\.pyc$', '\~$']
+
 
 " there's probably a better place to put this...
 let &t_Co=256
 " I really shouldn't have this here..
-" colorscheme delek
+colorscheme inkpot
 
-colorscheme solarized
-let g:solarized_termcolors=256
-set background=dark
+"colorscheme solarized
+"let g:solarized_termcolors=256
+"set background=dark
 "highlight :background
 
 nnoremap <F5> :GundoToggle<CR>

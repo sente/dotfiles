@@ -5,6 +5,11 @@
 export LESS="-iMXRS#10"
 
 
+vim-html-diff () {
+    vim -c ":windo :set nofoldenable" -c "TOhtml" -c "wqall" -d $*
+}
+
+
 
 function show_tcp_ports() {
     nmap -p1-65535 localhost 2>/dev/null | awk -F/ '/^[0-9]+\/tcp/{print "http://sente.cc:" $1 "/"}'
@@ -156,7 +161,7 @@ postit()
         if [[ -n $1 ]]; then
             curl -sF "$1=<-" http://curl.sente.cc;
         else
-            curl -sF "$(date +%F)=<-" http://curl.sente.cc;
+            curl -sF "index=<-" http://curl.sente.cc;
         fi;
     fi
 }
