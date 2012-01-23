@@ -3,6 +3,7 @@
 " http://www.github.com/sente/dotfiles/
 
 
+
 " useful resources:
 " http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html
 " http://got-ravings.blogspot.com/2008/08/vim-pr0n-making-statuslines-that-own.html
@@ -122,8 +123,9 @@ nnoremap ' `
 nnoremap ` '
 
 "make scrolling faster
-nnoremap <C-e> 3<C-e>
-nnoremap <C-y> 3<C-y>
+
+"nnoremap <C-e> 3<C-e>
+"nnoremap <C-y> 3<C-y>
 
 map <C-H> <C-W>h
 map <C-J> <C-W>j
