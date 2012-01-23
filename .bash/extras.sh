@@ -1,6 +1,32 @@
 #!/bin/sh
 # vim:set ft=sh et sw=4 sts=4:
 
+show_listening_programs ()
+{
+    sudo netstat -tupln | grep LISTEN | perl -p -e 's/ +/\t/g' | cut -f4,7 | sed 's/\/.*//' | while read line; do
+        echo -ne "$line\t";
+        set $line;
+        ps -p $2 -o user,cmd | tail -n1;
+    done | sort -k3 | columnate.awk -F'\t'
+}
+
+
+
+
+function count_chars() {
+    awk '{ for (i=1;i<=length;i++) count[substr($0,i,1)]++; } END { for (i in count) printf "%s: %2d\n", i, count[i]; }'
+}
+
+
+get_subreddit_pics ()
+{
+    subreddit=$1;
+    curl -s -b reddit-cookie.txt "http://www.reddit.com/r/${subreddit}/.json?count=100" | json-tool | grep '"url"' | cut -f4 -d'"' | while read line; do
+        echo "<a href=\"$line\"><img style=\"max-width:500px;max-height:500px;border:1px solid blue;\" src=\"$line\"></a>";
+    done | postit ${subreddit}.html
+}
+
+
 
 function translate() 
 {
