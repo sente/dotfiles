@@ -10,10 +10,11 @@ vim-html-diff () {
 }
 
 
-
-function show_tcp_ports() {
-    nmap -p1-65535 localhost 2>/dev/null | awk -F/ '/^[0-9]+\/tcp/{print "http://sente.cc:" $1 "/"}'
+show_tcp_ports () {
+    server=${1:-localhost};
+    nmap -p1-65535 "$server" 2> /dev/null | awk -v SERVER="$server" -F/ '/^[0-9]+\/tcp/{print "http://"SERVER":"$1 }'
 }
+
 
 function dfp() {
     # reports the percentage of used diskspace
