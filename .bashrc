@@ -65,6 +65,7 @@ export PYTHONSTARTUP=${HOME}/.pythonrc
 export PYTHONPATH=${HOME}/code/lib
 export LANG=en_US.UTF-8
 export GREP_OPTIONS="--color=auto"
+export TERM=xterm-256color
 
 unset HISTFILESIZE
 
@@ -151,6 +152,7 @@ function log_hist_command {
 #PROMPT_COMMAND="exitstatus && history -a && log_hist_command"
 
 PROMPT_COMMAND="exitstatus && history -a && history 1 >> ${HOME}/logs/bash_history"
+
 
 
 # vim: set ft=sh ts=4 sws=4 sw=4:

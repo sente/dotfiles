@@ -4,6 +4,9 @@
 
 export LESS="-iMXRS#10"
 
+function pvim() { read -r somefile; exec < /dev/fd/1; vi "$somefile" ; }
+
+
 
 vim-html-diff () {
     vim -c ":windo :set nofoldenable" -c "TOhtml" -c "wqall" -d $*
