@@ -145,13 +145,20 @@ function exitstatus {
     echo -ne "\033k\033\\"
 }
 
+
+test -d ${HOME}/logs/history || echo "warning: ${HOME}/logs/history/ does not exist" >&2
+
 function log_hist_command {
     echo -e "$(date +%F.%H:%M:%S)\t${PWD}\t$(tail -n1 ${HOME}/.bash_history)" >> "${HOME}/logs/history/$(date +%F).log"
 }
 
-#PROMPT_COMMAND="exitstatus && history -a && log_hist_command"
+PROMPT_COMMAND="exitstatus && history -a && history 1 >> \"${HOME}/logs/bash_history\" && log_hist_command"
 
-PROMPT_COMMAND="exitstatus && history -a && history 1 >> ${HOME}/logs/bash_history"
+
+#PROMPT_COMMAND="exitstatus && history -a && log_hist_command"
+#PROMPT_COMMAND="exitstatus && history -a && history 1 >> ${HOME}/logs/bash_history"
+
+
 
 
 
