@@ -49,7 +49,8 @@ fi
 
 
 
-function getdotfiles() {
+function getdotfiles ()
+{
     if [ -x $(which curl) ]; then
         curl http://github.com/sente/dotfiles/raw/master/.bash/gitdotfiles.sh | sh 
     elif [ -x $(which wget) ]; then
@@ -61,19 +62,27 @@ function getdotfiles() {
 stty stop  undef
 stty start undef
 
-export PYTHONSTARTUP=${HOME}/.pythonrc
-export PYTHONPATH=${HOME}/code/lib
+export EDITOR=vim # for crontab -e
+export VISUAL=vim # for crontab -e
+
 export LANG=en_US.UTF-8
 export TERM=xterm-256color
+
+export PYTHONPATH=${HOME}/code/lib
+export PYTHONSTARTUP=${HOME}/.pythonrc
+
 export LESS="-iMXRS#10"
 export GREP_OPTIONS="--color=auto"
+
 
 unset HISTFILESIZE
 
 export HISTSIZE=10000
-# export HISTIGNORE="history *:"
 export HISTCONTROL=ignoredups:ignorespace
 shopt -s histappend
+
+
+
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -149,7 +158,8 @@ function exitstatus {
 
 test -d ${HOME}/logs/history || echo "warning: ${HOME}/logs/history/ does not exist" >&2
 
-function log_hist_command {
+function log_hist_command
+{
     echo -e "$(date +%F.%H:%M:%S)\t${PWD}\t$(tail -n1 ${HOME}/.bash_history)" >> "${HOME}/logs/history/$(date +%F).log"
 }
 
@@ -158,9 +168,5 @@ PROMPT_COMMAND="exitstatus && history -a && history 1 >> \"${HOME}/logs/bash_his
 
 #PROMPT_COMMAND="exitstatus && history -a && log_hist_command"
 #PROMPT_COMMAND="exitstatus && history -a && history 1 >> ${HOME}/logs/bash_history"
-
-
-
-
 
 # vim: set ft=sh ts=4 sws=4 sw=4:
