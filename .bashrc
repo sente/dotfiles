@@ -64,8 +64,9 @@ stty start undef
 export PYTHONSTARTUP=${HOME}/.pythonrc
 export PYTHONPATH=${HOME}/code/lib
 export LANG=en_US.UTF-8
-export GREP_OPTIONS="--color=auto"
 export TERM=xterm-256color
+export LESS="-iMXRS#10"
+export GREP_OPTIONS="--color=auto"
 
 unset HISTFILESIZE
 
