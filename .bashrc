@@ -44,10 +44,6 @@ if [ -d "${HOME}/bin" ]; then
 fi
 
 
-#moved to .bash/aliases
-#alias dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
-
-
 
 function getdotfiles ()
 {
@@ -91,9 +87,6 @@ shopt -s checkwinsize
 # Don't try to find all the command possibilities when hitting TAB on an empty line.
 shopt -s no_empty_cmd_completion
 
-
-
-#http://blog.gnist.org/article.php?story=BashPromptWithExitStatus
 
 function exitstatus {
 
@@ -142,8 +135,8 @@ function exitstatus {
 
     if [[ $PWD != "$(readlink -m "$PWD")" ]]; then
          if [ "${EXITSTATUS}" -eq 0 ]
-                then PS1="${EMK}[${UC}\u${EMK}@${UC}\h ${EMG}\w ${EMK}]${UC}\\$ ${NONE}"
-                else PS1="${RED}[${EMR}\u${BLUE}@${EMR}\h ${EMG}\w${EMK}]${UC}\\$ ${NONE}"
+                then PS1="${UC}[${BLUE}\u${GREEN}@${BLUE}\h ${EMK}\w${UC}]${UC}\\$ ${NONE}"
+                else PS1="${EMR}[${EMR}\u${GREEN}@${EMR}\h ${EMK}\w${EMR}]${UC}\\$ ${NONE}"
          fi
     else
          if [ "${EXITSTATUS}" -eq 0 ]
