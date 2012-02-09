@@ -3,22 +3,28 @@
 
 
 
-function pvim() { read -r somefile; exec < /dev/fd/1; vi "$somefile" ; }
+function pvim ()
+{
+    read -r somefile; exec < /dev/fd/1; vi "$somefile"
+}
 
 
 
-vim-html-diff () {
+function vim_html_diff ()
+{
     vim -c ":windo :set nofoldenable" -c "TOhtml" -c "wqall" -d $*
 }
 
 
-show_tcp_ports () {
+show_tcp_ports ()
+{
     server=${1:-localhost};
     nmap -p1-65535 "$server" 2> /dev/null | awk -v SERVER="$server" -F/ '/^[0-9]+\/tcp/{print "http://"SERVER":"$1 }'
 }
 
 
-function dfp() {
+function dfp ()
+{
     # reports the percentage of used diskspace
     # stu@vervet:~$ dfp
     # 11%
@@ -29,7 +35,7 @@ function dfp() {
 }
 
 
-cdp ()
+function cdp ()
 {
     # usage: cdp <python> <module>
     # cdp python json --> cd's you into the json module's directory
@@ -53,8 +59,8 @@ function PURPLE	() { tput setaf 5; echo "$@"; tput setaf 9; }
 function CYAN	() { tput setaf 6; echo "$@"; tput setaf 9; }
 function WHITE	() { tput setaf 7; echo "$@"; tput setaf 9; }
 
-function COLORFUNC {
-
+function COLORFUNC ()
+{
     n=$1
     shift;
 
@@ -77,7 +83,7 @@ function COLORFUNC {
 
 
 
-confirm()
+function confirm ()
 {
     local reply;
     # make sure stdin is a terminal
@@ -95,7 +101,7 @@ confirm()
     return 1
 }
 
-die()
+function die ()
 {
     if ((color)) && [[ -t 2 ]]; then
         printf "$red%s:$reset" "error";
@@ -110,7 +116,7 @@ die()
 
 
 
-function webshare()
+function webshare ()
 {
     #usage: 'webshare <PORT>' - creates an HTTP Server on <PORT>
     python -c "import SimpleHTTPServer;SimpleHTTPServer.test()" $*
@@ -119,8 +125,8 @@ function webshare()
 
 
 
-reverse_array() {
-
+function reverse_array ()
+{
     # A=(a b c d e f)
     # reverse_array B "${A[@]}"
     # echo "A = ${A[@]}"
@@ -147,7 +153,8 @@ reverse_array() {
 
 #baseN(int(time.time()),36)
 
-function baseN() {
+function baseN()
+{
     NUM=$1;
     python -c "def baseN(num,b,numerals='0123456789abcdefghijklmnopqrstuvwxyz'):" + 
 "    return ((num == 0) and  '0' ) or ( baseN(num // b, b).lstrip('0') + numerals[num % b])" +
@@ -156,7 +163,7 @@ function baseN() {
 }
 
 
-postit()
+function postit()
 {
     if [[ -t 0 ]]; then
         curl -sF "$(basename "$1")=<-" http://curl.sente.cc < "$1";
@@ -172,7 +179,7 @@ postit()
 
 
 #creates an image of the repo
-git-graph ()
+function git-graph ()
 {
     file=$1;
     {
@@ -185,17 +192,19 @@ git-graph ()
 
 
 
-function CD() {
+function CD()
+{
     [ -d "$1" ] && cd "$1" || cd "$(dirname "$1")";
 }
 
 # change terminal title
-function tname() {
+function tname()
+{
     echo -ne "\033]0;${1:-$TERM}\007";
 }
 
 
-pstable ()
+function pstable ()
 {
     ps -eo user,rss,vsize,pid,ppid,pcpu,pmem,cmd -ww --sort=user | tr '\t' ' ' | sed 's/ \+/ /g' | while read a b c d e f g h; do
         echo -e "$a\t$b\t$c\t$d\t$e\t$f\t$g\t$h\t$i";
@@ -204,7 +213,7 @@ pstable ()
 
 
 
-snapshot-list ()
+function snapshot-list ()
 {
     #function lists the snapshot paths for $ARG
 
@@ -251,7 +260,7 @@ SFMT=$(echo "%n %s %b %f %u %g %D %i %h %t %T %X %Y %Z %o\n" | sed "s/ /${stat_d
 
 
 #inarray() { local q=$1 e; shift; for e; do [[ $q = "$e" ]] && return; done; } # Usage: inarray "$value" "${array[@]}"
-inarray ()
+function inarray ()
 {
     local q=$1 e;
     shift;
@@ -262,14 +271,16 @@ inarray ()
 }
 
 
-repeat() { local i n; n=$1; shift; for ((i=1; i<=n; i++)); do "$@"; done; }
+repeat()
+{
+    local i n; n=$1; shift; for ((i=1; i<=n; i++)); do "$@"; done
+}
 export -f repeat
-#stu@sente ~ $ repeat 3 echo foo
-#foo
-#foo
-#foo
 
-python_module_dir () {
+
+
+function python_module_dir ()
+{
     python -c """
 import os.path as _, $1 
 print _.dirname(_.realpath($1.__file__[:-1]))
@@ -303,7 +314,6 @@ function colordirdiff ()
 
 function cmddiff ()
 {
-
     CMD1="$1"
     CMD2="$2"
     if [[ -x $(which colordiff ) ]]; then
@@ -315,14 +325,17 @@ function cmddiff ()
 
 
 # inspired by tpope :)
-function FINDDIR(){ 
+function FINDDIR ()
+{ 
     find "$@" -mindepth 1 -type d 2> /dev/null
 }
-function FIND(){ 
+function FIND ()
+{ 
     find "$@" ! -type d 2> /dev/null
 }
 
-function decolor(){
+function decolor ()
+{
     sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
 
     # or perhaps: 
@@ -330,7 +343,7 @@ function decolor(){
     # who can really say these days?
 }
 
-function list_latest()
+function list_latest ()
 {
     local file files=("${1:-.}/"*) latest=$files;
     for file in "${files[@]}"; do
@@ -339,7 +352,7 @@ function list_latest()
     echo "$latest"
 }
 
-function list_files()
+function list_files ()
 {
     local file files=("${1:-.}/"*)
     for file in "${files[@]}"; do
@@ -347,7 +360,7 @@ function list_files()
     done;
 }
 
-function _list_dotfiles()
+function _list_dotfiles ()
 {
     local file files=("${1:-.}/".*)
     for file in "${files[@]}"; do
@@ -357,18 +370,24 @@ function _list_dotfiles()
     done
 }
 
-function _list_paths {
+function _list_paths ()
+{
 	echo -e "${PATH//:/\n}";
 }
 
 # http://bash-hackers.org/wiki/doku.php/snipplets/prargs
-function print_arglist () {
+function print_arglist()
+{
    printf '"%b"\n' "$0" "$@" | nl -v0 -s": "
 }
 
-function inspect() { echo "\$$1 = ${!1}"; };
+function inspect ()
+{
+    echo "\$$1 = ${!1}";
+}
 
-function p() {
+function p ()
+{
     prog=$1
     found=`pgrep $prog`
     # command name width
@@ -381,7 +400,8 @@ function p() {
     fi
 }
 
-function pw() {
+function pw ()
+{
     p "$1" show_wide_command_line
 }
 
@@ -391,14 +411,17 @@ function mkcd ()
     mkdir "$@" && cd "${!#}"
 }
 
-function cdl() {
-if [ "$1" ]
-    then builtin cd "$1" && ll
-    else builtin cd && ll
-fi
+function cdl ()
+{
+    if [ "$1" ]
+        then builtin cd "$1" && ll
+        else builtin cd && ll
+    fi
 }
 
-function mkt () {
+function mkt ()
+{
+
     DIR=${HOME}/tmp/daily
     TEMPLATE=$(date "+%m/%d")
 
@@ -423,7 +446,9 @@ function mkt () {
 }
 
 
-function mkt_old () {
+function mkt_old ()
+{
+
     DIR=${HOME}/tmp
     TEMPLATE=tmp.$(date "+%m-%d")
 
@@ -436,87 +461,89 @@ function mkt_old () {
 
 
 #we don't want these functions defined on any IR servers
-if [ "$(whoami)" != "spowers" ]; then
 
-    function tmpfile () {
-        basedir=${HOME}/public_html/tmpfiles
-        extension=html
+function tmpfile ()
+{
+    basedir=${HOME}/public_html/tmpfiles
+    extension=html
 
-        while test $# -gt 0; do
-            case $1 in 
-                -e | --e )
-                    shift; extension="$1"
-                    ;;
-                -d | --dir )
-                    shift; baseidr="$1"
-                    ;;
-                *)
-                    break
-                    ;;
-            esac
-        done
-        file="${basedir}/$(date +%F.%s).${extension}";
-        echo $file
-        while IFS='' read -r line; do
-            echo "$line" >> $file;
-        done;
+    while test $# -gt 0; do
+        case $1 in 
+            -e | --e )
+                shift; extension="$1"
+                ;;
+            -d | --dir )
+                shift; baseidr="$1"
+                ;;
+            *)
+                break
+                ;;
+        esac
+    done
+    file="${basedir}/$(date +%F.%s).${extension}";
+    echo $file
+    while IFS='' read -r line; do
+        echo "$line" >> $file;
+    done;
 
-        echo "${file/$basedir/http://www.sente.cc/stu/tmpfiles}"
-    }
-
-
-
-    function snapshot-show () {
-        arg=$(readlink -m "$1")
-        echo "arg=$arg" >&2
-        snapdirs=(/snapshots/{daily,weekly,monthly}.*/sente)
-        for f in "${snapdirs[@]}"; do
-            if [[ -f ${f}${arg} ]] ; then
-                echo ${f}${arg}
-            else
-                echo ${f}${arg} "[missing]">&2
-            fi
-        done
-    }
-
-    function snapdiff() {
-        snapshot-show $1 2> /dev/null | xargs md5sum | awk '{if(!foo[$1]++){print $2}}' | while read line; do
-            if  [[ $(which colordiff) ]]; then
-                CCC="diff --side-by-side --suppress-common-lines  $LAST $line | colordiff";
-            else
-                CCC="diff --side-by-side --suppress-common-lines  $LAST $line";
-            fi
-            echo $CCC;
-            eval $CCC;
-            echo -e "\n\n\n\n\n";
-            LAST=$line;
-        done 
-#| ansi2html.sh --bg=dark > public_html/bahtown.html
-    }
-
-    snapdiff2 ()
-    {
-        echo 'ls -1t /snapshots/daily.*/some/file | snapdiff2' >&2
-        echo '-e to run the commands ' >&2
-        
-
-        while read meta; do
-            md5sum $meta;
-        done | awk '{if(!foo[$1]++){print $2}}' | while read line; do
-            if [[ -n $(which colordiff) ]]; then
-                CCC="diff --side-by-side --suppress-common-lines  $LAST $line | colordiff";
-            else
-                CCC="diff --side-by-side --suppress-common-lines  $LAST $line";
-            fi;
-            echo $CCC;
-            LAST=$line;
-        done
-    }
-
-fi
+    echo "${file/$basedir/http://www.sente.cc/stu/tmpfiles}"
+}
 
 
-function epochtime () {
+
+function snapshot-show ()
+{
+    arg=$(readlink -m "$1")
+    echo "arg=$arg" >&2
+    snapdirs=(/snapshots/{daily,weekly,monthly}.*/sente)
+    for f in "${snapdirs[@]}"; do
+        if [[ -f ${f}${arg} ]] ; then
+            echo ${f}${arg}
+        else
+            echo ${f}${arg} "[missing]">&2
+        fi
+    done
+}
+
+function snapdiff ()
+{
+    snapshot-show $1 2> /dev/null | xargs md5sum | awk '{if(!foo[$1]++){print $2}}' | while read line; do
+        if  [[ $(which colordiff) ]]; then
+            CCC="diff --side-by-side --suppress-common-lines  $LAST $line | colordiff";
+        else
+            CCC="diff --side-by-side --suppress-common-lines  $LAST $line";
+        fi
+        echo $CCC;
+        eval $CCC;
+        echo -e "\n\n\n\n\n";
+        LAST=$line;
+    done 
+    #| ansi2html.sh --bg=dark > public_html/bahtown.html
+}
+
+function snapdiff2 ()
+{
+    echo 'ls -1t /snapshots/daily.*/some/file | snapdiff2' >&2
+    echo '-e to run the commands ' >&2
+    
+
+    while read meta; do
+        md5sum $meta;
+    done | awk '{if(!foo[$1]++){print $2}}' | while read line; do
+        if [[ -n $(which colordiff) ]]; then
+            CCC="diff --side-by-side --suppress-common-lines  $LAST $line | colordiff";
+        else
+            CCC="diff --side-by-side --suppress-common-lines  $LAST $line";
+        fi;
+        echo $CCC;
+        LAST=$line;
+    done
+}
+
+
+
+function epochtime ()
+{
     dddd="$1"
     shift
     ffff="$2"
@@ -526,7 +553,8 @@ function epochtime () {
 }
 
 #taken from !du-h in #bash
-function dusk () {
+function dusk ()
+{
    du -sk "$@" | 
    sort -n  |
    awk -F'\t' '{
@@ -555,19 +583,21 @@ function dumdl ()
 }
 
 
-function webget() {
+function webget ()
+{
+
     if [ -x "`which curl`" ]; then
        get="curl -s"
     else
        get="wget -qO -"
     fi
 }
-function pip2h()
+function pip2h ()
 {
     NAME=$1;
     python -c "import socket;  print socket.gethostbyaddr(\"$NAME\");"
 }
-function ph2ip()
+function ph2ip ()
 {
     NAME=$1;
     python -c "import socket;  print socket.gethostbyname(\"$NAME\");"
@@ -580,39 +610,53 @@ function pname ()
 }
 
 
-function pyget() {
+function pyget ()
+{
+
    python -c "import urllib2; print urllib2.urlopen(\"$1\").read()"
 }
 
-function webheaders() {
+function webheaders ()
+{
+
    python -c "import urllib2; print urllib2.urlopen(\"$1\").info()"
 }
 
-function assert_file() {
+function assert_file ()
+{
+
    ONE=$1
    [[ -z "$ONE" ]] && { echo "MISSING PARAMETER"; return 1; };
    [[ -f "$ONE" ]] || { echo "$ONE: IS NOT A FILE"; return 1; };
 }
 
 
-function pipelast () {
+function pipelast ()
+{
    history 2 | sed 2d | colopipe
    history 2 | sed 2d | emailpipe
 }
 
-function sendlast () {
+function sendlast ()
+{
+
    history 2 | sed 2d | colopipe
 }
 
-function sendlast2 () {
+function sendlast2 ()
+{
+
    history 2 | sed 2d | emailpipe
 }
 
-function emailpipe () {
+function emailpipe ()
+{
+
    curl -F "note=<-" http://sente.cc/cgi-bin/email.pl
 }
 
-function curlnote () {
+function curlnote ()
+{
    if [ ! -f "$1" ]; then echo "$1 is not a file"; return 1; fi
    #curl -F "note=<$1" http://sente.cc/cgi-bin/note.pl 2>/dev/null | grep -m1 -o -E '"http://[^"]+"'
    curl --data-urlencode "note@$1" http://sente.cc/cgi-bin/note.pl 2>/dev/null | grep -m1 -o -E '"http://[^"]+"'
@@ -656,7 +700,9 @@ function webdiff ()
 
 
 
-function bucket () {
+function bucket ()
+{
+
    FILE=$1
    test -f "$FILE" && 
    cp -a "$FILE" /home/stu/code/github/bucket/ &&
@@ -667,7 +713,10 @@ function bucket () {
    git push gitweb master && 
    cd -;
 }
-function dotadd() {
+
+function dotadd ()
+{
+
    FILE=$1
    arr=("$@")
    [ ${#arr[@]} -lt 2 ] && { echo "must pass params"; return 1; }
@@ -698,19 +747,23 @@ function dotadd() {
 #   git push gitweb master && 
 }
 
-function git-tar () {
+function git-tar ()
+{
     cd /home/stu/code/github/dotfiles &&
     git-status &&
     git-archive --format=tar HEAD > /home/stu/dotfiles.tar
 }
 
-function curl_note () {
+function curl_note ()
+{
    curl -F "note=<-" http://sente.cc/cgi-bin/email.pl
 }
 
 
 #stolen from tpope:  http://www.tpope.net/node/108  http://c.tpope.net/
-function get_tgzfile() {
+function get_tgzfile()
+{
+
    REMOTEFILE=http://sente.cc/stu/dotfiles.tgz
    DESTDIR=DOTFILES
    mkdir $DESTDIR || return 1
@@ -745,7 +798,8 @@ function psgrep()    { ps ax | grep $1 | fgrep -v "grep $1"; }
 
 
 # Rename *.foo to *.bar
-function rename_ext() {
+function rename_ext ()
+{
     fr=$1
     to=$2
     shift; shift; 
@@ -755,7 +809,7 @@ function rename_ext() {
     done
 }
 
-function wget_mirror()
+function wget_mirror ()
 {
    URL="$1"
    NEW="${URL//\//^}"
@@ -768,7 +822,7 @@ function wget_mirror()
 
 
 
-tailwithfile ()
+function tailwithfile ()
 {
     if [[ $1 == -n ]]; then
         n=$2; shift; shift;
@@ -780,7 +834,7 @@ tailwithfile ()
     done
 }
 
-catwithfile ()
+function catwithfile ()
 {
     if [[ $1 == -n ]]; then
         n=$2; shift; shift;

@@ -22,7 +22,9 @@ alias sls="screen -ls"
 alias srd="screen -rd"
 alias lynx="lynx -accept_all_cookies"
 alias cdcgi="cd ~/public_html/cgi-bin/"
+
 # listing aliases # git://github.com/davidmiller/mydotfiles.git
+
 alias ls="ls --color=auto"
 alias ll='ls -hlrt'
 

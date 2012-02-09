@@ -4,13 +4,15 @@
 
 
 
-function assert_file {
+function assert_file ()
+{
    ONE=$1
    [[ -z "$ONE" ]] && { echo "MISSING PARAMETER"; return 1; };
    [[ -f "$ONE" ]] || { echo "$ONE: IS NOT A FILE"; return 1; };
 }
 
-function file_intersection {
+function file_intersection ()
+{
    ONE=$1 TWO=$2
    assert_file $ONE || return 1
    assert_file $TWO || return 1
@@ -21,7 +23,8 @@ function file_intersection {
 }
 
 
-function union() {
+function union ()
+{
     FIELD=$1
     if [ -n "$FIELD" ]; then 
         ((FIELD++))
@@ -36,20 +39,23 @@ function union() {
         set +x
     fi
 }
-function slow_union(){
+
+function slow_union ()
+{
     set1=$1
     set2=$2
     while read a; do while read b; do if [[ "$a" = "$b" ]]; then echo -e "IN\t$a"; fi; done < ${set1}; done < ${set2}
 }
 
-function intersection_help {
+function intersection_help ()
+{
 
-local fileA
-local fileB
-fileA=$1
-fileB=$2
-assert_file $fileA || fileA=file_A.txt
-assert_file $fileB || fileB=file_B.txt
+    local fileA
+    local fileB
+    fileA=$1
+    fileB=$2
+    assert_file $fileA || fileA=file_A.txt
+    assert_file $fileB || fileB=file_B.txt
 
 
 cat <<'EOF'
