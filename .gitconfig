@@ -1,6 +1,6 @@
 [user]
-	name = Stuart Powers
-	email = stuart.powers@gmail.com
+    name = Stuart Powers
+    email = stuart.powers@gmail.com
 
 [color]
     diff = auto
@@ -8,7 +8,7 @@
     branch = auto
 
 [color "diff"]
-    meta = yellow 
+    meta = yellow
 
 [core]
     #excludesfile = .gitignore
