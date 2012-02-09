@@ -14,18 +14,27 @@
     #excludesfile = .gitignore
     editor = vim
     pager = less -FXRS
+
 [apply]
     whitespace = nowarn
 
 [alias]
-    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
-    lol = log --pretty=oneline --abbrev-commit --graph --decorate
+    whatsnew = log origin/master@{1}..origin/master@{0}
+
+
+    lg   = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    lg2  = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)'
+    lol  = log --graph --pretty=oneline --abbrev-commit --decorate
+    lola = log --graph --pretty=oneline --decorate --abbrev-commit --all
+
+
     co = checkout
     st = !"git status | sed '/Untracked files/q'"
-#
-#   graphviz2   = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' "$@" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
-#   graphviz    = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' "$@" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
-#   graph       = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }'      |sed 's/[0-9a-f][0-9a-f]*/"&"/g'; e    cho '}'; }; f"
+
+
+    #graphviz2   = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' "$@" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
+    #graphviz    = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' "$@" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
+    #graph       = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }'      |sed 's/[0-9a-f][0-9a-f]*/"&"/g'; e    cho '}'; }; f"
 
 [help]
     autocorrect = 1
