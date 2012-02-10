@@ -811,13 +811,20 @@ function rename_ext ()
 
 function wget_mirror ()
 {
-   URL="$1"
-   NEW="${URL//\//^}"
-   mkdir "$NEW"
-   (
-      cd "$NEW" &&
-      wget -nd -pHEKk "$URL";
-   )        
+    
+    if [ -x $HOME/bin/wget ]; then
+        WGET=$HOME/bin/wget
+    else
+        WGET=$(which wget)
+    fi
+
+    URL="$1"
+    NEW="${URL//\//^}"
+    mkdir "$NEW"
+    (
+        cd "$NEW" &&
+        $WGET -nd -pHEKk "$URL";
+    )        
 }
 
 
