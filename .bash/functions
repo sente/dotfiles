@@ -1,6 +1,10 @@
 #!/bin/sh
-# vim: set ft=sh et sw=4 sts=4 ts=4: 
+# vim: set ft=sh et sw=4 sts=4 ts=4:
 
+function sprunge ()
+{
+    curl -sF 'sprunge=<-' 'http://sprunge.us' <"${1:-/dev/stdin}"
+}
 
 
 # this function replaces all the text between 'START.*END' with the contents of the passed fileparam
