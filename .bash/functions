@@ -1,6 +1,10 @@
 #!/bin/sh
-# vim: set ft=sh et sw=4 sts=4 ts=4: 
+# vim: set ft=sh et sw=4 sts=4 ts=4:
 
+function sprunge ()
+{
+    curl -sF 'sprunge=<-' 'http://sprunge.us' <"${1:-/dev/stdin}"
+}
 
 
 function pvim ()
