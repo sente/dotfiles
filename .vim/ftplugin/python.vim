@@ -42,3 +42,9 @@ function! s:runshellcommand(cmdline)
 endfunction
 
 map <F9> :w<CR>:Shell python % <CR><C-W>
+
+
+" a quick and dirty fix so PythonErrors aren't so ugly looking...
+" see - http://i.imgur.com/ASmiY.png
+hi pythonSpaceError  ctermbg=235
+hi pythonError  ctermbg=235

@@ -133,19 +133,19 @@ function exitstatus {
     [ $UID -eq "0" ] && UC=$R   # root's color
 
 
-    if [[ $PWD != "$(readlink -m "$PWD")" ]]; then
-         if [ "${EXITSTATUS}" -eq 0 ]
-                then PS1="${UC}[${BLUE}\u${GREEN}@${BLUE}\h ${EMK}\w${UC}]${UC}\\$ ${NONE}"
-                else PS1="${EMR}[${EMR}\u${GREEN}@${EMR}\h ${EMK}\w${EMR}]${UC}\\$ ${NONE}"
-         fi
-    else
-         if [ "${EXITSTATUS}" -eq 0 ]
-                then PS1="${GREEN}\u${OFF}${BLUE}@${OFF}${GREEN}\h \w${OFF} ${BLUE}\$${OFF} "
-                else PS1="${RED}\u${OFF}${BLUE}@${OFF}${RED}\h \w${OFF} ${RED}\$${OFF} "
-         fi
-    fi
+#    if [[ $PWD != "$(readlink -m "$PWD")" ]]; then
+#         if [ "${EXITSTATUS}" -eq 0 ]
+#                then PS2="${UC}[${BLUE}\u${GREEN}@${BLUE}\h ${EMK}\w${UC}]${UC}\\$ ${NONE}"
+#                else PS1="${EMR}[${EMR}\u${GREEN}@${EMR}\h ${EMK}\w${EMR}]${UC}\\$ ${NONE}"
+#         fi
+#    else
+#         if [ "${EXITSTATUS}" -eq 0 ]
+#                then PS1="${GREEN}\u${OFF}${BLUE}@${OFF}${GREEN}\h \w${OFF} ${BLUE}\$${OFF} "
+#                else PS1="${RED}\u${OFF}${BLUE}@${OFF}${RED}\h \w${OFF} ${RED}\$${OFF} "
+#         fi
+#    fi
 
-    echo -ne "\033k\033\\"
+#    echo -ne "\033k\033\\"
 }
 
 
@@ -161,5 +161,25 @@ PROMPT_COMMAND="exitstatus && history -a && history 1 >> \"${HOME}/logs/bash_his
 
 #PROMPT_COMMAND="exitstatus && history -a && log_hist_command"
 #PROMPT_COMMAND="exitstatus && history -a && history 1 >> ${HOME}/logs/bash_history"
+
+
+#PS1='\[\033[32;1m\]\u\[\033[m\]\[\033[34;1m\]@\[\033[m\]\[\033[32;1m\]\h \w\[\033[m\] $(__git_ps1 "(%s)")\[\033[34;1m\]$\[\033[m\] '
+
+if [ -f ${HOME}/.git-completion.sh ]; then
+    source ${HOME}/.git-completion.sh;
+fi
+GREEN="\[\033[32;1m\]"
+BLUE="\[\033[34;1m\]"
+OFF="\[\033[m\]"
+
+PS1="${GREEN}\u${OFF}${BLUE}@${OFF}${GREEN}\h \w${OFF}"' $(__git_ps1 "(%s)") '"${BLUE}\$${OFF} "
+
+
+#PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    export WORKON_HOME=$HOME/.environments
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
 
 # vim: set ft=sh ts=4 sws=4 sw=4:
