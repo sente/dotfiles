@@ -36,7 +36,22 @@ function make_table ()
         do echo -ne "$line";
     done
     } | perl -p -e 's/^/<tr><td>/' | perl -p -e 's/\t/<\/td><td>/g' | perl -p -e 's|$|</td></tr>|';
-    echo "</table>"
+    echo "</table>";
+}
+
+function sprunge ()
+{
+    curl -sF 'sprunge=<-' 'http://sprunge.us' <"${1:-/dev/stdin}"
+}
+
+
+# this function replaces all the text between 'START.*END' with the contents of the passed fileparam
+# http://paste.pocoo.org/show/576070/
+function replace_stdin_with_contents_of_file ()
+{
+    REGEX="$1";
+    REPLFILE=$2;
+    python -c "import sys,re; print '$REPLFILE'; print re.sub(re.compile('$REGEX',re.DOTALL), open('$REPLFILE').read(), sys.stdin.read())"
 }
 
 
@@ -59,14 +74,23 @@ function sprunge ()
     curl -sF 'sprunge=<-' 'http://sprunge.us' <"${1:-/dev/stdin}"
 }
 
-
-# this function replaces all the text between 'START.*END' with the contents of the passed fileparam
-# http://paste.pocoo.org/show/576070/
-function replace_stdin_with_contents_of_file ()
+function resolvedns ()
 {
-    REGEX="$1";
-    REPLFILE=$2;
-    python -c "import sys,re; print '$REPLFILE'; print re.sub(re.compile('$REGEX',re.DOTALL), open('$REPLFILE').read(), sys.stdin.read())"
+    python -c "import socket; s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM); s.connect(("\"$1\"", 80)); print s.getpeername()[0]"
+}
+
+
+function vdiff ()
+{
+    vd=vd.html;
+    vim -c":windo :set nofoldenable" -c"TOhtml" -c"w! $vd" -c'qall!' -d "$@";
+    echo $vd
+}
+
+
+function prettyprint_csv ()
+{
+    python -c 'import sys,csv; [sys.stdout.write("^M".join(map(str,r))+"\n") for r in csv.reader(sys.stdin)];' < $1 | column -s '^M' -t
 }
 
 
