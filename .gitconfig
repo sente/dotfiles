@@ -21,6 +21,12 @@
 [alias]
     whatsnew = log origin/master@{1}..origin/master@{0}
 
+    log = log --decorate --graph --date=short
+    l = log
+    changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
+    short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
+    changelog = log --pretty=format:\" * %s\"
+    shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
 
     lg   = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
     lg2  = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)'
@@ -41,3 +47,14 @@
 
 [status]
     showUntrackedFiles = no # git 1.7.1+
+
+[imap]
+    folder = "[Gmail]/Drafts"
+    host = imaps://imap.gmail.com
+    user = stuart.powers@gmail.com
+    pass = isjipamtown
+    port = 993
+    sslverify = false
+
+#[diff]
+#	external = /home/stu/bin/mydiff.sh

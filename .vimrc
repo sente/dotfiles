@@ -13,7 +13,7 @@
 
 " http://got-ravings.blogspot.com/2008/08/vim-pr0n-making-statuslines-that-own.html#
 
-
+"set noerrorbells visualbell t_vb=
 " colorscheme mustang
 " colorscheme impact
 
@@ -123,9 +123,8 @@ nnoremap ' `
 nnoremap ` '
 
 "make scrolling faster
-
-"nnoremap <C-e> 3<C-e>
-"nnoremap <C-y> 3<C-y>
+nnoremap <C-e> 3<C-e>
+nnoremap <C-y> 3<C-y>
 
 map <C-H> <C-W>h
 map <C-J> <C-W>j
@@ -161,7 +160,7 @@ hi def link InterestingWord3 Todo
 "hi InterestingWord3 guifg=#000000 guibg=#FF74F8
 
 
-
+colorscheme inkpot
 
 
 noremap <silent> <F10> :call IncrementOpt("tabstop",2,-2,500)<BAR>set tabstop?<CR>
@@ -274,6 +273,29 @@ fun! FixInvisiblePunctuation()
 endfun
 
 
+" ========================
+" experimental 
+
+ function! SuperCleverTab()
+    if strpart(getline('.'), 0, col('.') - 1) =~ '^\s*$'
+        return "\<Tab>"
+    else
+        if &omnifunc != ''
+            return "\<C-X>\<C-O>"
+        elseif &dictionary != ''
+            return "\<C-K>"
+        else
+            return "\<C-N>"
+        endif
+    endif
+endfunction
+
+inoremap <Tab> <C-R>=SuperCleverTab()<cr>
+
+
+
+
+
 " ===================================================================
 
 "command Pyflakes :call Pyflakes()
@@ -316,3 +338,4 @@ endfun
 
 " temporary hack...
 " source $HOME/.vim/syntax/diff.vim
+

@@ -1,6 +1,94 @@
 #!/bin/sh
-# vim: set ft=sh et sw=4 sts=4 ts=4: 
+# vim: set ft=sh et sw=4 sts=4 ts=4:
 
+function curlstats ()
+{
+    ( echo "url_effective\t%{url_effective}\n";
+    echo "http_code\t%{http_code}\n";
+    echo "content_type\t%{content_type}\n";
+    echo "http_connect\t%{http_connect}\n";
+    echo "time_total\t%{time_total}\n";
+    echo "time_namelookup\t%{time_namelookup}\n";
+    echo "time_connect\t%{time_connect}\n";
+    echo "time_pretransfer\t%{time_pretransfer}\n";
+    echo "time_redirect\t%{time_redirect}\n";
+    echo "time_starttransfer\t%{time_starttransfer}\n";
+    echo "size_download\t%{size_download}\n";
+    echo "size_upload\t%{size_upload}\n";
+    echo "size_header\t%{size_header}\n";
+    echo "size_request\t%{size_request}\n";
+    echo "speed_download\t%{speed_download}\n";
+    echo "speed_upload\t%{speed_upload}\n";
+    echo "redirect_ur\t%{redirect_url}\n";
+    echo "num_connects\t%{num_connects}\n";
+    echo "num_redirects\t%{num_redirects}\n";
+    echo -ne "" ) | command curl "$@" -w '@-'
+}
+
+
+
+function make_table ()
+{
+    echo "<style>td{border:1px solid black;}</style>";
+    echo "<table>";
+    {
+    while read line; 
+        do echo -ne "$line";
+    done
+    } | perl -p -e 's/^/<tr><td>/' | perl -p -e 's/\t/<\/td><td>/g' | perl -p -e 's|$|</td></tr>|';
+    echo "</table>"
+}
+
+
+
+function python_find_module ()
+{
+    module=$1
+    python -c "import ${module};print ${module}.__file__[:-1]"
+}
+
+
+function sqltable ()
+{ 
+    echo "<style>td{border:1px solid black;}</style>"; echo "<table>"; sqlite3 -html "$@"; echo "</table>";
+}
+
+
+function sprunge ()
+{
+    curl -sF 'sprunge=<-' 'http://sprunge.us' <"${1:-/dev/stdin}"
+}
+
+
+# this function replaces all the text between 'START.*END' with the contents of the passed fileparam
+# http://paste.pocoo.org/show/576070/
+function replace_stdin_with_contents_of_file ()
+{
+    REGEX="$1";
+    REPLFILE=$2;
+    python -c "import sys,re; print '$REPLFILE'; print re.sub(re.compile('$REGEX',re.DOTALL), open('$REPLFILE').read(), sys.stdin.read())"
+}
+
+
+
+function resolvedns ()
+{
+    python -c "import socket; s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM); s.connect(("\"$1\"", 80)); print s.getpeername()[0]"
+}
+
+
+function vdiff ()
+{
+    vd=vd.html;
+    vim -c":windo :set nofoldenable" -c"TOhtml" -c"w! $vd" -c'qall!' -d "$@";
+    echo $vd
+}
+
+
+function prettyprint_csv ()
+{
+    python -c 'import sys,csv; [sys.stdout.write("^M".join(map(str,r))+"\n") for r in csv.reader(sys.stdin)];' < $1 | column -s '^M' -t
+}
 
 function urldecode ()
 {
@@ -426,7 +514,8 @@ function cdl ()
 function mkt ()
 {
 
-    DIR=${HOME}/tmp/daily
+    BASEDIR=/scratch/stu/tmp.daily
+    DIR=${BASEDIR}/tmp/daily
     TEMPLATE=$(date "+%m/%d")
 
     arg=$1

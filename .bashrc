@@ -73,7 +73,7 @@ export GREP_OPTIONS="--color=auto"
 
 unset HISTFILESIZE
 
-export HISTSIZE=10000
+export HISTSIZE=1000000
 export HISTCONTROL=ignoredups:ignorespace
 shopt -s histappend
 
@@ -175,6 +175,13 @@ OFF="\[\033[m\]"
 PS1="${GREEN}\u${OFF}${BLUE}@${OFF}${GREEN}\h \w${OFF}"' $(__git_ps1 "(%s)") '"${BLUE}\$${OFF} "
 
 
+git_diff ()
+{
+    git diff --no-ext-diff -w "$@" | vim -R -
+}
+
+
+
 #PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
 
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
@@ -183,3 +190,12 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 fi
 
 # vim: set ft=sh ts=4 sws=4 sw=4:
+
+# {{{
+# Node Completion - Auto-generated, do not touch.
+shopt -s progcomp
+for f in $(command ls ~/.node-completion); do
+  f="$HOME/.node-completion/$f"
+  test -f "$f" && . "$f"
+done
+# }}}
