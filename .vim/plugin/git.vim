@@ -10,12 +10,12 @@ if !exists('g:git_bufhidden')
     let g:git_bufhidden = ''
 endif
 
-if !exists('g:git_bin')
-    let g:git_bin = 'git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
-    "    let g:git_bin = 'git'
-    "let g:git_bin = 'git'
-endif
-
+"if !exists('g:git_bin')
+"    let g:git_bin = 'git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
+"    "    let g:git_bin = 'git'
+"    "let g:git_bin = 'git'
+"endif
+"
 if !exists('g:git_author_highlight')
     let g:git_author_highlight = { }
 endif

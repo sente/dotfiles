@@ -1,6 +1,13 @@
 #!/bin/sh
 # vim: set ft=sh et sw=4 sts=4 ts=4:
 
+mixdecode ()
+{
+    python -c "import urllib,json,base64,sys; arg = sys.argv[1]; print json.dumps(json.loads(base64.decodestring(urllib.unquote(arg))),indent=4)" "$1"
+}
+
+
+
 function curlstats ()
 {
     ( echo "url_effective\t%{url_effective}\n";
@@ -19,7 +26,7 @@ function curlstats ()
     echo "size_request\t%{size_request}\n";
     echo "speed_download\t%{speed_download}\n";
     echo "speed_upload\t%{speed_upload}\n";
-    echo "redirect_ur\t%{redirect_url}\n";
+    echo "redirect_url\t%{redirect_url}\n";
     echo "num_connects\t%{num_connects}\n";
     echo "num_redirects\t%{num_redirects}\n";
     echo -ne "" ) | command curl "$@" -w '@-'
@@ -539,6 +546,8 @@ function mkt ()
 {
 
     BASEDIR=/scratch/stu/tmp.daily
+    #BASEDIR=${HOME}/scratch #temporary change until the file system is back!! :(
+
     DIR=${BASEDIR}/tmp/daily
     TEMPLATE=$(date "+%m/%d")
 
@@ -893,8 +902,27 @@ function get_tgzfile()
    find $REMOTEFILE
 }
 
+function locates()    { ls -lrt /home/stu/.?locate.db; }
 
 function hlocate()    { locate -d '/home/stu/.mlocate.db' "$@"; }
+function tlocate()    { locate -d '/home/stu/.tlocate.db' "$@"; }
+function wlocate()    { locate -d '/home/stu/.wlocate.db' "$@"; }
+function slocate()    { locate -d '/home/stu/.slocate.db' "$@"; }
+function alocate()    { locate -d '/home/stu/.alocate.db' "$@"; }
+function olocate()    { locate -d '/home/stu/.olocate.db' "$@"; }
+function mlocate()    { locate -d '/home/stu/.mlocate.db' "$@"; }
+
+function locates()    { _locates=(hlocate tlocate wlocate slocate alocate olocate mlocate); for l in ${_locates[@]}; do echo $l $@; done; }
+
+export -f hlocate
+export -f tlocate
+export -f wlocate
+export -f slocate
+export -f alocate
+export -f olocate
+export -f mlocate
+export -f locates
+
 function irdaily()    { locate -d '/var/lib/mlocate/mlocate.ir-daily.db'   "$@"; }
 
 function locate_migration() { locate -d '/var/lib/mlocate/mlocate.migration.db' "$@"; }

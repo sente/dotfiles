@@ -108,11 +108,11 @@ function grep ()
     echo -e "$(date +%s)\t$PWD\t$(history 1 | sed -r 's/^ +[0-9]+ +//' )" >> ${HOME}/logs/cmds/grep.log 2>/dev/null
     command grep "$@"
 }
-function ipython ()
-{
-    echo -e "$(date +%s)\t$PWD\t$(history 1 | sed -r 's/^ +[0-9]+ +//' )" >> ${HOME}/logs/cmds/ipython.log 2>/dev/null
-    command ipython "$@"
-}
+#function ipython ()
+#{
+#    echo -e "$(date +%s)\t$PWD\t$(history 1 | sed -r 's/^ +[0-9]+ +//' )" >> ${HOME}/logs/cmds/ipython.log 2>/dev/null
+#    command ipython "$@"
+#}
 function git ()
 {
     echo -e "$(date +%s)\t$PWD\t$(history 1 | sed -r 's/^ +[0-9]+ +//' )" >> ${HOME}/logs/cmds/git.log 2>/dev/null
@@ -137,7 +137,7 @@ export -f ls
 export -f mkdir
 export -f cd
 export -f grep
-export -f ipython
+#export -f ipython
 export -f git
 export -f ssh
 

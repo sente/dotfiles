@@ -199,3 +199,19 @@ for f in $(command ls ~/.node-completion); do
   test -f "$f" && . "$f"
 done
 # }}}
+
+
+
+postit ()
+{
+    if [[ -t 0 ]]; then
+        curl -sF "$(basename "$1")=<-" http://curl.sente.cc < "$1";
+    else
+        if [[ -n $1 ]]; then
+            curl -sF "$1=<-" http://curl.sente.cc;
+        else
+            curl -sF "index=<-" http://curl.sente.cc;
+        fi;
+    fi
+}
+
