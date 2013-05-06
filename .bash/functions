@@ -489,6 +489,16 @@ function _list_dotfiles ()
     for file in "${files[@]}"; do
         [[ "$file" = "./." ]] && continue
         [[ "$file" = "./.." ]] && continue
+        [[ -f "$file" ]] && echo $file
+    done
+}
+
+function _list_dotdirs ()
+{
+    local file files=("${1:-.}/".*)
+    for file in "${files[@]}"; do
+        [[ "$file" = "./." ]] && continue
+        [[ "$file" = "./.." ]] && continue
         [[ -d "$file" ]] && echo $file
     done
 }
