@@ -6,6 +6,27 @@ mixdecode ()
     python -c "import urllib,json,base64,sys; arg = sys.argv[1]; print json.dumps(json.loads(base64.decodestring(urllib.unquote(arg))),indent=4)" "$1"
 }
 
+function vim-diff-dir ()
+{
+    first=$1;
+    second=$2;
+    res1=$(find $first -maxdepth 4 -type d | sed "s|$first||");
+    res2=$(find $second -maxdepth 4 -type d | sed "s|$second||");
+
+    echo "vim -d <(find $first -maxdepth 4  | sed \"s|$first||\")  <(find $second -maxdepth 4  | sed \"s|$second||\");"
+    {
+        cat "$res2" && cat "$res2"
+    }
+}
+
+function vim-diff-dir-2 ()
+{
+    first=$1;
+    second=$2;
+    echo "vim -d <(find $first -maxdepth 4  | sed \"s|$first||\")  <(find $second -maxdepth 4  | sed \"s|$second||\");"
+}
+
+
 
 
 function curlstats ()
