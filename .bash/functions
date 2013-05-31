@@ -300,9 +300,12 @@ function reverse_array ()
 function baseN()
 {
     NUM=$1;
-    python -c "def baseN(num,b,numerals='0123456789abcdefghijklmnopqrstuvwxyz'):" + 
-"    return ((num == 0) and  '0' ) or ( baseN(num // b, b).lstrip('0') + numerals[num % b])" +
-"baseN($NUM,36)"
+    base=$2;
+    base=${base:=36}
+    python -c \
+"def baseN(num,base,numerals='0123456789abcdefghijklmnopqrstuvwxyz'):
+    return ((num == 0) and  '0' ) or ( baseN(num // base, base).lstrip('0') + numerals[num % base])
+print baseN($NUM,$base)"
 
 }
 
@@ -319,7 +322,7 @@ function postit()
         fi;
     fi
 }
-
+export -f postit
 
 
 #creates an image of the repo
