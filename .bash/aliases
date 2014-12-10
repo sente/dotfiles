@@ -1,6 +1,13 @@
 #!/bin/sh
 # vim:set ft=sh et sw=4 sts=4:
 
+alias mdfind='mdfind -onlyin .'
+alias download_history="sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'select LSQuarantineDataURLString from LSQuarantineEvent'"
+alias flush='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS conv=unblock | GREP_COLOR="1;32" grep --color "[^ ]"'
+#alias top10='cat .bash_history | awk '{CMD[$1]++;count++;} END { for (a in CMD) printf "%s %.2f%s  %s\n", CMD[a], CMD[a]/count*100, "%", a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl | head -n 10'
+
+alias vless='/usr/share/vim/vim73/macros/less.sh'
+
 alias cd..='cd ..'
 alias ..='cd ..'
 alias ...='cd ../..'
