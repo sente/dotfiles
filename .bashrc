@@ -3,6 +3,14 @@ if [[ $- != *i* ]] ; then
     return
 fi
 
+if [[ -d "/usr/local/opt/coreutils/libexec/gnubin" ]]; then
+    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+fi
+
+if [[ -d "/usr/local/opt/gnu-sed/libexec/gnubin" ]]; then
+    PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+fi
+
 if [[ -s ~/.motd ]] ; then
     cat ~/.motd
 fi
@@ -202,16 +210,4 @@ done
 
 
 
-postit ()
-{
-    if [[ -t 0 ]]; then
-        curl -sF "$(basename "$1")=<-" http://curl.sente.cc < "$1";
-    else
-        if [[ -n $1 ]]; then
-            curl -sF "$1=<-" http://curl.sente.cc;
-        else
-            curl -sF "index=<-" http://curl.sente.cc;
-        fi;
-    fi
-}
-
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
