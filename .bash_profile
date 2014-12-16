@@ -11,13 +11,12 @@ if [ -f ~/.keychain/sente-csh ]; then
      rm ~/.keychain/sente-csh
 fi
 
-
 # include .bashrc if it exists
 if [ -f "${HOME}/.bashrc" ]; then
       . "${HOME}/.bashrc"
 fi
 
 # Load RVM into a shell session *as a function*
-if [[ -f "$HOME/.rvm/scripts/rvm" ]]; then
-  source "$HOME/.rvm/scripts/rvm"
+if [ -f "${HOME}/.rvm/scripts/rvm" ]; then
+      . "${HOME}/.rvm/scripts/rvm"
 fi

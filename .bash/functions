@@ -67,11 +67,6 @@ function make_table ()
     echo "</table>";
 }
 
-function sprunge ()
-{
-    curl -sF 'sprunge=<-' 'http://sprunge.us' <"${1:-/dev/stdin}"
-}
-
 
 # this function replaces all the text between 'START.*END' with the contents of the passed fileparam
 # http://paste.pocoo.org/show/576070/
@@ -101,27 +96,6 @@ function sprunge ()
 {
     curl -sF 'sprunge=<-' 'http://sprunge.us' <"${1:-/dev/stdin}"
 }
-
-function resolvedns ()
-{
-    python -c "import socket; s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM); s.connect(("\"$1\"", 80)); print s.getpeername()[0]"
-}
-
-
-function vdiff ()
-{
-    vd=vd.html;
-    vim -c":windo :set nofoldenable" -c"TOhtml" -c"w! $vd" -c'qall!' -d "$@";
-    echo $vd
-}
-
-
-function prettyprint_csv ()
-{
-    python -c 'import sys,csv; [sys.stdout.write("^M".join(map(str,r))+"\n") for r in csv.reader(sys.stdin)];' < $1 | column -s '^M' -t
-}
-
-
 
 function resolvedns ()
 {
@@ -784,30 +758,11 @@ function webheaders ()
 
 function assert_file ()
 {
-
    ONE=$1
    [[ -z "$ONE" ]] && { echo "MISSING PARAMETER"; return 1; };
    [[ -f "$ONE" ]] || { echo "$ONE: IS NOT A FILE"; return 1; };
 }
 
-
-function pipelast ()
-{
-   history 2 | sed 2d | colopipe
-   history 2 | sed 2d | emailpipe
-}
-
-function sendlast ()
-{
-
-   history 2 | sed 2d | colopipe
-}
-
-function sendlast2 ()
-{
-
-   history 2 | sed 2d | emailpipe
-}
 
 function emailpipe ()
 {

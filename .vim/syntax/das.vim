@@ -1,3 +1,0 @@
-
-
-setlocal syntax=java
