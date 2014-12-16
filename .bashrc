@@ -86,7 +86,7 @@ shopt -s no_empty_cmd_completion
 
 
 function exitstatus {
-
+    noop=1
 }
 
 
