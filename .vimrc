@@ -2,6 +2,7 @@
 " http://sente.cc/
 " http://www.github.com/sente/dotfiles/
 
+au BufNewFile,BufRead .pryrc            set filetype=ruby
 
 
 " useful resources:
@@ -214,42 +215,42 @@ if has('python')
 endif
 
 
-if has('python')
-python <<EOL
-import vim, StringIO,sys
-def PyExecReplace(line1,line2):
-	r = vim.current.buffer.range(int(line1),int(line2))
-	redirected = StringIO.StringIO()
-	sys.stdout = redirected
-	exec('\n'.join(r[:]) + '\n')
-	sys.stdout = sys.__stdout__
-	output = redirected.getvalue().split('\n')
-	r[:] = output[:-1] # the -1 is to remove the final blank line
-	redirected.close()
-
-
-def SetBreakpoint():
-    import re
-    nLine = int( vim.eval( 'line(".")'))
-
-    strLine = vim.current.line
-    strWhite = re.search( '^(\s*)', strLine).group(1)
-
-    vim.current.buffer.append( "%(space)spdb.set_trace() %(mark)s Breakpoint %(mark)s" %
-         {'space':strWhite, 'mark': '#' * 30}, nLine - 1)
-
-    for strLine in vim.current.buffer:
-        if strLine == "import pdb":
-            break
-    else:
-        vim.current.buffer.append( 'import pdb', 0)
-        vim.command( 'normal j1')
-
-vim.command( 'map <f7> :py SetBreakpoint()<cr>')
-
-EOL
-command -range Pyer python PyExecReplace(<f-line1>,<f-line2>)
-endif
+"if has('python')
+"python <<EOL
+"import vim, StringIO,sys
+"def PyExecReplace(line1,line2):
+"	r = vim.current.buffer.range(int(line1),int(line2))
+"	redirected = StringIO.StringIO()
+"	sys.stdout = redirected
+"	exec('\n'.join(r[:]) + '\n')
+"	sys.stdout = sys.__stdout__
+"	output = redirected.getvalue().split('\n')
+"	r[:] = output[:-1] # the -1 is to remove the final blank line
+"	redirected.close()
+"
+"
+"def SetBreakpoint():
+"    import re
+"    nLine = int( vim.eval( 'line(".")'))
+"
+"    strLine = vim.current.line
+"    strWhite = re.search( '^(\s*)', strLine).group(1)
+"
+"    vim.current.buffer.append( "%(space)spdb.set_trace() %(mark)s Breakpoint %(mark)s" %
+"         {'space':strWhite, 'mark': '#' * 30}, nLine - 1)
+"
+"    for strLine in vim.current.buffer:
+"        if strLine == "import pdb":
+"            break
+"    else:
+"        vim.current.buffer.append( 'import pdb', 0)
+"        vim.command( 'normal j1')
+"
+"vim.command( 'map <f7> :py SetBreakpoint()<cr>')
+"
+"EOL
+"command -range Pyer python PyExecReplace(<f-line1>,<f-line2>)
+"endif
 
 
 "from pprint import pprint; import IPython; IPython.Shell.IPShellEmbed(argv=[])()
@@ -339,3 +340,9 @@ inoremap <Tab> <C-R>=SuperCleverTab()<cr>
 " temporary hack...
 " source $HOME/.vim/syntax/diff.vim
 
+if $TERM =~ 'italic$'
+    highlight Comment cterm=italic
+endif
+
+set guifont=Menlo\ Regular:h16
+highlight Comment gui=italic

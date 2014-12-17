@@ -1,4 +1,5 @@
 # Shell is non-interactive.  Be done now!
+
 if [[ $- != *i* ]] ; then
     return
 fi
@@ -67,13 +68,11 @@ export PYTHONSTARTUP=${HOME}/.pythonrc
 export LESS="-iMXRS#10"
 export GREP_OPTIONS="--color=auto"
 
-
 unset HISTFILESIZE
 
 export HISTSIZE=1000000
 export HISTCONTROL=ignoredups:ignorespace
 shopt -s histappend
-
 
 
 
@@ -84,11 +83,9 @@ shopt -s checkwinsize
 # Don't try to find all the command possibilities when hitting TAB on an empty line.
 shopt -s no_empty_cmd_completion
 
-
 function exitstatus {
     noop=1
 }
-
 
 test -d ${HOME}/logs/history || echo "warning: ${HOME}/logs/history/ does not exist" >&2
 
@@ -99,12 +96,10 @@ function log_hist_command
 
 PROMPT_COMMAND="exitstatus && history -a && history 1 >> \"${HOME}/logs/bash_history\" && log_hist_command"
 
-
-#PS1='\[\033[32;1m\]\u\[\033[m\]\[\033[34;1m\]@\[\033[m\]\[\033[32;1m\]\h \w\[\033[m\] $(__git_ps1 "(%s)")\[\033[34;1m\]$\[\033[m\] '
-
 if [ -f ${HOME}/.git-completion.sh ]; then
     source ${HOME}/.git-completion.sh;
 fi
+
 GREEN="\[\033[32;1m\]"
 BLUE="\[\033[34;1m\]"
 OFF="\[\033[m\]"
@@ -123,6 +118,6 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     source /usr/local/bin/virtualenvwrapper.sh
 fi
 
-# vim: set ft=sh ts=4 sws=4 sw=4:
-
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+# vim: set ft=sh ts=4 sws=4 sw=4:
