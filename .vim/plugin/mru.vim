@@ -220,7 +220,7 @@ set cpo&vim
 " MRU configuration variables {{{1
 " Maximum number of entries allowed in the MRU list
 if !exists('MRU_Max_Entries')
-    let MRU_Max_Entries = 100
+    let MRU_Max_Entries = 9999
 endif
 
 " Files to exclude from the MRU list
