@@ -5,7 +5,7 @@ if [ ! -d ${HOME}/logs/cmds/ ] ; then
    return 0
 fi
 
-
+#return 0
 
 function add-wrapper ()
 {
