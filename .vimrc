@@ -294,6 +294,9 @@ endfunction
 inoremap <Tab> <C-R>=SuperCleverTab()<cr>
 
 
+source ${HOME}/.vim/vimlog.vim
+
+
 
 
 
@@ -346,3 +349,4 @@ endif
 
 set guifont=Menlo\ Regular:h16
 highlight Comment gui=italic
+

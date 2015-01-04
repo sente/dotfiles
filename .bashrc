@@ -72,6 +72,7 @@ unset HISTFILESIZE
 
 export HISTSIZE=1000000
 export HISTCONTROL=ignoredups:ignorespace
+export HISTIGNORE='*MDFIND*'
 shopt -s histappend
 
 
@@ -104,7 +105,7 @@ GREEN="\[\033[32;1m\]"
 BLUE="\[\033[34;1m\]"
 OFF="\[\033[m\]"
 
-PS1="${GREEN}\u${OFF}${BLUE}@${OFF}${GREEN}\h \w${OFF}"' $(__git_ps1 "(%s)") '"${BLUE}\$${OFF} "
+PS1="${GREEN}\u${OFF}${BLUE}@${OFF}${GREEN}\h \w${OFF}"' $(__git_ps1 "(%s) ")'"${BLUE}\$${OFF} "
 
 
 git_diff ()
