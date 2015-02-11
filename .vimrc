@@ -294,7 +294,7 @@ endfunction
 inoremap <Tab> <C-R>=SuperCleverTab()<cr>
 
 
-source ${HOME}/.vim/vimlog.vim
+" source $HOME/.vim/vimlog.vim
 
 
 

@@ -45,9 +45,9 @@ if [ -f ~/.dir_colors ]; then
     eval $(dircolors -b ~/.dir_colors)
 fi
 
-if [ -f ~/.bash/wrappers.sh ]; then
-      . ~/.bash/wrappers.sh
-fi
+#if [ -f ~/.bash/wrappers.sh ]; then
+#      . ~/.bash/wrappers.sh
+#fi
 
 if [ -f ~/.bashrc_local ]; then
       . ~/.bashrc_local
@@ -66,7 +66,7 @@ export PYTHONPATH=${HOME}/code/lib
 export PYTHONSTARTUP=${HOME}/.pythonrc
 
 export LESS="-iMXRS#10"
-export GREP_OPTIONS="--color=auto"
+#export GREP_OPTIONS="--color=auto"
 
 unset HISTFILESIZE
 

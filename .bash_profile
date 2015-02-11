@@ -17,7 +17,7 @@ if [ -f "${HOME}/.bashrc" ]; then
       . "${HOME}/.bashrc"
 fi
 
-## Load RVM into a shell session *as a function*
-#if [ -s "${HOME}/.rvm/scripts/rvm" ]; then
-#      . "${HOME}/.rvm/scripts/rvm"
-#fi
+# Load RVM into a shell session *as a function*
+if [ -s "${HOME}/.rvm/scripts/rvm" ]; then
+      . "${HOME}/.rvm/scripts/rvm"
+fi
