@@ -134,6 +134,21 @@ map <C-l> <C-W>l
 
 
 
+" http://amix.dk/vim/vimrc.html
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
+if has("mac") || has("macunix")
+  nmap <D-j> <M-j>
+  nmap <D-k> <M-k>
+  vmap <D-j> <M-j>
+  vmap <D-k> <M-k>
+endif
+
+
+
 " allow for 'Man foo' functionality
 runtime! ftplugin/man.vim
 
@@ -349,4 +364,20 @@ endif
 
 set guifont=Menlo\ Regular:h16
 highlight Comment gui=italic
+
+
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+
+let python_highlight_all=1
+let ruby_space_errors=1
+let g:is_posix=1 " shell scripts are posix-compliant
+let g:ctrlp_max_height = 20
+let g:ctrlp_open_new_file = 't'
+let g:netrw_hide=1
+let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+
+
+command! -nargs=1 Width setlocal sw=<args> sts=<args>
+
 
