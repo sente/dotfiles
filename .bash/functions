@@ -551,11 +551,14 @@ function cdl ()
 
 function mkt ()
 {
+    BASEDIR=${HOME}/scratch;
+    YEAR=$(date "+%Y");
+    DIR=${BASEDIR}/daily/${YEAR};
+    TEMPLATE=$(date "+%m/%d");
 
-    BASEDIR=${HOME}/scratch #temporary change until the file system is back!! :(
-
-    DIR=${BASEDIR}/tmp/daily
-    TEMPLATE=$(date "+%m/%d")
+    #BASEDIR=${HOME}/scratch
+    #DIR=${BASEDIR}/daily
+    #TEMPLATE=$(date "+%m/%d")
 
     arg=$1
     if [[ -n $arg ]]; then
