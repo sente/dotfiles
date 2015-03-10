@@ -23,6 +23,13 @@ $if mode=emacs
 Meta-Control-h:	backward-kill-word	Text after the function name is ignored
 
 
+$if Ruby
+    "\C-o": "\C-x\C-e"
+$endif
+
+
+
+
 #  http://www.reddit.com/r/bashtricks/comments/czcbn/use_readline_key_bindings_to_easily_insert_common/
 #bind -m emacs '"^[f":"for i in ;do ;done^[b^[b\C-b"'
 
