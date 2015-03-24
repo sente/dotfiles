@@ -17,7 +17,13 @@ if [ -f "${HOME}/.bashrc" ]; then
       . "${HOME}/.bashrc"
 fi
 
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
+
+
 # # Load RVM into a shell session *as a function*
 # if [ -s "${HOME}/.rvm/scripts/rvm" ]; then
 #       . "${HOME}/.rvm/scripts/rvm"
 # fi
+export PATH="/usr/local/sbin:$PATH"
