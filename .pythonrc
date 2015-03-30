@@ -1,5 +1,8 @@
+# vim:set ft=sh
 
 import readline
 import rlcompleter
 readline.parse_and_bind("tab: complete")
 
+del rlcompleter
+del readline
