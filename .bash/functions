@@ -1,6 +1,16 @@
 #!/bin/sh
 # vim: set ft=sh et sw=4 sts=4 ts=4:
 
+encrypt_with_openssl ()
+{
+    openssl aes-256-cbc -in "$1" -out "$2"
+}
+
+decrypt_with_openssl ()
+{
+    openssl aes-256-cbc -d -in "$1" -out "$2"
+}
+
 mixdecode ()
 {
     python -c "import urllib,json,base64,sys; arg = sys.argv[1]; print json.dumps(json.loads(base64.decodestring(urllib.unquote(arg))),indent=4)" "$1"

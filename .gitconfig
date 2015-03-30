@@ -11,7 +11,6 @@
     meta = yellow
 
 [core]
-    #excludesfile = .gitignore
     editor = vim
     pager = less -FXRS
 
@@ -54,33 +53,21 @@
 
     dmno = diff --name-only master
 
-    
-    #graphviz2   = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' "$@" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
-    #graphviz    = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' "$@" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
-    #graph       = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }'      |sed 's/[0-9a-f][0-9a-f]*/"&"/g'; e    cho '}'; }; f"
-
 [help]
-    autocorrect = 1
+	autocorrect = 0
 
 [status]
     showUntrackedFiles = no # git 1.7.1+
 
-#[diff]
-#	external = /home/stu/bin/mydiff.sh
 [github]
 	user = sente
 
 [push]
 	default = simple
-#
-#[difftool "sourcetree"]
-#	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-#	path = 
-#[mergetool "sourcetree"]
-#	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-#	trustExitCode = true
+
 [heroku]
 	account = levelup
+
 [filter "media"]
 	clean = git media clean %f
 	smudge = git media smudge %f
