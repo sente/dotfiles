@@ -20,8 +20,8 @@ cp -pvR ${HOME}/.gitconfig         ${HOME}/${backupdir}
 cp -pvR ${HOME}/.inputrc           ${HOME}/${backupdir}
 cp -pvR ${HOME}/.pythonrc          ${HOME}/${backupdir}
 cp -pvR ${HOME}/.screenrc          ${HOME}/${backupdir}
-cp -pvR ${HOME}/.vim/              ${HOME}/${backupdir}
-cp -pvR ${HOME}/.vimrc             ${HOME}/${backupdir}
+#cp -pvR ${HOME}/.vim/              ${HOME}/${backupdir}
+#cp -pvR ${HOME}/.vimrc             ${HOME}/${backupdir}
 set -e
 
 
@@ -35,8 +35,8 @@ rm -rf ${HOME}/.gitconfig
 rm -rf ${HOME}/.inputrc
 rm -rf ${HOME}/.pythonrc
 rm -rf ${HOME}/.screenrc
-rm -rf ${HOME}/.vim
-rm -rf ${HOME}/.vimrc
+#rm -rf ${HOME}/.vim
+#rm -rf ${HOME}/.vimrc
 
 
 ln -s ${HOME}/dotfiles/.bash              ${HOME}/.bash
@@ -49,5 +49,5 @@ ln -s ${HOME}/dotfiles/.gitconfig         ${HOME}/.gitconfig
 ln -s ${HOME}/dotfiles/.inputrc           ${HOME}/.inputrc
 ln -s ${HOME}/dotfiles/.pythonrc          ${HOME}/.pythonrc
 ln -s ${HOME}/dotfiles/.screenrc          ${HOME}/.screenrc
-ln -s ${HOME}/dotfiles/.vim               ${HOME}/.vim
-ln -s ${HOME}/dotfiles/.vimrc             ${HOME}/.vimrc
+#ln -s ${HOME}/dotfiles/.vim               ${HOME}/.vim
+#ln -s ${HOME}/dotfiles/.vimrc             ${HOME}/.vimrc
