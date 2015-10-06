@@ -1,12 +1,4 @@
 
-export _is_osx=0
-export _is_nix=0
-
-case "$OSTYPE" in
-  darwin*)  _is_osx=1 ;; 
-  linux*)   _is_nix=1 ;;
-esac
-
 
 if [ -x "`which keychain`" ]; then
     if [ -f ~/.ssh/id_rsa ]; then

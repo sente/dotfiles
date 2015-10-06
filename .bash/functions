@@ -826,19 +826,19 @@ function webdiff ()
 
 
 
-function bucket ()
-{
-
-   FILE=$1
-   test -f "$FILE" && 
-   cp -a "$FILE" /home/stu/code/github/bucket/ &&
-   FILE=$(basename $FILE)
-   cd /home/stu/code/github/bucket/ &&
-   git add "$FILE" &&
-   git commit -m "$FILE" &&
-   git push gitweb master && 
-   cd -;
-}
+#function bucket ()
+#{
+#
+#   FILE=$1
+#   test -f "$FILE" && 
+#   cp -a "$FILE" /home/stu/code/github/bucket/ &&
+#   FILE=$(basename $FILE)
+#   cd /home/stu/code/github/bucket/ &&
+#   git add "$FILE" &&
+#   git commit -m "$FILE" &&
+#   git push gitweb master && 
+#   cd -;
+#}
 
 function dotadd ()
 {

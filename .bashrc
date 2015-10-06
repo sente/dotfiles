@@ -16,6 +16,36 @@ if [[ -d "/usr/local/opt/gnu-sed/libexec/gnubin" ]]; then
     PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 fi
 
+if [[ -d "${HOME}/go" ]]; then
+    GOPATH="${HOME}/go"
+    export GOPATH
+    PATH=$PATH:${GOPATH}/bin
+fi
+
+
+export _is_osx=0
+export _is_nix=0
+
+case "$OSTYPE" in
+  darwin*)  _is_osx=1 ;; 
+  linux*)   _is_nix=1 ;;
+esac
+
+
+get_os()
+{
+    declare -r OS_NAME="$(uname -s)";
+    local os="";
+    if [ "$OS_NAME" == "Darwin" ]; then
+        os="osx";
+    else
+        if [ "$OS_NAME" == "Linux" ] && [ -e "/etc/lsb-release" ]; then
+            os="ubuntu";
+        fi;
+    fi;
+    printf "%s" "$os"
+}
+
 
 if [[ -s ~/.motd ]] ; then
      cat ~/.motd
@@ -92,7 +122,8 @@ test -d ${HOME}/logs/history || echo "warning: ${HOME}/logs/history/ does not ex
 
 function log_hist_command
 {
-    echo -e "$(date +%F.%H:%M:%S)\t${PWD}\t$(tail -n1 ${HOME}/.bash_history)" >> "${HOME}/logs/history/$(date +%F).log"
+    echo -E "$(date +%F.%H:%M:%S)"$'\t'"${PWD}"$'\t'"$(tail -n1 ${HOME}/.bash_history)" >> "${HOME}/logs/history/$(date +%F).log"
+    #echo -e "$(date +%F.%H:%M:%S)\t${PWD}\t$(tail -n1 ${HOME}/.bash_history)" >> "${HOME}/logs/history/$(date +%F).log"
 }
 
 PROMPT_COMMAND="exitstatus && history -a && history 1 >> \"${HOME}/logs/bash_history\" && log_hist_command"

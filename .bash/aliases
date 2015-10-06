@@ -1,6 +1,29 @@
 #!/bin/sh
 # vim:set ft=sh et sw=4 sts=4:
 
+
+declare -r OS="$(get_os)"
+
+if [ "$OS" == "osx" ]; then
+
+    # Hide/Show desktop icons
+    alias hide-desktop-icons="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+    alias show-desktop-icons="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+    # Hide/Show hidden files in Finder
+    alias hide-hidden-files="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+    alias show-hidden-files="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+
+elif [ "$OS" == "ubuntu" ]; then
+
+    # Hide/Show desktop icons
+    alias hide-desktop-icons="gsettings set org.gnome.desktop.background show-desktop-icons false"
+    alias show-desktop-icons="gsettings set org.gnome.desktop.background show-desktop-icons true"
+
+fi
+
+
+
 alias mdfind='mdfind -onlyin .'
 alias MDFIND=' mdfind -onlyin .'
 alias download_history="sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'select LSQuarantineDataURLString from LSQuarantineEvent'"
