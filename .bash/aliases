@@ -24,8 +24,9 @@ fi
 
 
 
-alias mdfind='mdfind -onlyin .'
-alias MDFIND=' mdfind -onlyin .'
+# mdfind -onlyin / kMDItemKind==Application
+#alias mdfind='mdfind -onlyin .'
+
 alias download_history="sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'select LSQuarantineDataURLString from LSQuarantineEvent'"
 alias flush='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS conv=unblock | GREP_COLOR="1;32" grep --color "[^ ]"'
 #alias top10='cat .bash_history | awk '{CMD[$1]++;count++;} END { for (a in CMD) printf "%s %.2f%s  %s\n", CMD[a], CMD[a]/count*100, "%", a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl | head -n 10'

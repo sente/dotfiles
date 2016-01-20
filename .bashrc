@@ -4,6 +4,8 @@ if [[ $- != *i* ]] ; then
     return
 fi
 
+export login_email=stuart.powers@gmail.com
+
 if [ -d "${HOME}/bin" ]; then
     PATH="${PATH}:${HOME}/bin"
 fi
@@ -105,6 +107,8 @@ export HISTCONTROL=ignoredups:ignorespace
 export HISTIGNORE='*MDFIND*'
 shopt -s histappend
 
+GLOBIGNORE=".:.."
+shopt -u dotglob
 
 
 # check the window size after each command and, if necessary,
