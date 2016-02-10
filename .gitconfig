@@ -18,6 +18,9 @@
     whitespace = nowarn
 
 [alias]
+
+    dsf = "!git diff --color $@ | diff-so-fancy"
+
     whatsnew = log origin/master@{1}..origin/master@{0}
 
     log = log --decorate --graph --date=short

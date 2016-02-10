@@ -22,3 +22,5 @@ if [[ $_is_osx -eq 1 ]]; then
     fi
 fi
 
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"

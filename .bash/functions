@@ -2,6 +2,11 @@
 # vim: set ft=sh et sw=4 sts=4 ts=4:
 
 
+function ho ()
+{
+    command heroku $* -a ${HEROKU_APP}
+}
+
 function sniff ()
 {
     sudo ngrep -d 'en0' -W byline -t '^(GET|POST) ' 'tcp'
