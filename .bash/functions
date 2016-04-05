@@ -1,6 +1,27 @@
 #!/bin/sh
 # vim: set ft=sh et sw=4 sts=4 ts=4:
 
+
+function ho ()
+{
+    command heroku $* -a ${HEROKU_APP}
+}
+
+function sniff ()
+{
+    sudo ngrep -d 'en0' -W byline -t '^(GET|POST) ' 'tcp'
+}
+function digga ()
+{
+    dig +nocmd "$1" any +multiline +noall +answer
+}
+
+function echof ()
+{
+  # echo the finder's window
+  echo $(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')
+}
+
 encrypt_with_openssl ()
 {
     openssl aes-256-cbc -in "$1" -out "$2"
@@ -826,19 +847,19 @@ function webdiff ()
 
 
 
-function bucket ()
-{
-
-   FILE=$1
-   test -f "$FILE" && 
-   cp -a "$FILE" /home/stu/code/github/bucket/ &&
-   FILE=$(basename $FILE)
-   cd /home/stu/code/github/bucket/ &&
-   git add "$FILE" &&
-   git commit -m "$FILE" &&
-   git push gitweb master && 
-   cd -;
-}
+#function bucket ()
+#{
+#
+#   FILE=$1
+#   test -f "$FILE" && 
+#   cp -a "$FILE" /home/stu/code/github/bucket/ &&
+#   FILE=$(basename $FILE)
+#   cd /home/stu/code/github/bucket/ &&
+#   git add "$FILE" &&
+#   git commit -m "$FILE" &&
+#   git push gitweb master && 
+#   cd -;
+#}
 
 function dotadd ()
 {

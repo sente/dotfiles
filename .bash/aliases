@@ -1,8 +1,34 @@
 #!/bin/sh
 # vim:set ft=sh et sw=4 sts=4:
 
-alias mdfind='mdfind -onlyin .'
-alias MDFIND=' mdfind -onlyin .'
+
+declare -r OS="$(get_os)"
+
+if [ "$OS" == "osx" ]; then
+
+    # Hide/Show desktop icons
+    alias hide-desktop-icons="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+    alias show-desktop-icons="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+    # Hide/Show hidden files in Finder
+    alias hide-hidden-files="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+    alias show-hidden-files="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+
+elif [ "$OS" == "ubuntu" ]; then
+
+    # Hide/Show desktop icons
+    alias hide-desktop-icons="gsettings set org.gnome.desktop.background show-desktop-icons false"
+    alias show-desktop-icons="gsettings set org.gnome.desktop.background show-desktop-icons true"
+
+fi
+
+
+
+# mdfind -onlyin / kMDItemKind==Application
+#alias mdfind='mdfind -onlyin .'
+
+alias h=heroku
+
 alias download_history="sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'select LSQuarantineDataURLString from LSQuarantineEvent'"
 alias flush='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS conv=unblock | GREP_COLOR="1;32" grep --color "[^ ]"'
 #alias top10='cat .bash_history | awk '{CMD[$1]++;count++;} END { for (a in CMD) printf "%s %.2f%s  %s\n", CMD[a], CMD[a]/count*100, "%", a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl | head -n 10'
