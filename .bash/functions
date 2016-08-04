@@ -316,7 +316,8 @@ print baseN($NUM,$base)"
 
 postit ()
 {
-    URL="http://sente.cc/scripts/index_curlit.cgi";
+    DEFAULT_URL="http://sente.cc/scripts/index_curlit.cgi";
+    URL=${URL:-$DEFAULT_URL}
     if [[ -t 0 ]]; then
         curl -sF "$(basename "$1")=<-" $URL < "$1";
     else

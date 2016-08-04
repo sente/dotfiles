@@ -24,3 +24,4 @@ fi
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+#source /Users/stu/.rvm/scripts/rvm

@@ -52,17 +52,24 @@ shelltitle '$ |bash'
 bind G eval 'split' 'focus down' 'next'
 
 
+# http://stackoverflow.com/questions/6787734/strange-behavior-of-vim-color-inside-screen-with-256-colors
 
 # http://www.frexx.de/xterm-256-notes/
 # terminfo and termcap for nice 256 color terminal
 # allow bold colors - necessary for some reason
 attrcolor b ".I"
 # tell screen how to set colors. AB = background, AF=foreground
-termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+termcapinfo xterm       'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+termcapinfo xterm-color "Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm"
+termcapinfo xterm-256color|xterm-color|xterm|xterms|xs|rxvt ti@:te@
+
 # erase background with current bg color
 defbce "on" 
 #bind k next
 #bind h prev
+
+term screen-256color 
+
 
 #caption always "%{= KW}%-w%{= wb}%50>%n %t%{-}%+w%<%-22=%{b}%c [%l]"
 #hardstatus alwayslastline "%{= KW}%-w%{= wk}%50>%n %t%{-}%+w%<"
