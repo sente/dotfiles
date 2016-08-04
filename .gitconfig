@@ -1,6 +1,6 @@
 [user]
-    name = Stuart Powers
-    email = stuart.powers@gmail.com
+	name = Stuart Powers
+	email = stuart.powers@gmail.com
 
 [color]
     diff = auto
@@ -13,6 +13,7 @@
 [core]
     editor = vim
     pager = less -FXRS
+	excludesfile = /Users/stu/.gitignore_global
 
 [apply]
     whitespace = nowarn
@@ -23,6 +24,12 @@
 
     whatsnew = log origin/master@{1}..origin/master@{0}
 
+    # http://stackoverflow.com/a/17271844/217652
+    dn = "!sh -c 'if [ $# -eq 0 ] ; then git diff HEAD~1 HEAD ; else git diff HEAD~`expr $1 + 1` HEAD~$1 ; fi' -"
+
+
+    su = status -u
+    s = status
     log = log --decorate --graph --date=short
     l = log
     changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
@@ -76,6 +83,7 @@
 	required = true
 	clean = git media clean %f
 	smudge = git media smudge %f
+	required = true
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
