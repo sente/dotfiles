@@ -153,11 +153,14 @@ git_diff ()
 }
 
 
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-    export WORKON_HOME=$HOME/.environments
-    source /usr/local/bin/virtualenvwrapper.sh
-fi
+#if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+#    export WORKON_HOME=$HOME/.environments
+#    source /usr/local/bin/virtualenvwrapper.sh
+#fi
 
 # export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 # vim: set ft=sh ts=4 sws=4 sw=4:
+
+# added by travis gem
+#[ -f /Users/stu/.travis/travis.sh ] && source /Users/stu/.travis/travis.sh

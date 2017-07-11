@@ -1,8 +1,11 @@
 # vim:set ft=sh
 
-import readline
-import rlcompleter
-readline.parse_and_bind("tab: complete")
+try:
+    import readline
+    import rlcompleter
+    readline.parse_and_bind("tab: complete")
 
-del rlcompleter
-del readline
+    del rlcompleter
+    del readline
+except:
+    pass

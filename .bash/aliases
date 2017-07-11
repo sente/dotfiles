@@ -2,7 +2,7 @@
 # vim:set ft=sh et sw=4 sts=4:
 
 
-declare -r OS="$(get_os)"
+export OS="$(get_os)"
 
 if [ "$OS" == "osx" ]; then
 
