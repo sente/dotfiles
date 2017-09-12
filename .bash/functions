@@ -2,6 +2,98 @@
 # vim: set ft=sh et sw=4 sts=4 ts=4:
 
 
+function git-add-orphan-branch() {
+    BRANCH=$1 
+    REMOTEPATH=$2
+    echo git checkout --orphan $BRANCH
+    echo git remote add rem ${REMOTEPATH}
+    echo git pull rem master
+    echo git commit -am $BRANCH
+    echo git remote remove rem
+
+}
+
+
+
+git-add-repo () 
+{ 
+    # https://stackoverflow.com/a/43340503/217652
+    repo="$1";
+    dir="$(echo "$2" | sed 's/\/$//')";
+    path="$(pwd)";
+    tmp="$(mktemp -d)";
+    remote="$(echo "$tmp" | sed 's/\///g'| sed 's/\./_/g')";
+    git clone "$repo" "$tmp";
+    cd "$tmp";
+    git filter-branch --index-filter '
+        git ls-files -s |
+        sed "s,\t,&'"$dir"'/," |
+        GIT_INDEX_FILE="$GIT_INDEX_FILE.new" git update-index --index-info &&
+        mv "$GIT_INDEX_FILE.new" "$GIT_INDEX_FILE"
+    ' HEAD;
+    cd "$path";
+    git remote add -f "$remote" "file://$tmp/.git";
+    git pull "$remote/master";
+    git merge --allow-unrelated-histories -m "Merge repo $repo into master" --edit "$remote/master";
+    git remote remove "$remote";
+    rm -rf "$tmp"
+}
+
+
+function gitwtf()
+{
+    git filter-branch --tree-filter 'git diff-tree --name-only --diff-filter=AM -r --no-commit-id $GIT_COMMIT | find -iname "*.py" -exec perl -pi -e "s/\t/    /g" {} \;' HEAD
+}
+
+function chrome-private() 
+{ 
+    tdir=$(mktemp -d);
+    echo $tdir;
+    open -W -na "Google Chrome" --args "--user-data-dir=${tdir}";
+    if [[ -d ${$tdir} ]] ; then 
+        rm -rf ${tdir}
+    fi
+}
+
+function chrome-booxby() 
+{ 
+    tdir=${HOME}/chrome/booxby
+    test -d $tdir || return 1
+    echo $tdir;
+    open -W -na "Google Chrome" --args "--user-data-dir=${tdir}";
+    if [[ -d ${$tdir} ]] ; then 
+        rm -rf ${tdir}
+    fi
+}
+
+
+
+
+wtfipython() {
+    echo  "get_ipython().init_readline()"
+    echo  "IPython.InteractiveShell.init_readline(get_ipython())"
+    echo "pip install rlipython"
+    echo "import rlipython; rlipython.install()"
+}
+
+# networksetup -listnetworkserviceorder
+# networksetup  -getnetworkserviceenabled Wi-Fi-Proxy
+# networksetup  -getnetworkserviceenabled Wi-Fi
+# networksetup  -getnetworkserviceenabled Wi-Fi-Proxy on
+# networksetup -setnetworkserviceenabled Wi-Fi-Proxy on
+# networksetup -setnetworkserviceenabled Wi-Fi off
+
+nmaptown ()
+{
+    sudo nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 "$1" --webxml -oX - | sed "s|https://svn.nmap.org/nmap/docs/nmap.xsl|http://bucket-stuff.s3.amazonaws.com/nmap.xsl|" | xsltproc --output "$1.html" -
+}
+
+alias scan='sudo arp-scan --interface=en0 192.168.1.0/24 -D'
+alias nmap.walk='nmap -sCV --osscan-guess'
+alias nmap.enum='nmap --script=http-enum -p80 -n'
+
+
+
 function ho ()
 {
     command heroku $* -a ${HEROKU_APP}
