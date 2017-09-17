@@ -5,6 +5,8 @@ if [[ $- != *i* ]] ; then
 fi
 
 export login_email=stuart.powers@gmail.com
+export PERL_LWP_SSL_VERIFY_HOSTNAME=0
+
 
 if [ -d "${HOME}/bin" ]; then
     PATH="${PATH}:${HOME}/bin"
@@ -78,7 +80,9 @@ if [ -f ~/.bash/setlogic ]; then
 fi
 
 if [ -f ~/.dir_colors ]; then
+  if [ -x "`which dircolors`" ]; then
     eval $(dircolors -b ~/.dir_colors)
+  fi
 fi
 
 #if [ -f ~/.bash/wrappers.sh ]; then
@@ -158,6 +162,36 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     source /usr/local/bin/virtualenvwrapper.sh
 fi
 
+export HOMEBREW_GITHUB_API_TOKEN=e2d8840751a435b2545ca474a7696c1c8db0ac43
 # export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 # vim: set ft=sh ts=4 sws=4 sw=4:
+
+# added by travis gem
+[ -f /Users/stu/.travis/travis.sh ] && source /Users/stu/.travis/travis.sh
+
+
+
+
+#   https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md
+
+NPM_PACKAGES="${HOME}/.npm-packages"
+
+PATH="$NPM_PACKAGES/bin:$PATH"
+
+# Unset manpath so we can inherit from /etc/manpath via the `manpath` command
+unset MANPATH # delete if you already modified MANPATH elsewhere in your config
+export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+
+
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+PATH="/Users/stu/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/stu/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/stu/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/stu/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/stu/perl5"; export PERL_MM_OPT;
