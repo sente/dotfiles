@@ -18,7 +18,27 @@
 [apply]
     whitespace = nowarn
 
+
+
+
 [alias]
+
+    # https://stackoverflow.com/a/39345348/217652
+	mergeRepo = "!mergeRepo() { \
+		[ $# -ne 3 ] && echo \"Three parameters required, <remote URI> <new branch> <new dir>\" && exit 1; \
+		git remote add newRepo $1; \
+		git fetch newRepo; \
+		git branch \"$2\" newRepo/master; \
+		git checkout \"$2\"; \
+		mkdir -vp \"${GIT_PREFIX}$3\"; \
+		git ls-tree -z --name-only HEAD | xargs -0 -I {} git mv {} \"${GIT_PREFIX}$3\"/; \
+		git commit -m \"Moved files to '${GIT_PREFIX}$3'\"; \
+		git checkout master; git merge --allow-unrelated-histories --no-edit -s recursive -X no-renames \"$2\"; \
+		git branch -D \"$2\"; git remote remove newRepo; \
+		}; \
+		mergeRepo"
+
+
 
     dsf = "!git diff --color $@ | diff-so-fancy"
 
@@ -63,6 +83,7 @@
 	publish = !legit publish \"$@\"
 	graft = !legit graft \"$@\"
 
+    dump = cat-file -p
     dmno = diff --name-only master
 
 [help]
@@ -103,3 +124,8 @@
   trustExitCode = true
 
 
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

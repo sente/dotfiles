@@ -1,6 +1,15 @@
 #!/bin/sh
 # vim:set ft=sh et sw=4 sts=4:
 
+_jq_example() 
+{ 
+    cat mlb.csv | head | jt [ writer twitter % ] [ id_str % ] goldstandard [ teamName % ] [ leagueName % ]
+}
+_jt_example2() 
+{ 
+    cat mlb.csv | jq '[.writer.twitter,.id_str,.goldstandard.teamName,.goldstandard.leagueName]'
+}
+
 function show_listening_programs ()
 {
     sudo netstat -tupln | grep LISTEN | perl -p -e 's/ +/\t/g' | cut -f4,7 | sed 's/\/.*//' | while read line; do

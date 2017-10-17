@@ -22,6 +22,14 @@ if [[ $_is_osx -eq 1 ]]; then
     fi
 fi
 
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+if [ -x "$(which rbenv)" ]; then
+   export PATH="$HOME/.rbenv/bin:$PATH"
+   eval "$(rbenv init -)"
+fi
+
 #source /Users/stu/.rvm/scripts/rvm
+if [ -f "${HOME}/.pyenv" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+fi
