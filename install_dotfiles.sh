@@ -4,6 +4,7 @@ set -e
 mkdir -p ${HOME}/logs
 mkdir -p ${HOME}/logs/history
 mkdir -p ${HOME}/logs/cmds
+mkdir -p ${HOME}/logs/.bash
 
 backupdir=dotfiles-$(date +%s)
 
