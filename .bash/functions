@@ -3,6 +3,27 @@
 
 # https://github.com/roytenberg/brilliant-bash/blob/master/.bashrc
 
+dns_check() {
+    domain=$1
+    curl -s "https://crt.sh/?q=%.${domain}&output=json" | jq -r '.name_value' | sed 's/\*\.//g' | sort -u
+    echo
+    curl -s "https://certspotter.com/api/v0/certs?domain=${domain}" | jq '.[].dns_names[]' | sed 's/\"//g' | sed 's/\*\.//g' | sort -u | grep $domain
+}
+
+macstuff() {
+    mdfind "kMDItemCFBundleIdentifier == 'org*'"
+}
+
+macaddress() {
+    ifconfig en0 | awk '/ether/{print $2}'
+}
+
+virustotal ()
+{
+    APIKEY=01b00a91ca133340a6ea1c2adaa4c70a897b8389960209b99f7123d9cd4ed4da;
+    curl -v -F "file=@$1" -F apikey=${APIKEY} https://www.virustotal.com/vtapi/v2/file/scan
+}
+
 function ports() {
     alias ports="sudo netstat -tulpn"
 }
@@ -243,6 +264,11 @@ function replace_stdin_with_contents_of_file ()
     python -c "import sys,re; print '$REPLFILE'; print re.sub(re.compile('$REGEX',re.DOTALL), open('$REPLFILE').read(), sys.stdin.read())"
 }
 
+function python3_find_module ()
+{
+    module=$1
+    python3 -c "import ${module};print (${module}.__file__[:-1])"
+}
 
 
 function python_find_module ()
