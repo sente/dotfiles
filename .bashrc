@@ -4,6 +4,8 @@ if [[ $- != *i* ]] ; then
     return
 fi
 
+shopt -s extdebug
+
 export login_email=stuart.powers@gmail.com
 export PERL_LWP_SSL_VERIFY_HOSTNAME=0
 
@@ -101,6 +103,9 @@ export VISUAL=vim # for crontab -e
 
 export LANG=en_US.UTF-8
 export TERM=xterm-256color
+
+
+export QUOTING_STYLE=literal # prevent quotes when `ls`ing files with spaces
 
 export PYTHONPATH=${HOME}/code/lib
 export PYTHONSTARTUP=${HOME}/.pythonrc

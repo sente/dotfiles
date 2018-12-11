@@ -1,4 +1,5 @@
 
+shopt -s extdebug
 
 if [ -x "`which keychain`" ]; then
     if [ -f ~/.ssh/id_rsa ]; then
@@ -27,6 +28,7 @@ if [ -x "$(which rbenv)" ]; then
    eval "$(rbenv init -)"
 fi
 
+
 #source /Users/stu/.rvm/scripts/rvm
 if [ -d "${HOME}/.pyenv" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
@@ -34,6 +36,10 @@ if [ -d "${HOME}/.pyenv" ]; then
     eval "$(pyenv init -)"
 fi
 
-export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/stu/google-cloud-sdk/path.bash.inc' ]; then source '/Users/stu/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/stu/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/stu/google-cloud-sdk/completion.bash.inc'; fi
+
+#eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
