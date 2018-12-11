@@ -28,8 +28,12 @@ if [ -x "$(which rbenv)" ]; then
 fi
 
 #source /Users/stu/.rvm/scripts/rvm
-if [ -f "${HOME}/.pyenv" ]; then
+if [ -d "${HOME}/.pyenv" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
 fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/sbin:$PATH"

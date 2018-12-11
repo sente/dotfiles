@@ -3,6 +3,23 @@
 
 # https://github.com/roytenberg/brilliant-bash/blob/master/.bashrc
 
+export VIRUSTOTAL_APIKEY=01b00a91ca133340a6ea1c2adaa4c70a897b8389960209b99f7123d9cd4ed4da;
+
+
+
+function save_tabs ()
+{
+    chrome-cli list tabs | cut -f1 -d ' ' | tr -d '[' | tr -d ']' | cut -f2 -d: | while read line; do
+        chrome-cli info -t $line;
+    done | grep -E 'Title:|Url:' | tac | xargs -d'\n' -n2 echo | sed 's/: /\t/g' | sed 's/ Title/\tTitle/' > urls.tsv
+}
+
+function virustotal()
+{
+    APIKEY=01b00a91ca133340a6ea1c2adaa4c70a897b8389960209b99f7123d9cd4ed4da;
+    curl -v -F "file=@$1" -F apikey=${APIKEY} https://www.virustotal.com/vtapi/v2/file/scan
+}
+
 function ports() {
     alias ports="sudo netstat -tulpn"
 }
