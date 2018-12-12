@@ -26,7 +26,6 @@ macaddress() {
 }
 
 virustotal() {
-{
     APIKEY=01b00a91ca133340a6ea1c2adaa4c70a897b8389960209b99f7123d9cd4ed4da;
     curl -v -F "file=@$1" -F apikey=${APIKEY} https://www.virustotal.com/vtapi/v2/file/scan
 }
