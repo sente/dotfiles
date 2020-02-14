@@ -3,6 +3,18 @@
 
 # https://github.com/roytenberg/brilliant-bash/blob/master/.bashrc
 
+#You can also sign it for 1 week using this format:
+
+
+# s3cmd signurl s3://my_bucket/my_file.png $(echo "`date +%s` + 3600 * 24 * 7" | bc)
+
+download_chrome_extension() {
+    # from https://gist.github.com/paulirish/78d6c1406c901be02c2d
+    extension_id=$1 # change this ID
+    curl -L -o "$extension_id.zip" "https://clients2.google.com/service/update2/crx?response=redirect&os=mac&arch=x86-64&nacl_arch=x86-64&prod=chromecrx&prodchannel=stable&prodversion=44.0.2403.130&x=id%3D$extension_id%26uc" 
+    unzip -d "$extension_id-source" "$extension_id.zip"
+}
+
 dns_check() {
     domain=$1
     curl -s "https://crt.sh/?q=%.${domain}&output=json" | jq -r '.name_value' | sed 's/\*\.//g' | sort -u
@@ -206,11 +218,18 @@ function vim-diff-dir ()
     }
 }
 
-function vim-diff-dir-2 ()
+vim-diff-dir-2 ()
 {
     first=$1;
     second=$2;
-    echo "vim -d <(find $first -maxdepth 4  | sed \"s|$first||\")  <(find $second -maxdepth 4  | sed \"s|$second||\");"
+    f1=$(mktemp --suffix .1.a)
+    f2=$(mktemp --suffix .2.a)
+
+    echo "find $first -maxdepth 5 | LC_ALL=C sort | sed \"s|$first||\" > $f1"
+    echo
+    echo "find $second -maxdepth 5 | LC_ALL=C sort | sed \"s|$second||\" > $f2"
+    echo
+    echo "vim -d $f1 $f2"
 }
 
 
@@ -600,6 +619,13 @@ print _.dirname(_.realpath($1.__file__[:-1]))
 """
 }
 
+function python3_module_dir ()
+{
+    python -c """
+import os.path as _, $1
+print ( _.dirname(_.realpath($1.__file__[:-1])))
+"""
+}
 
 
 
@@ -1091,7 +1117,7 @@ function dlocate()    { locate -d "$HOME/tmp/locatedb" "$@"; }
 function hlocate()    { locate -d "$HOME/tmp/.mlocate.db" "$@"; }
 function tlocate()    { locate -d "$HOME/tmp/.tlocate.db" "$@"; }
 function wlocate()    { locate -d "$HOME/tmp/.wlocate.db" "$@"; }
-function slocate()    { locate -d "$HOME/tmp/.slocate.db" "$@"; }
+function slocate()    { locate -d "$HOME/tmp/locate/stu.locatedb" "$@"; }
 function alocate()    { locate -d "$HOME/tmp/.alocate.db" "$@"; }
 function olocate()    { locate -d "$HOME/tmp/.olocate.db" "$@"; }
 function mlocate()    { locate -d "$HOME/tmp/.mlocate.db" "$@"; }

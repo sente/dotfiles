@@ -1,0 +1,16 @@
+
+### Linux ### 
+
+## set read-only ##
+chattr +i /path/to/file.php # set read-only
+
+## remove read-only ##
+chattr +i /var/www/html/	# unset read-only
+ 
+### OSX ###
+
+## set read-only ##
+chflags schg /path/to/file.php
+ 
+## remove read-only ##
+chflags noschg /path/to/file.php
