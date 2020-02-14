@@ -15,6 +15,14 @@ download_chrome_extension() {
     unzip -d "$extension_id-source" "$extension_id.zip"
 }
 
+
+function save_tabs()
+{
+    chrome-cli list tabs | cut -f1 -d ' ' | tr -d '[' | tr -d ']' | cut -f2 -d: | while read line; do
+        chrome-cli info -t $line;
+    done | grep -E 'Title:|Url:' | tac | xargs -d'\n' -n2 echo | sed 's/: /\t/g' | sed 's/ Title/\tTitle/' > urls.tsv
+}
+
 dns_check() {
     domain=$1
     curl -s "https://crt.sh/?q=%.${domain}&output=json" | jq -r '.name_value' | sed 's/\*\.//g' | sort -u
@@ -30,8 +38,7 @@ macaddress() {
     ifconfig en0 | awk '/ether/{print $2}'
 }
 
-virustotal ()
-{
+virustotal() {
     APIKEY=01b00a91ca133340a6ea1c2adaa4c70a897b8389960209b99f7123d9cd4ed4da;
     curl -v -F "file=@$1" -F apikey=${APIKEY} https://www.virustotal.com/vtapi/v2/file/scan
 }
